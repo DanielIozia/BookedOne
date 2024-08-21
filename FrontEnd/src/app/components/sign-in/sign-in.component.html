@@ -1,1 +1,24 @@
-<p>sign-in works!</p>
+<div class="sign-in-container">
+    <div class="sign-in-background"></div> <!-- Sfondo colorato -->
+  
+    <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Enter your email" type="email" required />
+        <mat-error *ngIf="signInForm.get('email')?.invalid && signInForm.get('email')?.touched">
+          Please enter a valid email address.
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" placeholder="Enter your password" type="password" required />
+        <mat-error *ngIf="signInForm.get('password')?.invalid && signInForm.get('password')?.touched">
+          Password is required.
+        </mat-error>
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" type="submit" [disabled]="signInForm.invalid">Sign In</button>
+    </form>
+  </div>
+  

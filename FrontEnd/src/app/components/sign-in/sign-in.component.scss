@@ -1,0 +1,131 @@
+.sign-in-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f7;
+    padding: 20px;
+  }
+  
+  form {
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 24px;
+    
+    .mat-form-field-wrapper {
+      background-color: #f1f1f1;
+      border-radius: 8px;
+      padding: 0 12px;
+    }
+    
+    .mat-form-field-label {
+      color: #999;
+      font-weight: 500;
+    }
+    
+    .mat-focused .mat-form-field-label {
+      color: #333 !important;
+    }
+    
+    .mat-input-element {
+      padding: 16px 0;
+      font-size: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #333;
+    }
+    
+    .mat-form-field-appearance-fill .mat-form-field-flex {
+      background: transparent;
+    }
+  
+    .mat-error {
+      color: #d32f2f;
+      font-size: 14px;
+    }
+  }
+  
+  button[type="submit"] {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #0071e3;
+    color: #fff;
+    border-radius: 8px;
+    border: none;
+    text-transform: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    
+    &:hover {
+      background-color: #005bb5;
+    }
+  
+    &:disabled {
+      background-color: #b3d4fc;
+    }
+  }
+  
+  .sign-in-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f7;
+    padding: 20px;
+    position: relative;
+  
+    
+  }
+  
+  form {
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .sign-in-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #3b5998, #8b9dc3);
+    z-index: 0;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .sign-in-container::before {
+      font-size: 48px; /* Riduci la dimensione del font per schermi più piccoli */
+      top: -40px; /* Avvicina la scritta al form */
+    }
+  
+    form {
+      padding: 30px; /* Riduci il padding interno del form */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .sign-in-container::before {
+      font-size: 40px; /* Ulteriore riduzione per schermi molto piccoli */
+      top: -30px;
+    }
+  
+    form {
+      padding: 20px;
+    }
+  }
+  

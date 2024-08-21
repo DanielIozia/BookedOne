@@ -11,6 +11,13 @@ import { BookingService } from './services/booking.service';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { ReactiveFormsModule } from '@angular/forms';
+
+
 
 
 @NgModule({
@@ -23,7 +30,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+
+    //form
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideClientHydration(),
