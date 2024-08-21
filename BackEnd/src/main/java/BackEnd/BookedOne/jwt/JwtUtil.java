@@ -12,7 +12,7 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 @Service
 public class JwtUtil {
 
-    private String secretKey = System.getenv("JWT_SECRET");
+    private String secretKey = "owijdoiwansd09o8hf12wsaid129883428392..//@";
 
     public String generateToken(String value, Long duration){
         long currentTimeMillis = System.currentTimeMillis();
@@ -38,7 +38,7 @@ public class JwtUtil {
     }
 
     public String decode(String token) {
-        return JWT.decode(token).getSubject();
+        return JWT.decode(token.substring(7)).getSubject();
     }
 
 

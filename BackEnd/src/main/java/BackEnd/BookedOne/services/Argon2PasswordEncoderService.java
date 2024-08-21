@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class Argon2PasswordEncoderService {
 
-    private String salt = System.getenv("SALT");
+    private String salt = "usahzyuawbf01938873.@92uehsa";
 
     public String hashPassword(char[] password) {
         Argon2BytesGenerator generator = new Argon2BytesGenerator();
