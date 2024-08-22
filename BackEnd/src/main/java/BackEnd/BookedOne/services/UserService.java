@@ -161,22 +161,6 @@ public class UserService {
         return user;
     }
 
-    public Optional<User> findById(String id) throws ExceptionBackend {
-
-        Optional<User> user = userRepository.findById(id);
-
-        if (!user.isPresent()) {
-            throw new ExceptionBackend(
-                "Utente non esistente",
-                "Non esiste un customer con questo id",  
-                HttpStatus.NOT_FOUND
-            );
-        }
-
-        // L'utente esiste, quindi ritorno l'utente
-        return user;
-    }
-
     public User findByEmail(String email) throws ExceptionBackend {
 
         User user = userRepository.findByEmail(email);
