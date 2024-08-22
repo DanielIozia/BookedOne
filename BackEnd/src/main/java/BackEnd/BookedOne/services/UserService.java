@@ -177,4 +177,18 @@ public class UserService {
         return user;
     }
 
+    public void delete(User user) throws ExceptionBackend {
+
+        if(user != null){
+        userRepository.delete(user);
+        }
+        else{
+            throw new ExceptionBackend(
+                "Utente non trovato",
+                "L'utente non può essere eliminato.",
+                HttpStatus.NOT_FOUND
+            );
+        }
+    }
 }
+  

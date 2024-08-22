@@ -29,7 +29,6 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-
     @PostMapping("/registration")
     public ResponseEntity<?> registration(@Validated @RequestBody CreateUser userRequest) throws ExceptionBackend{
         try{
@@ -97,10 +96,5 @@ public class AuthController {
         }
     }
     
-
-   
-    
-    
-
     
 }
