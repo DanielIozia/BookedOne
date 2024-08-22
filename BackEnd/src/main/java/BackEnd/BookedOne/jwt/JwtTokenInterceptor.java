@@ -6,6 +6,13 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/*
+ Questo interceptor serve a proteggere le API del backend assicurando che ogni richiesta HTTP 
+ abbia un token JWT valido. Se il token non è presente o non è valido, la richiesta viene bloccata
+ con un errore adeguato. Questo è fondamentale per garantire che solo gli utenti autenticati 
+ possano accedere a certe risorse o funzioni dell'applicazione.
+ */
+
 
 
 @Component
@@ -13,7 +20,6 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
 
     @Autowired
     private JwtUtil jwtUtil;
-
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{

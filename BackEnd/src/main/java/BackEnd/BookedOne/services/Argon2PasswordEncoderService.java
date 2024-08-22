@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class Argon2PasswordEncoderService {
 
+    //si mette nelle variabili d'ambiente e non viene pushato (è la chiave di decriptazione della password)
     private String salt = "usahzyuawbf01938873.@92uehsa";
 
     public String hashPassword(char[] password) {

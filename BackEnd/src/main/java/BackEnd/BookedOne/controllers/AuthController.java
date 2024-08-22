@@ -1,5 +1,6 @@
 package BackEnd.BookedOne.controllers;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import BackEnd.BookedOne.dto.User;
 import BackEnd.BookedOne.exception.ErrorResponse;
 import BackEnd.BookedOne.exception.ExceptionBackend;
 import BackEnd.BookedOne.interfaces.request.CreateUser;
@@ -31,8 +33,8 @@ public class AuthController {
     @PostMapping("/registration")
     public ResponseEntity<?> registration(@Validated @RequestBody CreateUser userRequest) throws ExceptionBackend{
         try{
-            userService.createUser(userRequest);
-            return ResponseEntity.ok().build();
+            User createdUser = userService.createUser(userRequest);
+            return ResponseEntity.ok(createdUser);
         }
         catch (ExceptionBackend e) {
             e.printStackTrace();

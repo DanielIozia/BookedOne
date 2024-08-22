@@ -7,7 +7,12 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
-
+/*
+La classe JwtUtil serve come utilità per gestire i token JWT. Consente di:
+1) Generare token JWT con un soggetto specifico e una durata di validità definita.
+2) Validare i token JWT per verificare che siano corretti e non scaduti.
+3) Decodificare un token JWT per estrarne il soggetto, che solitamente rappresenta l'identità dell'utente.
+*/
 
 @Service
 public class JwtUtil {
@@ -16,7 +21,7 @@ public class JwtUtil {
 
     public String generateToken(String value, Long duration){
         long currentTimeMillis = System.currentTimeMillis();
-        // 15 minutes = 900000
+        //15 minutes = 900000
         //3 ore = 10800000
         return JWT.create()
                 .withSubject(value) 

@@ -12,9 +12,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private JwtTokenInterceptor jwtInterceptor;
 
+    
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
+            //!percorsi a cui non serve il token per accedere
                 .addPathPatterns("/**")
                 .excludePathPatterns(
                     "/api/auth/login",

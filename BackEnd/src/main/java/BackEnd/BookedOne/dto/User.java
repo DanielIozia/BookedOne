@@ -1,12 +1,14 @@
 package BackEnd.BookedOne.dto;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
+@Getter
 @NoArgsConstructor
 @Document(collection = "users")
 public class User {
