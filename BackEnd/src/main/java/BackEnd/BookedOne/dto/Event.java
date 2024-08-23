@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalTime;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.ArrayList;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -29,7 +27,6 @@ public class Event {
     private String category;
     private int availableTickets;
     String idSeller;
-    List<String> idCustomer = new ArrayList<>();
 
 
     public Event(String name, String description,String location,LocalDate date,LocalTime time,double price, String category, int availableTickets, String idSeller) {
@@ -42,7 +39,5 @@ public class Event {
         this.category = category;
         this.availableTickets = availableTickets;
         this.idSeller = idSeller;
-
-
     }
 }

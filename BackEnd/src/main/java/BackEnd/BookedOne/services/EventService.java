@@ -1,6 +1,7 @@
 package BackEnd.BookedOne.services;
 
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,10 +142,19 @@ public class EventService {
             );
         }
 
+         
+        if (event.getDate() != null && LocalDate.parse(event.getDate()).isBefore(LocalDate.now())) {
+            throw new ExceptionBackend(
+                "Data non valida",
+                "La data dell'evento deve essere futura rispetto ad oggi",
+                HttpStatus.BAD_REQUEST
+            );
+        }
+
         String name = (event.getName() == null) ? existingEvent.get().getName() : event.getName();
         String description = (event.getDescription() == null) ? existingEvent.get().getDescription() : event.getDescription();
         String location = (event.getLocation() == null) ? existingEvent.get().getLocation() : event.getLocation();
-        String date = (event.getDate() == null) ? existingEvent.get().getDate() : event.getDate().toString();
+        String date = (event.getDate() == null) ? existingEvent.get().getDate() : event.getDate().toString();        
         String time = (event.getTime() == null) ? existingEvent.get().getTime() : event.getTime().toString();
         double price = (event.getPrice() == -1) ? existingEvent.get().getPrice() : event.getPrice();
         String category = (event.getCategory() == null) ? existingEvent.get().getCategory() : event.getCategory();
@@ -164,4 +174,4 @@ public class EventService {
         eventRepository.save(existingEvent.get());
         return existingEvent.get();
     }        
-}
+}   
