@@ -215,7 +215,6 @@ public class EventService {
     
         try {
             eventRepository.delete(existingEvent.get());
-
         } 
         catch (Exception e) {
             throw new ExceptionBackend(

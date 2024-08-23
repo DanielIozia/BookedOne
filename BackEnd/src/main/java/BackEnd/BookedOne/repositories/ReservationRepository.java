@@ -5,4 +5,5 @@ import BackEnd.BookedOne.dto.Reservation;
 
 public interface ReservationRepository extends MongoRepository<Reservation, String> {
     
+    
 }

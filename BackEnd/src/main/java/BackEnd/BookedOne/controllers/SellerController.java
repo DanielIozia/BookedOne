@@ -46,7 +46,8 @@ public class SellerController {
             return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());
         } 
         catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Errore inatteso: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Errore interno","Si è verificato un errore nel server"));        
         }
     }
 

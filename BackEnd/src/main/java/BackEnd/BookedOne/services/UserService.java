@@ -29,7 +29,7 @@ public class UserService {
 
         if (userRepository.findByEmail(userRequest.getEmail()) != null) {
             throw new ExceptionBackend(
-                    "Credenziali non valide",
+                    "Email non valida",
                     "L'email inserita è stata usata precedentemente.",  
                     HttpStatus.PRECONDITION_FAILED
             );
@@ -38,7 +38,7 @@ public class UserService {
         if(!userRequest.getRole().equals("seller") && !userRequest.getRole().equals("customer") ){
             throw new ExceptionBackend(
                     "Ruolo non valido",
-                    "I ruoli validi sono seller e customer.",  
+                    "I ruoli validi sono `seller` e `customer`.",  
                     HttpStatus.BAD_REQUEST
             );
         }
@@ -57,8 +57,8 @@ public class UserService {
         }
         catch (Exception e) {
             throw new ExceptionBackend(
-                "Errore durante la registrazione",
-                "Si è verificato un errore durante la registrazione.",  
+                "Errore interno",
+                "Si è verificato un errore nel server durante la registrazione.",  
                 HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
@@ -174,8 +174,6 @@ public class UserService {
         return user;
     }
 
-
-
     public User updateUser(String id, CreateUser user) throws ExceptionBackend {
 
         User existingUser = userRepository.findById(id).get();
@@ -225,7 +223,6 @@ public class UserService {
         return existingUser;
     }
     
-
     public void deleteUser(String id) throws ExceptionBackend {
         User user = userRepository.findById(id).get();
         if(user == null){
