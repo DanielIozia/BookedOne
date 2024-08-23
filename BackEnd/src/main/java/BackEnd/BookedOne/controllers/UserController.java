@@ -44,7 +44,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update-user")
     public ResponseEntity<?> updateUser(HttpServletRequest request, @RequestBody CreateUser updatedUser) throws ExceptionBackend {
 
         try{
@@ -61,7 +61,7 @@ public class UserController {
         }  
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete-user")
     public ResponseEntity<?> deleteUser(HttpServletRequest request) throws ExceptionBackend   {
         
         try{

@@ -59,6 +59,16 @@ public class EventService {
             );  
         }
 
+        if(event.getDate().isBefore(LocalDate.now())){
+            throw new ExceptionBackend(
+                "Errore Data",  
+                "L'orario dell'evento è passato.",  
+                HttpStatus.PRECONDITION_FAILED
+            );
+        }
+
+    
+
         Event newEvent = new Event(
             event.getName(),
             event.getDescription(),
@@ -150,28 +160,70 @@ public class EventService {
                 HttpStatus.BAD_REQUEST
             );
         }
+        try{
+            String name = (event.getName() == null) ? existingEvent.get().getName() : event.getName();
+            String description = (event.getDescription() == null) ? existingEvent.get().getDescription() : event.getDescription();
+            String location = (event.getLocation() == null) ? existingEvent.get().getLocation() : event.getLocation();
+            String date = (event.getDate() == null) ? existingEvent.get().getDate() : event.getDate().toString();        
+            String time = (event.getTime() == null) ? existingEvent.get().getTime() : event.getTime().toString();
+            double price = (event.getPrice() == -1) ? existingEvent.get().getPrice() : event.getPrice();
+            String category = (event.getCategory() == null) ? existingEvent.get().getCategory() : event.getCategory();
+            int availableTickets = (event.getAvailableTickets() == 0) ? existingEvent.get().getAvailableTickets() : event.getAvailableTickets();
+            String idSeller = (event.getIdSeller() == null) ? existingEvent.get().getIdSeller() : event.getIdSeller();
 
-        String name = (event.getName() == null) ? existingEvent.get().getName() : event.getName();
-        String description = (event.getDescription() == null) ? existingEvent.get().getDescription() : event.getDescription();
-        String location = (event.getLocation() == null) ? existingEvent.get().getLocation() : event.getLocation();
-        String date = (event.getDate() == null) ? existingEvent.get().getDate() : event.getDate().toString();        
-        String time = (event.getTime() == null) ? existingEvent.get().getTime() : event.getTime().toString();
-        double price = (event.getPrice() == -1) ? existingEvent.get().getPrice() : event.getPrice();
-        String category = (event.getCategory() == null) ? existingEvent.get().getCategory() : event.getCategory();
-        int availableTickets = (event.getAvailableTickets() == 0) ? existingEvent.get().getAvailableTickets() : event.getAvailableTickets();
-        String idSeller = (event.getIdSeller() == null) ? existingEvent.get().getIdSeller() : event.getIdSeller();
+            existingEvent.get().setName(name);
+            existingEvent.get().setDescription(description);
+            existingEvent.get().setLocation(location);
+            existingEvent.get().setDate(date);
+            existingEvent.get().setTime(time);
+            existingEvent.get().setPrice(price);
+            existingEvent.get().setCategory(category);
+            existingEvent.get().setAvailableTickets(availableTickets);
+            existingEvent.get().setIdSeller(idSeller);
 
-        existingEvent.get().setName(name);
-        existingEvent.get().setDescription(description);
-        existingEvent.get().setLocation(location);
-        existingEvent.get().setDate(date);
-        existingEvent.get().setTime(time);
-        existingEvent.get().setPrice(price);
-        existingEvent.get().setCategory(category);
-        existingEvent.get().setAvailableTickets(availableTickets);
-        existingEvent.get().setIdSeller(idSeller);
+            eventRepository.save(existingEvent.get());
+            return existingEvent.get();
+        }
+        catch (Exception e) {
+            throw new ExceptionBackend(
+                "Errore Interno",
+                "Si è verificato un errore nel server durante l'aggiornamento dell'evento.",
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
 
-        eventRepository.save(existingEvent.get());
-        return existingEvent.get();
-    }        
+    public void deleteEvent(String idUser, String eventId) throws ExceptionBackend {
+
+        Optional<Event> existingEvent = eventRepository.findById(eventId);
+    
+        if (!existingEvent.isPresent()) {
+            throw new ExceptionBackend(
+                "Errore Evento",
+                "Evento non trovato",
+                HttpStatus.NOT_FOUND
+            );
+        }
+    
+        if (!existingEvent.get().getIdSeller().equals(idUser)) {
+            throw new ExceptionBackend(
+                "Errore Evento",
+                "Non sei autorizzato a eliminare questo evento",
+                HttpStatus.FORBIDDEN
+            );
+        }
+    
+        try {
+            eventRepository.delete(existingEvent.get());
+
+        } 
+        catch (Exception e) {
+            throw new ExceptionBackend(
+                "Errore Interno",
+                "Si è verificato un errore nel server durante l'eliminazione dell'evento.",
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+            
 }   

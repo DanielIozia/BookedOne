@@ -1,8 +1,11 @@
 package BackEnd.BookedOne.controllers;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,5 +67,20 @@ public class SellerController {
         }
     }
 
-    //deleteEvent
+    @DeleteMapping("delete-event/{eventId}")
+    public ResponseEntity<?> deleteEvent(HttpServletRequest request, @PathVariable String eventId) throws ExceptionBackend {
+        try{
+            String token = request.getHeader("Authorization");
+            String idUser = jwtTokenService.decode(token);
+            eventService.deleteEvent(idUser,eventId);
+            return ResponseEntity.noContent().build();
+        }
+        catch (ExceptionBackend e) {
+            return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Errore interno","Si è verificato un errore nel server"));        
+        }
+    }
 }
