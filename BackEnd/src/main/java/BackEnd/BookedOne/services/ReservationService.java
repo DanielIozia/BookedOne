@@ -106,7 +106,7 @@ public class ReservationService {
             eventRepository.save(event);
             reservationRepository.save(newReservation);
             return newReservation;
-            
+
         } catch (Exception e) {
             throw new ExceptionBackend(
                 "Errore Interno",
@@ -116,5 +116,59 @@ public class ReservationService {
         }
     }
     
-    
+    public void deleteReservation(String customerId, String reservationId) throws ExceptionBackend {
+
+        Optional<User> user = userRepository.findById(customerId);
+        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
+
+        if (!user.isPresent()) {
+            throw new ExceptionBackend(
+                "Utente non trovato",
+                "L'utente non è stato trovato.",
+                HttpStatus.NOT_FOUND
+            );
+        }
+
+        if (!user.get().getRole().equals("customer")) {
+            throw new ExceptionBackend(
+                "Errore utente",
+                "L'utente non è un customer.",
+                HttpStatus.FORBIDDEN
+            );
+        }
+
+        if (!reservation.isPresent()) {
+            throw new ExceptionBackend(
+                "Errore prenotazione",
+                "La prenotazione non è stata trovata.",
+                HttpStatus.NOT_FOUND
+            );
+        }
+
+        if (!reservation.get().getUserId().equals(customerId)) {
+            throw new ExceptionBackend(
+                "Errore prenotazione",
+                "L'utente non è il proprietario della prenotazione.",
+                HttpStatus.FORBIDDEN
+            );
+        }
+
+        //sommo il numero di biglietti e li rendo disponibili
+        int number = reservation.get().getNumberOfTickets();
+        Event event = eventRepository.findById(reservation.get().getEventId()).get();
+        event.setAvailableTickets(event.getAvailableTickets() + number);
+        eventRepository.save(event);
+
+        try {
+            reservationRepository.deleteById(reservationId);
+        } 
+        catch (Exception e) {
+            throw new ExceptionBackend(
+                "Errore Interno",
+                "Si è verificato un errore nel server durante la cancellazione della prenotazione.",
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+
+    }
 }

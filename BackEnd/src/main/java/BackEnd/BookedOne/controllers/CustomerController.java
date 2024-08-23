@@ -3,7 +3,7 @@ package BackEnd.BookedOne.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +36,23 @@ public class CustomerController {
             String customerId = jwtTokenService.decode(token);
             Reservation res = reservationService.ReserveEvent(customerId,eventId,number);
             return ResponseEntity.ok(res);
+        }
+        catch (ExceptionBackend e) {
+            return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Errore interno","Si è verificato un errore nel server"));        
+        }
+    }
+
+    @DeleteMapping("/delete-reservation/{reservationId}")
+    public ResponseEntity<?> deleteReservation(HttpServletRequest request, @PathVariable String reservationId) throws ExceptionBackend {
+        try{
+            String token = request.getHeader("Authorization");
+            String customerId = jwtTokenService.decode(token);
+            reservationService.deleteReservation(customerId,reservationId);
+            return ResponseEntity.ok("Prenotazione eliminata con successo");
         }
         catch (ExceptionBackend e) {
             return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());

@@ -39,8 +39,6 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
             response.sendError(HttpStatus.UNAUTHORIZED.value(), "Il token JWT non è valido");
             return false;
         }
-
-        
         return true;
     }
 }
