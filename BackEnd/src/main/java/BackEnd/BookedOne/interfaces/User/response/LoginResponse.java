@@ -1,4 +1,4 @@
-package BackEnd.BookedOne.interfaces.response;
+package BackEnd.BookedOne.interfaces.User.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

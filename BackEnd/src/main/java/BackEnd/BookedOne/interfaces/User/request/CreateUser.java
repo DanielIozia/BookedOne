@@ -1,4 +1,4 @@
-package BackEnd.BookedOne.interfaces.request;
+package BackEnd.BookedOne.interfaces.User.request;
 
 import lombok.Data;
 

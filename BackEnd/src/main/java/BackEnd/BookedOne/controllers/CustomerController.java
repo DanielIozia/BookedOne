@@ -12,15 +12,5 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
 
    
-
-   
-      
-    
-
- 
-    // Aggiornare le informazioni di un customer
-   
-
-
     
 }

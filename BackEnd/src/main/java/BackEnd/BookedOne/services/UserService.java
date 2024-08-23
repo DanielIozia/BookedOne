@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import BackEnd.BookedOne.dto.User;
 import BackEnd.BookedOne.exception.ExceptionBackend;
-import BackEnd.BookedOne.interfaces.request.CreateUser;
-import BackEnd.BookedOne.interfaces.request.LoginUser;
-import BackEnd.BookedOne.interfaces.response.LoginResponse;
+import BackEnd.BookedOne.interfaces.User.request.CreateUser;
+import BackEnd.BookedOne.interfaces.User.request.LoginUser;
+import BackEnd.BookedOne.interfaces.User.response.LoginResponse;
 import BackEnd.BookedOne.jwt.JwtUtil;
 import BackEnd.BookedOne.repositories.UserRepository;
 @Service
@@ -89,8 +89,9 @@ public class UserService {
             user.getLastName(),
             user.getEmail(),
             user.getRole(),
-            jwtTokenService.generateToken(user.getId(), 900000L) //15 minuti
+            jwtTokenService.generateToken(user.getId(), 86400000L) //1 giorno
         );
+
         
     }
 
@@ -133,10 +134,6 @@ public class UserService {
         return user;
     }
 
-    public void save(User user) {
-        userRepository.save(user);
-    }
-
     public Optional<User> findByIdAndRole(String id, String role) throws ExceptionBackend {
         Optional<User> user = userRepository.findByIdAndRole(id,role);
         
@@ -177,18 +174,67 @@ public class UserService {
         return user;
     }
 
-    public void delete(User user) throws ExceptionBackend {
 
-        if(user != null){
-        userRepository.delete(user);
-        }
-        else{
+
+    public User updateUser(String id, CreateUser user) throws ExceptionBackend {
+
+        User existingUser = userRepository.findById(id).get();
+
+        if(existingUser == null){
             throw new ExceptionBackend(
                 "Utente non trovato",
-                "L'utente non può essere eliminato.",
+                "L'utente non è stato trovato.",
                 HttpStatus.NOT_FOUND
             );
         }
+
+        if(user.getRole() != null){
+            throw new ExceptionBackend(
+                "Ruolo non modificabile",
+                "Il ruolo non può essere modificato",  
+                HttpStatus.NOT_FOUND
+            );
+        }
+
+        String firstName = (user.getFirstName() == null)  ? existingUser.getFirstName() : user.getFirstName();
+        String lastName = (user.getLastName() == null)  ? existingUser.getLastName() : user.getLastName();
+        String email = (user.getEmail() == null)  ? existingUser.getEmail() : user.getEmail();
+        String role = existingUser.getRole();
+        existingUser.setFirstName(firstName);
+        existingUser.setLastName(lastName);
+        existingUser.setRole(role);
+
+        if (user.getEmail() != null) {
+            User emailOwner = userRepository.findByEmail(user.getEmail());
+            if (emailOwner != null && !emailOwner.getId().equals(id)) {
+                throw new ExceptionBackend(
+                    "Email già in uso",
+                    "L'email " + user.getEmail() + " è già in uso da un altro utente.",
+                    HttpStatus.CONFLICT
+                );
+            }
+            existingUser.setEmail(email);
+        }
+
+        if (user.getPassword() != null) {
+            existingUser.setPassword(
+                argon2PasswordEncoderService.hashPassword(user.getPassword().toCharArray())
+            );
+        }
+        userRepository.save(existingUser);
+        return existingUser;
+    }
+    
+
+    public void deleteUser(String id) throws ExceptionBackend {
+        User user = userRepository.findById(id).get();
+        if(user == null){
+            throw new ExceptionBackend(
+                "Utente non trovato",
+                "L'utente non è stato trovato.",
+                HttpStatus.NOT_FOUND
+            );
+        }
+        userRepository.delete(user);
     }
 }
-  

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import BackEnd.BookedOne.dto.User;
 import BackEnd.BookedOne.exception.ErrorResponse;
 import BackEnd.BookedOne.exception.ExceptionBackend;
-import BackEnd.BookedOne.interfaces.request.CreateUser;
-import BackEnd.BookedOne.interfaces.request.LoginUser;
+import BackEnd.BookedOne.interfaces.User.request.CreateUser;
+import BackEnd.BookedOne.interfaces.User.request.LoginUser;
 import BackEnd.BookedOne.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -95,6 +95,5 @@ public class AuthController {
                     .body(errorResponse);
         }
     }
-    
-    
+      
 }
