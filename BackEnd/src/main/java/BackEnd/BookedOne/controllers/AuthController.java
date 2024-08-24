@@ -36,19 +36,11 @@ public class AuthController {
             return ResponseEntity.ok(createdUser);
         }
         catch (ExceptionBackend e) {
+            return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());
+        } 
+        catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity
-                    .status(e.getStatus())
-                    .body(e.getErrorResponse());
-        } catch (Exception e) {
-            e.printStackTrace();
-            ErrorResponse errorResponse = new ErrorResponse(
-                    "Errore interno",
-                    "Si è verificato un errore interno nel server."
-            );
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(errorResponse);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Errore interno","Si è verificato un errore nel server"));        
         }
     }
 
@@ -58,19 +50,11 @@ public class AuthController {
             return ResponseEntity.ok(userService.login(userRequest));
         }
         catch (ExceptionBackend e) {
+            return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());
+        } 
+        catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity
-                    .status(e.getStatus())
-                    .body(e.getErrorResponse());
-        } catch (Exception e) {
-            e.printStackTrace();
-            ErrorResponse errorResponse = new ErrorResponse(
-                    "Errore interno",
-                    "Si è verificato un errore interno nel server."
-            );
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(errorResponse);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Errore interno","Si è verificato un errore nel server"));        
         }
     }
 
@@ -80,19 +64,11 @@ public class AuthController {
             return ResponseEntity.ok(userService.me(request.getHeader("Authorization")));
         }
         catch (ExceptionBackend e) {
+            return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());
+        } 
+        catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity
-                    .status(e.getStatus())
-                    .body(e.getErrorResponse());
-        } catch (Exception e) {
-            e.printStackTrace();
-            ErrorResponse errorResponse = new ErrorResponse(
-                    "Errore interno",
-                    "Si è verificato un errore interno nel server."
-            );
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(errorResponse);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Errore interno","Si è verificato un errore nel server"));        
         }
     }
       

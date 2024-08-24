@@ -96,8 +96,8 @@ public class UserService {
     }
 
     public LoginResponse me(String token) throws ExceptionBackend {
-        String userID = jwtTokenService.decode(token);
 
+        String userID = jwtTokenService.decode(token);
         User user = userRepository.findById(userID).get();
 
         if (user == null) {
@@ -116,10 +116,9 @@ public class UserService {
             user.getRole(),
             token.substring(7)
         );
-
     }
 
-    public Optional<User> getUserById(String id) throws ExceptionBackend {
+    public Optional<User> getProfile(String id) throws ExceptionBackend {
 
         Optional<User> user = userRepository.findById(id);
     
@@ -133,47 +132,7 @@ public class UserService {
     
         return user;
     }
-
-    public Optional<User> findByIdAndRole(String id, String role) throws ExceptionBackend {
-        Optional<User> user = userRepository.findByIdAndRole(id,role);
-        
-        //non succederà mai
-        if(role != "customer"){
-            throw new ExceptionBackend(
-                "Ruolo non valido",
-                "Il ruolo deve essere customer",  
-                HttpStatus.NOT_FOUND
-            );
-        }
-
-        if (!user.isPresent()) {
-            throw new ExceptionBackend(
-                "Utente non esistente",
-                "Non esiste un customer con questo id",  
-                HttpStatus.NOT_FOUND
-            );
-        }
-
-        // L'utente esiste, quindi ritorno l'utente
-        return user;
-    }
-
-    public User findByEmail(String email) throws ExceptionBackend {
-
-        User user = userRepository.findByEmail(email);
-
-        if (user != null) {
-            throw new ExceptionBackend(
-                "Email già esistente",
-                "Scegliere un'altra email",  
-                HttpStatus.NOT_FOUND
-            );
-        }
-
-        // L'utente esiste, quindi ritorno l'utente
-        return user;
-    }
-
+    
     public User updateUser(String id, CreateUser user) throws ExceptionBackend {
 
         User existingUser = userRepository.findById(id).get();
@@ -224,7 +183,9 @@ public class UserService {
     }
     
     public void deleteUser(String id) throws ExceptionBackend {
+
         User user = userRepository.findById(id).get();
+        
         if(user == null){
             throw new ExceptionBackend(
                 "Utente non trovato",

@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +15,8 @@ import BackEnd.BookedOne.dto.Reservation;
 import BackEnd.BookedOne.exception.ErrorResponse;
 import BackEnd.BookedOne.exception.ExceptionBackend;
 import BackEnd.BookedOne.interfaces.Reservation.GetEvents;
-import BackEnd.BookedOne.interfaces.Reservation.NumberTicket;
 import BackEnd.BookedOne.interfaces.Reservation.ReservationEvent;
+import BackEnd.BookedOne.interfaces.Reservation.ReserveEvent;
 import BackEnd.BookedOne.jwt.JwtUtil;
 import BackEnd.BookedOne.services.EventService;
 import BackEnd.BookedOne.services.ReservationService;
@@ -37,12 +36,12 @@ public class CustomerController {
     private JwtUtil jwtTokenService;
 
 
-    @PostMapping("/reserve-event/{eventId}")
-    public ResponseEntity<?> bookEvent(HttpServletRequest request, @PathVariable String eventId, @RequestBody NumberTicket number) throws ExceptionBackend {
+    @PostMapping("/reserve-event")
+    public ResponseEntity<?> bookEvent(HttpServletRequest request, @RequestBody ReserveEvent event) throws ExceptionBackend {
         try{
             String token = request.getHeader("Authorization");
             String customerId = jwtTokenService.decode(token);
-            Reservation res = reservationService.ReserveEvent(customerId,eventId,number);
+            Reservation res = reservationService.ReserveEvent(customerId,event);
             return ResponseEntity.ok(res);
         }
         catch (ExceptionBackend e) {
@@ -54,12 +53,12 @@ public class CustomerController {
         }
     }
 
-    @DeleteMapping("/delete-reservation/{reservationId}")
-    public ResponseEntity<?> deleteReservation(HttpServletRequest request, @PathVariable String reservationId) throws ExceptionBackend {
+    @DeleteMapping("/delete-reservation")
+    public ResponseEntity<?> deleteReservation(HttpServletRequest request, @RequestBody Reservation reservation) throws ExceptionBackend {
         try{
             String token = request.getHeader("Authorization");
             String customerId = jwtTokenService.decode(token);
-            reservationService.deleteReservation(customerId,reservationId);
+            reservationService.deleteReservation(customerId,reservation);
             return ResponseEntity.ok("Prenotazione eliminata con successo");
         }
         catch (ExceptionBackend e) {
@@ -71,12 +70,12 @@ public class CustomerController {
         }
     }
 
-    @PostMapping("/my-reservations")//vedere la paginazione
-    public ResponseEntity<?> getMyReservations(HttpServletRequest request,@RequestBody GetEvents myRes) throws ExceptionBackend {
+    @PostMapping("/my-reservations")//post perchè paginata
+    public ResponseEntity<?> getMyReservations(HttpServletRequest request, @RequestBody GetEvents myRes) throws ExceptionBackend {
         try{
             String token = request.getHeader("Authorization");
             String customerId = jwtTokenService.decode(token);
-            Page<ReservationEvent> res = reservationService.getMyReservations(customerId,myRes.getPage(),myRes.getSize(),myRes.getCategory(),myRes.getLocation(),myRes.getName(),myRes.getDate());
+            Page<ReservationEvent> res = reservationService.getMyReservations(customerId,myRes);
             return ResponseEntity.ok(res);
         }
         catch (ExceptionBackend e) {
@@ -88,12 +87,12 @@ public class CustomerController {
         }
     }
    
-    @PostMapping("/all-events")
+    @PostMapping("/all-events")//post perchè paginata
     public ResponseEntity<?> getAllEvents(HttpServletRequest request, @RequestBody GetEvents allEvents) throws ExceptionBackend {
         try{
             String token = request.getHeader("Authorization");
             String customerId = jwtTokenService.decode(token);
-            Page<Event> events = eventService.getAllEvents(customerId,allEvents.getPage(),allEvents.getSize(),allEvents.getCategory(),allEvents.getLocation(),allEvents.getName(),allEvents.getDate());
+            Page<Event> events = eventService.getAllEvents(customerId,allEvents);
             return ResponseEntity.ok(events);
         }
         catch (ExceptionBackend e) {

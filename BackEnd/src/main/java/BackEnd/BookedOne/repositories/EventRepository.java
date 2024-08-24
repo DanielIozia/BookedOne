@@ -1,5 +1,6 @@
 package BackEnd.BookedOne.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -17,5 +18,6 @@ public interface EventRepository extends MongoRepository<Event, String> {
 
     Optional<Event> findByLocationAndDateAndTime(String location, String date, String time);
 
+    List<Event> findByIdSeller(String id);
     
 }

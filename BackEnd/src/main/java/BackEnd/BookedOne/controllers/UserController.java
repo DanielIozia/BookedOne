@@ -33,7 +33,7 @@ public class UserController {
         try {
             String token = request.getHeader("Authorization");
             String id = jwtTokenService.decode(token);
-            Optional<User> customer = userService.getUserById(id);
+            Optional<User> customer = userService.getProfile(id);
             return customer.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
         } 
         catch (ExceptionBackend e) {

@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -69,13 +68,13 @@ public class SellerController {
         }
     }
 
-    @DeleteMapping("delete-event/{eventId}")
-    public ResponseEntity<?> deleteEvent(HttpServletRequest request, @PathVariable String eventId) throws ExceptionBackend {
+    @DeleteMapping("delete-event")
+    public ResponseEntity<?> deleteEvent(HttpServletRequest request,  @Validated @RequestBody Event event) throws ExceptionBackend {
         try{
             String token = request.getHeader("Authorization");
             String idUser = jwtTokenService.decode(token);
-            eventService.deleteEvent(idUser,eventId);
-            return ResponseEntity.noContent().build();
+            eventService.deleteEvent(idUser,event);
+            return ResponseEntity.ok("Evento eliminato con successo");
         }
         catch (ExceptionBackend e) {
             return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());
@@ -86,12 +85,12 @@ public class SellerController {
         }
     }
 
-     @PostMapping("/seller-events")
-    public ResponseEntity<?> getAllEvents(HttpServletRequest request, @RequestBody GetEvents allEvents) throws ExceptionBackend {
+     @PostMapping("/seller-events")//ritorna tutti gli eventi che ha pubblicato un seller
+    public ResponseEntity<?> getAllEvents(HttpServletRequest request, @RequestBody GetEvents allEventsBySeller) throws ExceptionBackend {
         try{
             String token = request.getHeader("Authorization");
-            String customerId = jwtTokenService.decode(token);
-            Page<Event> events = eventService.getAllSellerEvents(customerId,allEvents.getPage(),allEvents.getSize(),allEvents.getCategory(),allEvents.getLocation(),allEvents.getName(),allEvents.getDate());
+            String sellerId = jwtTokenService.decode(token);
+            Page<Event> events = eventService.getAllSellerEvents(sellerId,allEventsBySeller);
             return ResponseEntity.ok(events);
         }
         catch (ExceptionBackend e) {

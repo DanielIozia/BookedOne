@@ -14,8 +14,9 @@ import BackEnd.BookedOne.dto.Event;
 import BackEnd.BookedOne.dto.Reservation;
 import BackEnd.BookedOne.dto.User;
 import BackEnd.BookedOne.exception.ExceptionBackend;
-import BackEnd.BookedOne.interfaces.Reservation.NumberTicket;
+import BackEnd.BookedOne.interfaces.Reservation.GetEvents;
 import BackEnd.BookedOne.interfaces.Reservation.ReservationEvent;
+import BackEnd.BookedOne.interfaces.Reservation.ReserveEvent;
 import BackEnd.BookedOne.repositories.EventRepository;
 import BackEnd.BookedOne.repositories.ReservationRepository;
 import BackEnd.BookedOne.repositories.UserRepository;
@@ -34,17 +35,28 @@ public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
 
-    public Reservation ReserveEvent(String customerId, String eventId, NumberTicket reservation) throws ExceptionBackend {
+    public Reservation ReserveEvent(String customerId, ReserveEvent event) throws ExceptionBackend {
 
-        if (reservation == null) {
+        if (event == null) {
             throw new ExceptionBackend(
-                "Errore richiesta",
-                "Il corpo della richiesta è vuoto.",
+                "Errore evento",
+                "L'oggetto evento è vuoto.",
                 HttpStatus.BAD_REQUEST
             );
         }
-    
-        if (reservation.getNumberOfTickets() <= 0) {
+
+        Optional<Event> optionalEvent = eventRepository.findById(event.getEvent().getId());
+
+        if(!optionalEvent.isPresent()){
+            throw new ExceptionBackend(
+                "Errore evento",
+                "L'evento non è stato trovato.",
+                HttpStatus.NOT_FOUND
+            );
+        }
+
+        
+        if (event.getNumberOfTickets() <= 0) {
             throw new ExceptionBackend(
                 "Errore richiesta",
                 "Il numero di biglietti da prenotare non può essere negativo.",
@@ -52,18 +64,8 @@ public class ReservationService {
             );
         }
     
-        Optional<Event> optionalEvent = eventRepository.findById(eventId);
-        if (!optionalEvent.isPresent()) {
-            throw new ExceptionBackend(
-                "Errore evento",
-                "L'evento non è stato trovato.",
-                HttpStatus.NOT_FOUND
-            );
-        }
-    
-        Event event = optionalEvent.get();
-    
         Optional<User> optionalUser = userRepository.findById(customerId);
+
         if (!optionalUser.isPresent()) {
             throw new ExceptionBackend(
                 "Errore utente",
@@ -80,7 +82,7 @@ public class ReservationService {
             );
         }
     
-        if (event.getAvailableTickets() <= 0) {
+        if (event.getEvent().getAvailableTickets() <= 0) {
             throw new ExceptionBackend(
                 "Errore evento",
                 "L'evento è esaurito. Non ci sono biglietti disponibili",
@@ -88,7 +90,7 @@ public class ReservationService {
             );
         }
     
-        if (reservation.getNumberOfTickets() > event.getAvailableTickets()) {
+        if (event.getNumberOfTickets() > event.getEvent().getAvailableTickets()) {
             throw new ExceptionBackend(
                 "Errore evento",
                 "Non ci sono abbastanza biglietti disponibili per la quantità richiesta.",
@@ -96,23 +98,24 @@ public class ReservationService {
             );
         }
     
-        double totalPrice = reservation.getNumberOfTickets() * event.getPrice();
+        double totalPrice = event.getNumberOfTickets() * event.getEvent().getPrice();
     
         Reservation newReservation = new Reservation(
             customerId,
-            event.getId(),
-            reservation.getNumberOfTickets(),
+            event.getEvent().getId(),
+            event.getNumberOfTickets(),
             LocalDate.now().toString(),
             totalPrice
         );
     
         try {
-            event.setAvailableTickets(event.getAvailableTickets() - reservation.getNumberOfTickets());
-            eventRepository.save(event);
+            event.getEvent().setAvailableTickets(event.getEvent().getAvailableTickets() - event.getNumberOfTickets());
+            eventRepository.save(event.getEvent());
             reservationRepository.save(newReservation);
             return newReservation;
 
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             throw new ExceptionBackend(
                 "Errore Interno",
                 "Si è verificato un errore nel server durante la prenotazione dell'evento.",
@@ -121,10 +124,10 @@ public class ReservationService {
         }
     }
 
-    public void deleteReservation(String customerId, String reservationId) throws ExceptionBackend {
+    public void deleteReservation(String customerId, Reservation reservation) throws ExceptionBackend {
 
         Optional<User> user = userRepository.findById(customerId);
-        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
+        Optional<Reservation> existingReservation = reservationRepository.findById(reservation.getId());
 
         if (!user.isPresent()) {
             throw new ExceptionBackend(
@@ -142,7 +145,7 @@ public class ReservationService {
             );
         }
 
-        if (!reservation.isPresent()) {
+        if (!existingReservation.isPresent()) {
             throw new ExceptionBackend(
                 "Errore prenotazione",
                 "La prenotazione non è stata trovata.",
@@ -150,22 +153,22 @@ public class ReservationService {
             );
         }
 
-        if (!reservation.get().getUserId().equals(customerId)) {
+        if (!existingReservation.get().getUserId().equals(customerId)) {
             throw new ExceptionBackend(
                 "Errore prenotazione",
-                "L'utente non è il proprietario della prenotazione.",
+                "L'utente non è il proprietario della prenotazione, quindi non può eliminarla.",
                 HttpStatus.FORBIDDEN
             );
         }
 
         //sommo il numero di biglietti e li rendo disponibili
-        int number = reservation.get().getNumberOfTickets();
-        Event event = eventRepository.findById(reservation.get().getEventId()).get();
+        int number = existingReservation.get().getNumberOfTickets();
+        Event event = eventRepository.findById(existingReservation.get().getEventId()).get();
         event.setAvailableTickets(event.getAvailableTickets() + number);
         eventRepository.save(event);
 
         try {
-            reservationRepository.deleteById(reservationId);
+            reservationRepository.deleteById(reservation.getId());
         } 
         catch (Exception e) {
             throw new ExceptionBackend(
@@ -174,11 +177,9 @@ public class ReservationService {
                 HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
-
     }
 
-    public Page<ReservationEvent> getMyReservations(String userId, int page, int size, String category, String location, String name, 
-    String date) throws ExceptionBackend {
+    public Page<ReservationEvent> getMyReservations(String userId, GetEvents myRes) throws ExceptionBackend {
 
         if(!userRepository.findById(userId).isPresent()){
             throw new ExceptionBackend(
@@ -187,7 +188,6 @@ public class ReservationService {
                 HttpStatus.NOT_FOUND
             );
         }
-
         // Trova tutte le prenotazioni dell'utente
         List<Reservation> reservations = reservationRepository.findByUserId(userId);
 
@@ -215,10 +215,10 @@ public class ReservationService {
             .filter(reservationEvent -> {
                 Event event = reservationEvent.getEvent();
                 return (event != null &&
-                        (category == null || event.getCategory().toLowerCase().contains(category.toLowerCase())) &&
-                        (location == null || event.getLocation().toLowerCase().contains(location.toLowerCase())) &&
-                        (name == null || event.getName().toLowerCase().contains(name.toLowerCase())) &&
-                        (date == null || event.getDate().equalsIgnoreCase(date)));
+                        (myRes.getCategory() == null || event.getCategory().toLowerCase().contains(myRes.getCategory().toLowerCase())) &&
+                        (myRes.getLocation() == null || event.getLocation().toLowerCase().contains(myRes.getLocation().toLowerCase())) &&
+                        (myRes.getName() == null || event.getName().toLowerCase().contains(myRes.getName().toLowerCase())) &&
+                        (myRes.getDate() == null || event.getDate().equalsIgnoreCase(myRes.getDate())));
             })
             .sorted((re1, re2) -> {
                 LocalDate date1 = LocalDate.parse(re1.getReservation().getBookingDate(), formatter);
@@ -228,15 +228,15 @@ public class ReservationService {
             .collect(Collectors.toList());
 
         // Calcola la paginazione dopo il filtraggio e ordinamento
-        int start = (int) PageRequest.of(page, size).getOffset();
-        int end = Math.min((start + size), filteredReservationsWithEvents.size());
+        int start = (int) PageRequest.of(myRes.getPage(), myRes.getSize()).getOffset();
+        int end = Math.min((start + myRes.getSize()), filteredReservationsWithEvents.size());
         if(start > end){
-            return new PageImpl<>(new ArrayList<>(), PageRequest.of(page, size), filteredReservationsWithEvents.size());
+            return new PageImpl<>(new ArrayList<>(), PageRequest.of(myRes.getPage(), myRes.getSize()), filteredReservationsWithEvents.size());
         }
 
         List<ReservationEvent> paginatedReservationsWithEvents = filteredReservationsWithEvents.subList(start, end);
 
-        return new PageImpl<>(paginatedReservationsWithEvents, PageRequest.of(page, size), filteredReservationsWithEvents.size());
+        return new PageImpl<>(paginatedReservationsWithEvents, PageRequest.of(myRes.getPage(), myRes.getSize()), filteredReservationsWithEvents.size());
     }
 
    
