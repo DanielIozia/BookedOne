@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import BackEnd.BookedOne.dto.Event;
@@ -13,8 +16,11 @@ import BackEnd.BookedOne.interfaces.Event.CreateEvent;
 import BackEnd.BookedOne.interfaces.Event.UpdateEvent;
 import BackEnd.BookedOne.repositories.EventRepository;
 import BackEnd.BookedOne.repositories.UserRepository;
-
 import BackEnd.BookedOne.dto.User;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 @Service
 public class EventService {
@@ -224,5 +230,123 @@ public class EventService {
             );
         }
     }
-            
+         
+     public Page<Event> getAllEvents(String userId,int page, int size, String category, String location, String name, String date) throws ExceptionBackend {
+        
+        //controlla se l'utente esiste ed è un customer
+        Optional<User> user = userRepository.findById(userId);
+        if(!user.isPresent()){
+            throw new ExceptionBackend(
+                "Errore Utente",
+                "L'utente non è stato trovato.",
+                HttpStatus.NOT_FOUND
+            );
+        }
+
+        if(!user.get().getRole().equals("customer")){
+            throw new ExceptionBackend(
+                "Errore Utente",
+                "L'utente non è un customer.",
+                HttpStatus.FORBIDDEN
+            );
+        }
+        
+        // Recupera tutti gli eventi dal repository
+        List<Event> allEvents = eventRepository.findAll();
+
+        // Crea un formatter per la data (adatta il formato alla tua data se necessario)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Ottieni la data odierna
+        LocalDate today = LocalDate.now();
+
+        // Filtra gli eventi in base alla data maggiore di oggi e agli altri criteri forniti
+        List<Event> filteredEvents = allEvents.stream()
+            .filter(event -> {
+                LocalDate eventDate = LocalDate.parse(event.getDate(), formatter);
+                return (eventDate.isEqual(today)||eventDate.isAfter(today)) && // Filtra eventi con data maggiore di oggi
+                    (category == null || event.getCategory().toLowerCase().contains(category.toLowerCase())) &&
+                    (location == null || event.getLocation().toLowerCase().contains(location.toLowerCase())) &&
+                    (name == null || event.getName().toLowerCase().contains(name.toLowerCase())) &&
+                    (date == null || event.getDate().equalsIgnoreCase(date));
+            })
+            .sorted((e1, e2) -> {
+                LocalDate date1 = LocalDate.parse(e1.getDate(), formatter);
+                LocalDate date2 = LocalDate.parse(e2.getDate(), formatter);
+                return date1.compareTo(date2); // Ordinamento crescente per data
+            })
+            .collect(Collectors.toList());
+
+        // Calcola la paginazione dopo il filtraggio e ordinamento
+        int start = (int) PageRequest.of(page, size).getOffset();
+        int end = Math.min((start + size), filteredEvents.size());
+
+        if(start > end){
+            return new PageImpl<>(new ArrayList<>(), PageRequest.of(page, size), filteredEvents.size());
+        }
+
+        List<Event> paginatedEvents = filteredEvents.subList(start, end);
+
+        // Restituisci gli eventi paginati
+        return new PageImpl<>(paginatedEvents, PageRequest.of(page, size), filteredEvents.size());
+        
+    }
+
+    public Page<Event> getAllSellerEvents(String userId,int page, int size, String category, String location, String name, String date) throws ExceptionBackend {
+        
+        //controlla se l'utente esiste ed è un customer
+        Optional<User> user = userRepository.findById(userId);
+        if(!user.isPresent()){
+            throw new ExceptionBackend(
+                "Errore Utente",
+                "L'utente non è stato trovato.",
+                HttpStatus.NOT_FOUND
+            );
+        }
+
+        if(!user.get().getRole().equals("seller")){
+            throw new ExceptionBackend(
+                "Errore Utente",
+                "L'utente non è un seller.",
+                HttpStatus.FORBIDDEN
+            );
+        }
+        
+        // Recupera tutti gli eventi dal repository
+        List<Event> allEvents = eventRepository.findAll();
+
+        // Crea un formatter per la data (adatta il formato alla tua data se necessario)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Filtra gli eventi in base alla data maggiore di oggi e agli altri criteri forniti
+        List<Event> filteredEvents = allEvents.stream()
+            .filter(event -> {
+                return
+                    (category == null || event.getCategory().toLowerCase().contains(category.toLowerCase())) &&
+                    (location == null || event.getLocation().toLowerCase().contains(location.toLowerCase())) &&
+                    (name == null || event.getName().toLowerCase().contains(name.toLowerCase())) &&
+                    (date == null || event.getDate().equalsIgnoreCase(date)) &&
+                    event.getIdSeller().equals(userId);
+            })
+            .sorted((e1, e2) -> {
+                LocalDate date1 = LocalDate.parse(e1.getDate(), formatter);
+                LocalDate date2 = LocalDate.parse(e2.getDate(), formatter);
+                return date2.compareTo(date1); // Ordinamento decrescente per data
+            })
+            .collect(Collectors.toList());
+
+        // Calcola la paginazione dopo il filtraggio e ordinamento
+        int start = (int) PageRequest.of(page, size).getOffset();
+        int end = Math.min((start + size), filteredEvents.size());
+
+        if(start > end){
+            return new PageImpl<>(new ArrayList<>(), PageRequest.of(page, size), filteredEvents.size());
+        }
+
+        List<Event> paginatedEvents = filteredEvents.subList(start, end);
+
+        // Restituisci gli eventi paginati
+        return new PageImpl<>(paginatedEvents, PageRequest.of(page, size), filteredEvents.size());
+        
+    }
 }   

@@ -2,6 +2,7 @@ package BackEnd.BookedOne.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,12 +12,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import BackEnd.BookedOne.dto.Event;
 import BackEnd.BookedOne.exception.ErrorResponse;
 import BackEnd.BookedOne.exception.ExceptionBackend;
 import BackEnd.BookedOne.interfaces.Event.CreateEvent;
 import BackEnd.BookedOne.interfaces.Event.UpdateEvent;
+import BackEnd.BookedOne.interfaces.Reservation.GetEvents;
 import BackEnd.BookedOne.jwt.JwtUtil;
 import BackEnd.BookedOne.services.EventService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -75,6 +76,23 @@ public class SellerController {
             String idUser = jwtTokenService.decode(token);
             eventService.deleteEvent(idUser,eventId);
             return ResponseEntity.noContent().build();
+        }
+        catch (ExceptionBackend e) {
+            return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Errore interno","Si è verificato un errore nel server"));        
+        }
+    }
+
+     @PostMapping("/seller-events")
+    public ResponseEntity<?> getAllEvents(HttpServletRequest request, @RequestBody GetEvents allEvents) throws ExceptionBackend {
+        try{
+            String token = request.getHeader("Authorization");
+            String customerId = jwtTokenService.decode(token);
+            Page<Event> events = eventService.getAllSellerEvents(customerId,allEvents.getPage(),allEvents.getSize(),allEvents.getCategory(),allEvents.getLocation(),allEvents.getName(),allEvents.getDate());
+            return ResponseEntity.ok(events);
         }
         catch (ExceptionBackend e) {
             return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());

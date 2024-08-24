@@ -11,19 +11,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import BackEnd.BookedOne.dto.Event;
 import BackEnd.BookedOne.dto.Reservation;
 import BackEnd.BookedOne.exception.ErrorResponse;
 import BackEnd.BookedOne.exception.ExceptionBackend;
-import BackEnd.BookedOne.interfaces.Reservation.GetMyReservation;
+import BackEnd.BookedOne.interfaces.Reservation.GetEvents;
 import BackEnd.BookedOne.interfaces.Reservation.NumberTicket;
 import BackEnd.BookedOne.interfaces.Reservation.ReservationEvent;
 import BackEnd.BookedOne.jwt.JwtUtil;
+import BackEnd.BookedOne.services.EventService;
 import BackEnd.BookedOne.services.ReservationService;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerController {
+
+    @Autowired
+    private EventService eventService;
 
     @Autowired
     private ReservationService reservationService;
@@ -67,7 +72,7 @@ public class CustomerController {
     }
 
     @PostMapping("/my-reservations")//vedere la paginazione
-    public ResponseEntity<?> getMyReservations(HttpServletRequest request,@RequestBody GetMyReservation myRes) throws ExceptionBackend {
+    public ResponseEntity<?> getMyReservations(HttpServletRequest request,@RequestBody GetEvents myRes) throws ExceptionBackend {
         try{
             String token = request.getHeader("Authorization");
             String customerId = jwtTokenService.decode(token);
@@ -83,5 +88,20 @@ public class CustomerController {
         }
     }
    
-    
+    @PostMapping("/all-events")
+    public ResponseEntity<?> getAllEvents(HttpServletRequest request, @RequestBody GetEvents allEvents) throws ExceptionBackend {
+        try{
+            String token = request.getHeader("Authorization");
+            String customerId = jwtTokenService.decode(token);
+            Page<Event> events = eventService.getAllEvents(customerId,allEvents.getPage(),allEvents.getSize(),allEvents.getCategory(),allEvents.getLocation(),allEvents.getName(),allEvents.getDate());
+            return ResponseEntity.ok(events);
+        }
+        catch (ExceptionBackend e) {
+            return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Errore interno","Si è verificato un errore nel server"));        
+        }
+    }
 }

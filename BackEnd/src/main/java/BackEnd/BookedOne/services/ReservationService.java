@@ -20,6 +20,7 @@ import BackEnd.BookedOne.repositories.EventRepository;
 import BackEnd.BookedOne.repositories.ReservationRepository;
 import BackEnd.BookedOne.repositories.UserRepository;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 @Service
 public class ReservationService {
@@ -176,9 +177,16 @@ public class ReservationService {
 
     }
 
-
     public Page<ReservationEvent> getMyReservations(String userId, int page, int size, String category, String location, String name, 
     String date) throws ExceptionBackend {
+
+        if(!userRepository.findById(userId).isPresent()){
+            throw new ExceptionBackend(
+                "Errore Utente",
+                "L'utente non è stato trovato.",
+                HttpStatus.NOT_FOUND
+            );
+        }
 
         // Trova tutte le prenotazioni dell'utente
         List<Reservation> reservations = reservationRepository.findByUserId(userId);
@@ -222,8 +230,14 @@ public class ReservationService {
         // Calcola la paginazione dopo il filtraggio e ordinamento
         int start = (int) PageRequest.of(page, size).getOffset();
         int end = Math.min((start + size), filteredReservationsWithEvents.size());
+        if(start > end){
+            return new PageImpl<>(new ArrayList<>(), PageRequest.of(page, size), filteredReservationsWithEvents.size());
+        }
+
         List<ReservationEvent> paginatedReservationsWithEvents = filteredReservationsWithEvents.subList(start, end);
 
         return new PageImpl<>(paginatedReservationsWithEvents, PageRequest.of(page, size), filteredReservationsWithEvents.size());
     }
+
+   
 }

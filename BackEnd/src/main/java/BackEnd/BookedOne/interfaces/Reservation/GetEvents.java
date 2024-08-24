@@ -3,7 +3,7 @@ package BackEnd.BookedOne.interfaces.Reservation;
 import lombok.Data;
 
 @Data
-public class GetMyReservation {
+public class GetEvents {
     private int page;
     private int size;
     private String category;
