@@ -40,10 +40,10 @@ export class SignInComponent {
       this.userService.login(userForm).subscribe({
         next: (data) => {
           this.isLoading = false;
-          
           this.authService.login(data.token!, data.email, data.id!, data.firstName, data.lastName, data.role);
+          let navigateTo = data.role === 'customer' ? 'customer' : 'seller';
   
-          this.router.navigate(['home']);
+          this.router.navigate([`${navigateTo}`]);
         },
         error: (error: HttpErrorResponse) => {  // Modifica qui: specifica il tipo di errore
           this.isLoading = false;

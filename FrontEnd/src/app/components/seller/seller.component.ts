@@ -2,19 +2,17 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  selector: 'app-seller',
+  templateUrl: './seller.component.html',
+  styleUrl: './seller.component.scss'
 })
-export class HomeComponent {
+export class SellerComponent {
 
-  constructor(private router:Router){}
+  constructor(private router:Router) { }
 
   logout(){
     localStorage.clear();
     this.router.navigate(['/login']);
   }
-
-  
 
 }

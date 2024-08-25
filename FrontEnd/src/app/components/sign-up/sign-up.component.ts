@@ -57,7 +57,7 @@ export class SignUpComponent {
       this.isLoading = false;
       
       this.authService.login(data.token!, data.email, data.id!, data.firstName, data.lastName, data.role);
-      this.router.navigate(['home']);
+      this.router.navigate([`${data.role}`]);
 
 
      }, (error:HttpErrorResponse) => {

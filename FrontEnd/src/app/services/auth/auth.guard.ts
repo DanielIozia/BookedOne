@@ -17,31 +17,35 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    
-    //controllo se c'è il token
+    const expectedRole = route.data['role'] as 'customer' | 'seller';
+
     if (this.authService.getToken() == null) {
       this.authService.logout();
       this.router.navigate(['/login']);
       return of(false);
-    } 
+    }
 
-    //se c'è, verifico se è valido
-    else {
-      return this.userService.me(this.authService.getToken()!).pipe(
-        map((user: User) => {
-          if (user) {
-            return true;
-          } 
-          else {
+    return this.userService.me(this.authService.getToken()!).pipe(
+      map((user: User) => {
+        if (user) {
+          if (expectedRole && user.role !== expectedRole) {
+            // Libera il localStorage e reindirizza alla pagina di login
+            this.authService.logout();
             this.router.navigate(['/login']);
             return false;
           }
-        }),
-        catchError((error) => {
+          return true;
+        } else {
+          this.authService.logout();
           this.router.navigate(['/login']);
-          return of(false);
-        })
-      );
-    }
+          return false;
+        }
+      }),
+      catchError((error) => {
+        this.authService.logout();
+        this.router.navigate(['/login']);
+        return of(false);
+      })
+    );
   }
 }

@@ -1,0 +1,38 @@
+<mat-sidenav-container class="example-container">
+    <mat-sidenav #sidenav mode="side" class="side-nav">
+      <mat-list role="list">
+        <div class="container-list">
+          <div>
+            <mat-list-item role="listitem" routerLink="profile" [routerLinkActive]="'active'" class="list">
+              <span>Profilo</span>
+            </mat-list-item>
+            <mat-list-item role="listitem" routerLink="events" [routerLinkActive]="'active'" class="list">
+              <span>Eventi</span>
+            </mat-list-item>
+            <mat-list-item role="listitem" routerLink="booking" [routerLinkActive]="'active'" class="list">
+              <span>Prenotazioni</span>
+            </mat-list-item>
+          </div>
+          <div class="logout-container" (click)="logout()" > <!-- Aggiungi questa classe -->
+            <mat-list-item role="listitem">
+              <button mat-icon-button class="example-icon favorite-icon" aria-label="Logout button">
+                <mat-icon><link rel="alternate" href="atom.xml" type="application/atom+xml" title="Atom">logout</mat-icon>
+              </button>
+            </mat-list-item>
+          </div>
+        </div>
+      </mat-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar>
+        <button mat-icon-button (click)="sidenav.toggle()" class="menu-icon">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <h3 class="custom-title">
+          BookedOne
+        </h3>
+        <span class="example-spacer"></span>
+      </mat-toolbar>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

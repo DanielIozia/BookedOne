@@ -4,19 +4,16 @@
         <div class="container-list">
           <div>
             <mat-list-item role="listitem" routerLink="profile" [routerLinkActive]="'active'" class="list">
-              <span>Profile</span>
+              <span>Profilo</span>
             </mat-list-item>
             <mat-list-item role="listitem" routerLink="events" [routerLinkActive]="'active'" class="list">
-              <span>events</span>
-            </mat-list-item>
-            <mat-list-item role="listitem" routerLink="booking" [routerLinkActive]="'active'" class="list">
-              <span>booking</span>
+              <span>Eventi Creati</span>
             </mat-list-item>
           </div>
           <div class="logout-container" (click)="logout()" > <!-- Aggiungi questa classe -->
             <mat-list-item role="listitem">
               <button mat-icon-button class="example-icon favorite-icon" aria-label="Logout button">
-                <mat-icon>logout</mat-icon>
+                <mat-icon><link rel="alternate" href="atom.xml" type="application/atom+xml" title="Atom">logout</mat-icon>
               </button>
             </mat-list-item>
           </div>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from '../../components/home/home.component';
-import { HomeRoutingModule } from './home-routing.module';
+import { SellerComponent } from '../../components/seller/seller.component';
+import { SellerRoutingModule } from './seller-routing.module';
 
 
 // Material Modules
@@ -14,25 +14,23 @@ import { MatIconButton } from '@angular/material/button';
 
 
 
+
+
 @NgModule({
   declarations: [
-    HomeComponent,
+    SellerComponent
   ],
   imports: [
     CommonModule,
-    HomeRoutingModule,
-
+    SellerRoutingModule,
     MatSidenavModule,
     MatListModule,
     MatIconModule,
     MatToolbarModule,
     MatIcon,
     MatIconButton
-
-    
-    
   ]
 })
 
-export class HomeModule {}
+export class SellerModule {}
 
