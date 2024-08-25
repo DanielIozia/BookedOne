@@ -11,6 +11,7 @@ import BackEnd.BookedOne.exception.ExceptionBackend;
 import BackEnd.BookedOne.interfaces.User.request.CreateUser;
 import BackEnd.BookedOne.interfaces.User.request.LoginUser;
 import BackEnd.BookedOne.interfaces.User.response.LoginResponse;
+import BackEnd.BookedOne.interfaces.User.response.RegisterResponse;
 import BackEnd.BookedOne.jwt.JwtUtil;
 import BackEnd.BookedOne.repositories.UserRepository;
 @Service
@@ -25,7 +26,7 @@ public class UserService {
     @Autowired
     private JwtUtil jwtTokenService;
 
-    public User createUser(CreateUser userRequest) throws ExceptionBackend {
+    public RegisterResponse createUser(CreateUser userRequest) throws ExceptionBackend {
 
         if (userRepository.findByEmail(userRequest.getEmail()) != null) {
             throw new ExceptionBackend(
@@ -53,7 +54,16 @@ public class UserService {
 
         try{
             userRepository.save(user);
-            return user;
+
+            return new RegisterResponse(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getRole(),
+                argon2PasswordEncoderService.hashPassword(userRequest.getPassword().toCharArray()),
+                jwtTokenService.generateToken(user.getId(), 86400000L) //1 giorno
+        );
         }
         catch (Exception e) {
             throw new ExceptionBackend(
@@ -78,7 +88,7 @@ public class UserService {
         if (user == null) {
             throw new ExceptionBackend(
                 "Credenziali non valide",
-                "Credenziali non valide.",  
+                "Password errata",  
                 HttpStatus.BAD_REQUEST
             );
         }

@@ -37,11 +37,11 @@ public class CustomerController {
 
 
     @PostMapping("/reserve-event")
-    public ResponseEntity<?> bookEvent(HttpServletRequest request, @RequestBody ReserveEvent event) throws ExceptionBackend {
+    public ResponseEntity<?> reserveEvent(HttpServletRequest request, @RequestBody ReserveEvent event) throws ExceptionBackend {
         try{
             String token = request.getHeader("Authorization");
             String customerId = jwtTokenService.decode(token);
-            Reservation res = reservationService.ReserveEvent(customerId,event);
+            Reservation res = reservationService.reserveEvent(customerId,event);
             return ResponseEntity.ok(res);
         }
         catch (ExceptionBackend e) {

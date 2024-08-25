@@ -35,7 +35,7 @@ public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
 
-    public Reservation ReserveEvent(String customerId, ReserveEvent event) throws ExceptionBackend {
+    public Reservation reserveEvent(String customerId, ReserveEvent event) throws ExceptionBackend {
 
         if (event == null) {
             throw new ExceptionBackend(
