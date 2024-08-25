@@ -1,1 +1,45 @@
-<p>events works!</p>
+<!-- src/app/components/events/events.component.html -->
+<div class="event-container">
+    <!-- Spinner -->
+    <div class="loading-spinner" *ngIf="isLoading">
+        <div class="spinner"></div>
+        <p>Caricamento in corso...</p>
+    </div>
+
+    <h1>Eventi Disponibili</h1>
+  
+    <!-- Filtri -->
+    <div class="filters">
+      <input type="text" placeholder="Nome evento" [(ngModel)]="filters.name" (input)="applyFilters()" />
+      <input type="text" placeholder="Categoria" [(ngModel)]="filters.category" (input)="applyFilters()" />
+      <input type="text" placeholder="Località" [(ngModel)]="filters.location" (input)="applyFilters()" />
+      <input type="date" [(ngModel)]="filters.date" (change)="applyFilters()" />
+    </div>
+  
+    <!-- Lista Eventi -->
+    <div class="event-list">
+      <div class="event-card" *ngFor="let event of events">
+        <div class="card-header">
+          <h2>{{ event.name }}</h2>
+          <p class="event-date">{{ event.date | date }}</p>
+        </div>
+        <div class="card-body">
+          <p class="event-description">{{ event.description }}</p>
+          <p><strong>Luogo:</strong> {{ event.location }}</p>
+          <p><strong>Prezzo:</strong> {{ event.price | currency }}</p>
+          <p><strong>Categoria:</strong> {{ event.category }}</p>
+        </div>
+
+        <div class="card-footer">
+          <button>Compra Biglietto</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Paginazione -->
+    <div class="pagination">
+      <button (click)="previousPage()" [disabled]="page <= 0">Precedente</button>
+      <span>Pagina {{ page + 1 }} di {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="page >= totalPages - 1">Successiva</button>
+    </div>
+</div>
