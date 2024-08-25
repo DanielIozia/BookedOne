@@ -1,131 +1,199 @@
-.sign-in-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f5f5f7;
-    padding: 20px;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap");
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to left, #2980b9, #c4e0ef);
+}
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+  display: block; /* Per centrare lo spinner */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  form {
-    width: 100%;
-    max-width: 400px;
-    background: #fff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  100% {
+    transform: rotate(360deg);
   }
-  
-  mat-form-field {
-    width: 100%;
-    margin-bottom: 24px;
-    
-    .mat-form-field-wrapper {
-      background-color: #f1f1f1;
-      border-radius: 8px;
-      padding: 0 12px;
-    }
-    
-    .mat-form-field-label {
-      color: #999;
-      font-weight: 500;
-    }
-    
-    .mat-focused .mat-form-field-label {
-      color: #333 !important;
-    }
-    
-    .mat-input-element {
-      padding: 16px 0;
-      font-size: 16px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      color: #333;
-    }
-    
-    .mat-form-field-appearance-fill .mat-form-field-flex {
-      background: transparent;
-    }
-  
-    .mat-error {
-      color: #d32f2f;
-      font-size: 14px;
-    }
+}
+
+.center {
+  width: 90%;
+  max-width: 420px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.center h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.txt_field {
+  position: relative;
+  margin: 20px 0;
+}
+
+.txt_field input {
+  width: 100%;
+  padding: 5px 0;
+  height: 40px;
+  font-size: 14px;
+  border: none;
+  border-bottom: 2px solid #adadad; /* Linea grigia di default */
+  background: none;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.txt_field input:focus {
+  border-bottom: 2px solid #2691d9; /* Linea blu quando in focus */
+}
+
+.txt_field label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  color: #adadad;
+  transform: translateY(-50%);
+  font-size: 14px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.txt_field label.active {
+  top: -10px;
+  color: #2691d9;
+  font-size: 12px;
+}
+
+.txt_field input:focus ~ label.active,
+.txt_field input:valid ~ label.active {
+  top: -10px;
+  color: #2691d9;
+  font-size: 12px;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px; /* Spaziatura sotto l'input */
+  text-align: left;
+  display: none; /* Nascondi il messaggio di errore inizialmente */
+}
+
+.txt_field input:invalid:not(:focus) ~ .error-message {
+  display: block; /* Mostra il messaggio di errore sotto l'input */
+}
+
+.txt_field input:focus ~ span::before,
+.txt_field input:valid ~ span::before {
+  width: 100%;
+}
+
+input[type="submit"] {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  background: #2691d9;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+input[type="submit"]:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+.signup_link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.signup_link a {
+  color: #2691d9;
+  text-decoration: none;
+}
+
+.signup_link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .center {
+    padding: 15px;
+    max-width: 90%;
   }
-  
-  button[type="submit"] {
-    width: 100%;
-    padding: 12px 0;
+
+  .center h1 {
+    font-size: 22px;
+  }
+
+  input[type="submit"] {
     font-size: 16px;
-    font-weight: bold;
-    background-color: #0071e3;
-    color: #fff;
-    border-radius: 8px;
-    border: none;
-    text-transform: none;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    
-    &:hover {
-      background-color: #005bb5;
-    }
-  
-    &:disabled {
-      background-color: #b3d4fc;
-    }
   }
-  
-  .sign-in-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f5f5f7;
-    padding: 20px;
-    position: relative;
-  
-    
+
+  .txt_field {
+    margin: 15px 0;
   }
-  
-  form {
-    width: 100%;
-    max-width: 400px;
-    background: #fff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    position: relative;
-    z-index: 2;
+}
+
+@media (max-width: 480px) {
+  .center {
+    padding: 10px;
+    max-width: 100%;
   }
-  
-  .sign-in-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #3b5998, #8b9dc3);
-    z-index: 0;
+
+  .center h1 {
+    font-size: 20px;
   }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .sign-in-container::before {
-      font-size: 48px; /* Riduci la dimensione del font per schermi più piccoli */
-      top: -40px; /* Avvicina la scritta al form */
-    }
-  
-    form {
-      padding: 30px; /* Riduci il padding interno del form */
-    }
+
+  input[type="submit"] {
+    font-size: 14px;
   }
-  
-  @media (max-width: 480px) {
-    .sign-in-container::before {
-      font-size: 40px; /* Ulteriore riduzione per schermi molto piccoli */
-      top: -30px;
-    }
-  
-    form {
-      padding: 20px;
-    }
+
+  .txt_field input {
+    height: 35px;
+    font-size: 12px;
   }
-  
+
+  .txt_field label {
+    font-size: 12px;
+  }
+}
+
+.server-error-message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px; /* Aggiunge uno spazio sotto il messaggio di errore */
+  text-align: center;
+}
+

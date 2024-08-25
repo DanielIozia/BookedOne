@@ -1,0 +1,191 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap");
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to left, #2980b9, #c4e0ef);
+}
+
+.center {
+  width: 90%;
+  max-width: 420px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.center h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.txt_field {
+  position: relative;
+  margin: 20px 0;
+}
+
+.txt_field input,
+.txt_field select {
+  width: 100%;
+  padding: 5px 0;
+  height: 40px;
+  font-size: 14px;
+  border: none;
+  border-bottom: 2px solid #adadad;
+  background: none;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.txt_field input:focus,
+.txt_field select:focus {
+  border-bottom: 2px solid #2691d9;
+}
+
+.txt_field label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  color: #adadad;
+  transform: translateY(-50%);
+  font-size: 14px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.txt_field label.active {
+  top: -10px !important;
+  color: #2691d9;
+  font-size: 12px;
+}
+
+.txt_field input:focus ~ label.active,
+.txt_field input:valid ~ label.active,
+.txt_field select:focus ~ label.active,
+.txt_field select:valid ~ label.active {
+  top: -10px;
+  color: #2691d9;
+  font-size: 12px;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: left;
+  display: none;
+}
+
+.txt_field input:invalid:not(:focus) ~ .error-message,
+.txt_field select:invalid:not(:focus) ~ .error-message {
+  display: block;
+}
+
+.txt_field input:focus ~ span::before,
+.txt_field input:valid ~ span::before,
+.txt_field select:focus ~ span::before,
+.txt_field select:valid ~ span::before {
+  width: 100%;
+}
+
+input[type="submit"] {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  background: #2691d9;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+input[type="submit"]:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+.signup_link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.signup_link a {
+  color: #2691d9;
+  text-decoration: none;
+}
+
+.signup_link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .center {
+    padding: 15px;
+    max-width: 90%;
+  }
+
+  .center h1 {
+    font-size: 22px;
+  }
+
+  input[type="submit"] {
+    font-size: 16px;
+  }
+
+  .txt_field {
+    margin: 15px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .center {
+    padding: 10px;
+    max-width: 100%;
+  }
+
+  .center h1 {
+    font-size: 20px;
+  }
+
+  input[type="submit"] {
+    font-size: 14px;
+  }
+
+  .txt_field input,
+  .txt_field select {
+    height: 35px;
+    font-size: 12px;
+  }
+
+  .txt_field label {
+    font-size: 12px;
+  }
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+  display: block; /* Per centrare lo spinner */
+}

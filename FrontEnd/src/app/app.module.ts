@@ -6,8 +6,6 @@ import { AppComponent } from './app.component';
 
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
-import { EventService } from './services/event.service';
-import { BookingService } from './services/booking.service';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
@@ -16,6 +14,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';  // Assicurati che FormsModule sia importato
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+
 
 
 
@@ -37,13 +38,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
     provideClientHydration(),
-    EventService,
-    BookingService,
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideHttpClient(withFetch()), // Abilita l'uso di Fetch API con HttpClient
+    HttpClient
   ],
   bootstrap: [AppComponent]
 })
