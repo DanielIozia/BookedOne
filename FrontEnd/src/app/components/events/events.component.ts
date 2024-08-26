@@ -15,6 +15,7 @@ export class EventsComponent {
   page: number = 0;
   size: number = 10;
   totalPages: number = 0;
+  
   filters = {
     name: '',
     category: '',

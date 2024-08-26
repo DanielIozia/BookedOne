@@ -50,7 +50,7 @@ export class SignInComponent {
           console.log(error);
           // Gestione dell'errore
           if (error.error && error.error.title) {
-            this.errorMessage = error.error.title;  // Modifica qui: Salva il messaggio dell'errore
+            this.errorMessage = error.error.message;  // Modifica qui: Salva il messaggio dell'errore
           } else {
             this.errorMessage = 'Errore scononosciuto.';  // Messaggio di errore generico
           }

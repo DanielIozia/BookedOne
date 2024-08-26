@@ -1,1 +1,14 @@
-<p>profile works!</p>
+<!-- Profile Card -->
+<div class="profile-card">
+    <div class="profile-card-header">
+        <h2 class="profile-name">{{ user.firstName }} {{ user.lastName }}</h2>
+        <p class="profile-email">{{ user.email }}</p>    
+    </div>
+    <div class="profile-card-body">
+        <p><strong>Ruolo:</strong> {{ user.role }}</p>
+    </div>
+    <div class="profile-card-footer">
+        <button (click)="update()" class="btn btn-primary">Aggiorna</button>
+        <button (click)="delete()" class="btn btn-secondary">Elimina</button>
+    </div>
+</div>

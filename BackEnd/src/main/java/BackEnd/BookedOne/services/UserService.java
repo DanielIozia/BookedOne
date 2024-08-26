@@ -79,7 +79,7 @@ public class UserService {
         if(userRepository.findByEmail(userRequest.getEmail()) == null){
             throw new ExceptionBackend(
                 "Credenziali non valide",
-                "L'email non esiste.",  
+                "Email non valida.",  
                 HttpStatus.NOT_FOUND
             );
         }

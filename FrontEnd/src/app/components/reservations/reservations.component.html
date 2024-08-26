@@ -1,0 +1,26 @@
+<div class="reservations-container">
+    <div class="filters">
+      <input type="text" placeholder="Categoria" [(ngModel)]="category">
+      <input type="text" placeholder="Località" [(ngModel)]="location">
+      <input type="text" placeholder="Nome Evento" [(ngModel)]="name">
+      <input type="date" placeholder="Data" [(ngModel)]="date">
+      <button (click)="applyFilters()">Applica Filtri</button>
+    </div>
+  
+    <div class="reservation-card" *ngFor="let reservation of reservations">
+      <h3>{{ reservation.event.name }}</h3>
+      <p>{{ reservation.event.description }}</p>
+      <p><strong>Data:</strong> {{ reservation.event.date }}</p>
+      <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
+      <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
+      <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
+      <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+    </div>
+  
+    <div class="pagination-controls">
+      <button (click)="previousPage()" [disabled]="currentPage === 0">Precedente</button>
+      <span>Pagina {{ currentPage + 1 }} di {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= totalElements">Successivo</button>
+    </div>
+  </div>
+  

@@ -10,10 +10,11 @@
   
     <!-- Filtri -->
     <div class="filters">
-      <input type="text" placeholder="Nome evento" [(ngModel)]="filters.name" (input)="applyFilters()" />
-      <input type="text" placeholder="Categoria" [(ngModel)]="filters.category" (input)="applyFilters()" />
-      <input type="text" placeholder="Località" [(ngModel)]="filters.location" (input)="applyFilters()" />
-      <input type="date" [(ngModel)]="filters.date" (change)="applyFilters()" />
+      <input type="text" placeholder="Categoria" [(ngModel)]="filters.category">
+      <input type="text" placeholder="Località" [(ngModel)]="filters.location">
+      <input type="text" placeholder="Nome Evento" [(ngModel)]="filters.name">
+      <input type="date" placeholder="Data" [(ngModel)]="filters.date">
+      <button (click)="applyFilters()">Applica Filtri</button>
     </div>
   
     <!-- Lista Eventi -->

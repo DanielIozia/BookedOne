@@ -11,7 +11,8 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  private BASE_URL = 'http://localhost:8080/api/auth';
+  private BASE_URL = 'http://localhost:8080/api';
+  private AUTH_URL = '/auth';
   private USERS_URL = '/users';
   private LOGIN_URL = '/login';
   private REGISTER_URL = '/registration';
@@ -22,21 +23,23 @@ export class UserService {
 
 
   login(user:LoginUser):Observable<User>{
-    return this.http.post<User>(this.BASE_URL + this.LOGIN_URL,user);
+    return this.http.post<User>(this.BASE_URL + this.AUTH_URL + this.LOGIN_URL,user);
   }
 
   me(token:string):Observable<User>{
-    return this.http.get<User>(this.BASE_URL + this.ME_URL, {
+    return this.http.get<User>(this.BASE_URL + this.AUTH_URL + this.ME_URL, {
       headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)
     });
   }
 
   register(user:User):Observable<User>{
-    return this.http.post<User>(this.BASE_URL + this.REGISTER_URL, user);
+    return this.http.post<User>(this.BASE_URL + this.AUTH_URL + this.REGISTER_URL, user);
   }
 
-
-
-
+  profile(token:string):Observable<User>{
+    return this.http.get<User>(this.BASE_URL + this.USERS_URL + this.PROFILE_URL, {
+      headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)
+    });
+  }
   
 }

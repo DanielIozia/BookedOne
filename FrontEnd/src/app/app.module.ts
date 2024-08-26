@@ -15,7 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';  // Assicurati che FormsModule sia importato
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { HttpClient, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+
 
 
 
@@ -27,7 +28,6 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient, wit
     SignUpComponent,
     SignInComponent,
     PageNotFoundComponent,
-    
   ],
   imports: [
     BrowserModule,
