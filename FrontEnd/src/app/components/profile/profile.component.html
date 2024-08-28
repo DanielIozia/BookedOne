@@ -1,14 +1,91 @@
-<!-- Profile Card -->
-<div class="profile-card">
-    <div class="profile-card-header">
-        <h2 class="profile-name">{{ user.firstName }} {{ user.lastName }}</h2>
-        <p class="profile-email">{{ user.email }}</p>    
+<div class="loading-spinner" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Caricamento in corso...</p>
+</div> 
+
+<div class="profile-page" *ngIf="!isLoading && !isLoadingReservation">
+    <div class="content">
+        <div class="content__cover">
+            <div class="content__avatar"></div>
+        </div>
+        <div class="content__actions"><a></a></div>
+          
+        <div class="content__title">
+            <h1>{{user.firstName}} {{user.lastName}}</h1>
+            <span>{{user.email}}</span>
+        </div>
+      
+        <ul class="content__list">
+            <li><span>{{reservedEvents}}</span>Eventi prenotati</li>
+            <li (click)="showUpComingEvent()"><span>{{upcomingReservations}}</span>Eventi da svolgere</li>
+            <li (click)="showPastEvent()"><span>{{pastReservations}}</span>Eventi scaduti</li>
+        </ul>
+        <div class="content__button">
+            <a class="button">
+                <div class="button__border"></div>
+                <div class="button__bg"></div>
+                <p class="button__text" (click)="update()">Aggiorna profilo</p>
+            </a>
+        </div>
     </div>
-    <div class="profile-card-body">
-        <p><strong>Ruolo:</strong> {{ user.role }}</p>
+    <div class="bg">
+        <div><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
     </div>
-    <div class="profile-card-footer">
-        <button (click)="update()" class="btn btn-primary">Aggiorna</button>
-        <button (click)="delete()" class="btn btn-secondary">Elimina</button>
+    <div class="theme-switcher-wrapper" id="theme-switcher-wrapper"><span>Themes color</span>
+        <ul>
+            <li><em class="is-active" data-theme="orange"></em></li>
+            <li><em data-theme="green"></em></li>
+            <li><em data-theme="purple"></em></li>
+            <li><em data-theme="blue"></em></li>
+        </ul>
     </div>
-</div>
+  </div>
+  
+  <div class="reservations-container" *ngIf="showUpcomingEvents">
+    <!-- Aggiungi un nuovo contenitore per i gruppi di eventi -->
+    <div class="events-group">
+        <div class="title__button">
+            <h2>Eventi da svolgere</h2>
+            <button (click)="showUpcomingEvents = false"><mat-icon>close</mat-icon></button>
+          </div>
+      <div class="reservation-card" *ngFor="let reservation of upComingEvent">
+        <h3><strong>{{ reservation.event.name }}</strong></h3>
+        <p>{{ reservation.event.description }}</p>
+        <p><strong>Data:</strong> {{ reservation.event.date }}</p>
+        <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
+        <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
+        <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
+        <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+      </div>
+      <div *ngIf="upComingEvent.length == 0" class="no-events-message">
+        <h1>Non hai eventi da svolgere</h1>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Pannello Eventi Scaduti -->
+  <div class="reservations-container" *ngIf="showPastEvents">
+    <!-- Aggiungi un nuovo contenitore per i gruppi di eventi -->
+    <div class="events-group">
+        <div class="title__button">
+            <h2>Eventi scaduti</h2>
+            <button (click)="showPastEvents = false"><mat-icon>close</mat-icon></button>
+          </div>
+      <div class="reservation-card" *ngFor="let reservation of expiredEvent">
+        <h3><strong>{{ reservation.event.name }}</strong></h3>
+        <p>{{ reservation.event.description }}</p>
+        <p><strong>Data:</strong> {{ reservation.event.date }}</p>
+        <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
+        <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
+        <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
+        <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+      </div>
+      <div *ngIf="expiredEvent.length == 0" class="no-events-message">
+        <h1>Non hai eventi scaduti</h1>
+      </div>
+    </div>
+    
+    
+  </div>
+  

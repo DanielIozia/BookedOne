@@ -1,73 +1,53 @@
-$primary-color: #007bff;
-
-.example-container {
-  height: 100vh;
+.navbar {
+  background-color: #407BF7;
   display: flex;
-  flex-direction: column;
-}
-
-.side-nav {
-  width: 250px;
-  background-color:$primary-color;
-  color: #fff;
-
-  mat-list-item {
-    
-    span{
-      color: #fff;
-    }
-
-    mat-icon{
-      color: #fff;
-    }
-
-    .mat-icon {
-      margin-right: 10px;
-    }
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-  }
-
-  .active {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-}
-
-.container-list {
-  display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
-  height: 100%;
+  padding: 0 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif; /* Applica il font a tutta la navbar */
 }
 
-.logout-container {
-  margin-top: auto;
-  mat-list-item {
-    justify-content: center;
-  }
-}
-
-.custom-title {
-  font-size: 1.5rem;
+.navbar-title {
+  font-size: 1.8rem;
   font-weight: bold;
-  color: $primary-color
+  color: #fff;
+  font-family: 'Serif', sans-serif; /* Applica il font specifico al titolo */
+}
+
+.navbar-spacer {
+  flex: 1;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 16px;
+  
+  a {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', sans-serif; /* Applica il font ai link */
+
+    &.active {
+      color: rgba(255, 227, 48, 0.921); /* Colore per link attivo */
+    }
+  }
 }
 
 .menu-icon {
-  color:$primary-color;
+  display: none; /* Nascondi l'icona del menu per schermi grandi */
+  font-family: 'Roboto', sans-serif; /* Applica il font anche al menu icon */
 }
 
-.example-spacer {
-  flex: 1 1 auto;
-}
-
+/* Media query per schermi piccoli */
 @media (max-width: 768px) {
-  .side-nav {
-    width: 130px;
+  .navbar-links {
+    display: none; /* Nascondi le icone di navigazione su schermi piccoli */
   }
 
-  .custom-title {
-    font-size: 1.2rem;
+  .menu-icon {
+    display: block; /* Mostra l'icona del menu su schermi piccoli */
   }
 }

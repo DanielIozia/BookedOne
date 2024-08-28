@@ -11,16 +11,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';  // Usa MatFormFieldModule per l'intero modulo
 import { MatIconModule } from '@angular/material/icon';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';  // Assicurati che FormsModule sia importato
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';  // Importa sia ReactiveFormsModule che FormsModule
 import { HttpClient, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
-
-
-
-
-
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -32,20 +27,19 @@ import { HttpClient, HttpClientModule, provideHttpClient, withFetch } from '@ang
   imports: [
     BrowserModule,
     AppRoutingModule,
-
-    //form
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule,  // Aggiungi MatDialogModule qui
   ],
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
-    provideHttpClient(withFetch()), // Abilita l'uso di Fetch API con HttpClient
+    provideHttpClient(withFetch()), 
     HttpClient
   ],
   bootstrap: [AppComponent]

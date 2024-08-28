@@ -41,5 +41,11 @@ export class UserService {
       headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)
     });
   }
-  
+
+  update(token:string, user:User):Observable<User>{
+    return this.http.put<User>(this.BASE_URL + this.USERS_URL + this.UPDATE_URL, {
+      headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)
+    });
+  }
+
 }

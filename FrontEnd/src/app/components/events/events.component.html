@@ -1,13 +1,10 @@
 <!-- src/app/components/events/events.component.html -->
-<div class="event-container">
+<div class="event-container" *ngIf="events.length != 0">
     <!-- Spinner -->
     <div class="loading-spinner" *ngIf="isLoading">
         <div class="spinner"></div>
         <p>Caricamento in corso...</p>
-    </div>
-
-    <h1>Eventi Disponibili</h1>
-  
+    </div>  
     <!-- Filtri -->
     <div class="filters">
       <input type="text" placeholder="Categoria" [(ngModel)]="filters.category">
@@ -43,4 +40,8 @@
       <span>Pagina {{ page + 1 }} di {{ totalPages }}</span>
       <button (click)="nextPage()" [disabled]="page >= totalPages - 1">Successiva</button>
     </div>
+</div>
+
+<div *ngIf="events.length == 0 && !isLoading" class="no-events-message">
+  <h1>Nessun Evento Disponibile</h1>
 </div>

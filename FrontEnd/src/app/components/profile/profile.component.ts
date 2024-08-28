@@ -2,34 +2,127 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user/User';
 import { AuthService } from '../../services/auth/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateUserComponent } from '../update-user/update-user.component';
+import { CustomerService } from '../../services/customer.service';
+import { ReservationEventResponse } from '../../interfaces/reservation/reservationEventResponse';
+import { ReservationEvent } from '../../interfaces/reservation/reservationEvent';
+import { Router } from '@angular/router';
+import { EventDetails } from '../../interfaces/event/event';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
+  styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit{
+export class ProfileComponent implements OnInit {
 
-  constructor(private userService:UserService, private auth:AuthService){}
+  constructor(
+    private userService: UserService,
+    private auth: AuthService,
+    private dialog: MatDialog,
+    private customerService: CustomerService,
+    private router:Router
+  ) {}
 
+  user: User = {} as User;
+  reservations: ReservationEvent[] = [];
+  expiredEvent:ReservationEvent[] = [];
+  upComingEvent:ReservationEvent[] = [];
+  
 
-  user:User = {} as User
-  isLoading:boolean = false;
+  isLoading: boolean = false;
+  isLoadingReservation: boolean = false;
+  
+  reservedEvents: number = 0;
+  upcomingReservations: number = 0;
+  pastReservations: number = 0;
 
-  loadUser(){
-    return this.userService.profile(this.auth.getToken()!).subscribe( (user:User) => {
-      this.isLoading = false;
-      this.user = user
-    })
+  showUpcomingEvents: boolean = false;
+  showPastEvents: boolean = false;
+
+  loadUser() {
+    this.isLoading = true;
+    this.userService.profile(this.auth.getToken()!).subscribe(
+      (user: User) => {
+        this.isLoading = false;
+        this.user = user;
+      },
+      (error) => {
+        console.error('Errore nel caricamento del profilo', error);
+        this.isLoading = false;
+      }
+    );
   }
+
+  loadReservation() {
+    this.isLoadingReservation = true;
+
+    this.customerService.getReservations(0, 10000).subscribe(
+      (data: ReservationEventResponse) => {
+        this.isLoadingReservation = false;
+        this.reservedEvents = data.totalElements;
+        this.reservations = data.content;
+        this.calculateReservations();
+      },
+      (error) => {
+        console.error('Errore nel caricamento delle prenotazioni', error);
+        this.isLoadingReservation = false;
+      }
+    );
+  }
+
+  calculateReservations(): void {
+    const currentDate = new Date();
+  
+    // Resetta le liste prima di popolarle nuovamente
+    this.expiredEvent = [];
+    this.upComingEvent = [];
+  
+    // Divide le prenotazioni in base alla data dell'evento
+    this.reservations.forEach(reservationEvent => {
+      const eventDate = new Date(reservationEvent.event.date);
+      
+      if (eventDate > currentDate) {
+        // Evento non ancora effettuato
+        this.upComingEvent.push(reservationEvent);
+      } else {
+        // Evento scaduto
+        this.expiredEvent.push(reservationEvent);
+      }
+    });
+  
+    // Calcola il numero di prenotazioni future e passate
+    this.upcomingReservations = this.upComingEvent.length;
+    this.pastReservations = this.expiredEvent.length;
+  }
+  
+
+
 
   ngOnInit(): void {
-      this.isLoading = true;
-      this.loadUser();
+    this.loadUser();
+    this.loadReservation();
   }
 
-  update(){}
+  update() {
+    this.dialog.open(UpdateUserComponent, {
+      width: '400px', // Imposta la larghezza del dialogo
+      data: { user: this.user } // Puoi passare dati al dialogo se necessario
+    });
+  }
 
-  delete(){}
+  showPastEvent(){
+    this.showPastEvents = true;
+    this.showUpcomingEvents = false;
+  }
 
+  showUpComingEvent(){
+    this.showUpcomingEvents = true;
+    this.showPastEvents = false;
+  }
+
+  delete() {
+    // Implementa la logica per eliminare un elemento se necessario
+  }
 }

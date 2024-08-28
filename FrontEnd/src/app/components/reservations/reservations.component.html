@@ -1,11 +1,18 @@
-<div class="reservations-container">
-    <div class="filters">
-      <input type="text" placeholder="Categoria" [(ngModel)]="category">
-      <input type="text" placeholder="Località" [(ngModel)]="location">
-      <input type="text" placeholder="Nome Evento" [(ngModel)]="name">
-      <input type="date" placeholder="Data" [(ngModel)]="date">
-      <button (click)="applyFilters()">Applica Filtri</button>
-    </div>
+<div class="reservations-container" *ngIf="reservations.length != 0">
+
+  <div class="loading-spinner" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Caricamento in corso...</p>
+  </div>  
+
+    <!-- Filtri -->
+  <div class="filters">
+    <input type="text" placeholder="Categoria" [(ngModel)]="category">
+    <input type="text" placeholder="Località" [(ngModel)]="location">
+    <input type="text" placeholder="Nome Evento" [(ngModel)]="name">
+    <input type="date" placeholder="Data" [(ngModel)]="date">
+    <button (click)="applyFilters()">Applica Filtri</button>
+  </div>
   
     <div class="reservation-card" *ngFor="let reservation of reservations">
       <h3>{{ reservation.event.name }}</h3>
@@ -15,6 +22,11 @@
       <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
       <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
       <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+
+      <button class="delete-button" (click)="deleteReservation(reservation.reservation)" style="background-color: red; color: white;">
+        Elimina Prenotazione
+      </button>
+
     </div>
   
     <div class="pagination-controls">
@@ -23,4 +35,8 @@
       <button (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= totalElements">Successivo</button>
     </div>
   </div>
+
+  <div *ngIf="reservations.length == 0 && !isLoading" class="no-events-message">
+    <h1>Non hai prenotato nessun evento</h1>
+</div>
   

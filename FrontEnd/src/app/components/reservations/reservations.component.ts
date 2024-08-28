@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReservationEvent } from '../../interfaces/reservation/reservationEvent';
 import { CustomerService } from '../../services/customer.service';
 import { ReservationEventResponse } from '../../interfaces/reservation/reservationEventResponse';
+import { Reservation } from '../../interfaces/reservation/reservation';
 
 @Component({
   selector: 'app-reservations',
@@ -25,6 +26,7 @@ export class ReservationComponent implements OnInit {
 
   constructor(private customerService: CustomerService) {}
 
+
   ngOnInit(): void {
     this.loadReservations();
   }
@@ -34,20 +36,20 @@ export class ReservationComponent implements OnInit {
     this.customerService.getReservations(this.currentPage, this.pageSize, this.category, this.location, this.name, this.date).subscribe(
       (data: ReservationEventResponse) => {
         console.log(data);
-        this.reservations = data.content; // Assumiamo che i dati siano nella proprietà 'content' della risposta
-        this.totalElements = data.totalElements; // Assumiamo che i dati contengano il numero totale di elementi
-        this.totalPages = data.totalPages; // Assumiamo che la risposta contenga il numero totale di pagine
+        this.reservations = data.content; 
+        this.totalElements = data.totalElements;
+        this.totalPages = data.totalPages; 
         this.isLoading = false;
       },
       (error) => {
         console.error('Errore nel caricamento delle prenotazioni', error);
-        this.isLoading = false; // Assicurati di impostare isLoading su false anche in caso di errore
+        this.isLoading = false; 
       }
     );
   }
 
   applyFilters(): void {
-    this.currentPage = 0; // Resetta alla prima pagina quando si applicano filtri
+    this.currentPage = 0;
     this.loadReservations();
   }
 
@@ -65,4 +67,20 @@ export class ReservationComponent implements OnInit {
     }
   }
 
+  deleteReservation(reservation: Reservation): void {
+    if (confirm('Sei sicuro di voler eliminare questa prenotazione?')) {
+      this.isLoading = true;
+      this.customerService.deleteReservation(reservation).subscribe(
+        () => {
+          this.isLoading = false;
+          this.loadReservations();
+          console.log('Prenotazione eliminata con successo');
+        },
+        (error) => {
+          console.error('Errore nell\'eliminazione della prenotazione', error);
+          this.isLoading = false;
+        }
+      );
+    }
+  }
 }

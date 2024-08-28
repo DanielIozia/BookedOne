@@ -1,38 +1,50 @@
-<mat-sidenav-container class="example-container">
-    <mat-sidenav #sidenav mode="side" class="side-nav">
-      <mat-list role="list">
-        <div class="container-list">
-          <div>
-            <mat-list-item role="listitem" routerLink="profile" [routerLinkActive]="'active'" class="list">
-              <span>Profilo</span>
-            </mat-list-item>
-            <mat-list-item role="listitem" routerLink="events" [routerLinkActive]="'active'" class="list">
-              <span>Eventi</span>
-            </mat-list-item>
-            <mat-list-item role="listitem" routerLink="booking" [routerLinkActive]="'active'" class="list">
-              <span>Prenotazioni</span>
-            </mat-list-item>
-          </div>
-          <div class="logout-container" (click)="logout()" > <!-- Aggiungi questa classe -->
-            <mat-list-item role="listitem">
-              <button mat-icon-button class="example-icon favorite-icon" aria-label="Logout button">
-                <mat-icon><link rel="alternate" href="atom.xml" type="application/atom+xml" title="Atom">logout</mat-icon>
-              </button>
-            </mat-list-item>
-          </div>
-        </div>
-      </mat-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <mat-toolbar>
-        <button mat-icon-button (click)="sidenav.toggle()" class="menu-icon">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <h3 class="custom-title">
-          BookedOne
-        </h3>
-        <span class="example-spacer"></span>
-      </mat-toolbar>
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+<mat-toolbar class="navbar">
+  <!-- Logo e titolo a sinistra -->
+  <span class="navbar-title">BookedOne</span>
+
+  <!-- Spazio per allineare gli elementi -->
+  <span class="navbar-spacer"></span>
+
+  <!-- Menu hamburger per schermi piccoli -->
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <!-- Menu di navigazione per schermi grandi -->
+  <div class="navbar-links">
+    <a mat-icon-button routerLink="profile" routerLinkActive="active">
+      <mat-icon>account_circle</mat-icon>
+    </a>
+    <a mat-icon-button routerLink="events" routerLinkActive="active">
+      <mat-icon>event</mat-icon> 
+    </a>
+    <a mat-icon-button routerLink="reservations" routerLinkActive="active">
+      <mat-icon>assignment</mat-icon> 
+    </a>
+    <a mat-icon-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </a>
+  </div>
+  
+
+</mat-toolbar>
+
+<!-- Menu a tendina per schermi piccoli -->
+<mat-menu #menu="matMenu">
+  <button mat-menu-item routerLink="profile" routerLinkActive="active">
+    <mat-icon>account_circle</mat-icon> Profilo
+  </button>
+  <button mat-menu-item routerLink="events" routerLinkActive="active">
+    <mat-icon>event</mat-icon> Eventi
+  </button>
+  <button mat-menu-item routerLink="reservations" routerLinkActive="active">
+    <mat-icon>assignment</mat-icon> Prenotazioni
+  </button>
+  <button mat-menu-item (click)="logout()" routerLinkActive="active">
+    <mat-icon>logout</mat-icon> Logout
+  </button>
+</mat-menu>
+
+<!-- Contenuto principale -->
+<router-outlet></router-outlet>
+

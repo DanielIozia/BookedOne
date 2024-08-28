@@ -1,0 +1,29 @@
+<h1 mat-dialog-title *ngIf="!loading">Update Profile</h1>
+
+<!-- Spinner-->
+<div *ngIf="loading" class="loading-container">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div mat-dialog-content>
+ 
+  <form #profileForm="ngForm" class="profile-form">
+
+
+    <mat-form-field appearance="fill" class="full-width-form-field">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" name="email" [(ngModel)]="data.email" required>
+      <mat-error *ngIf="showErrorMessage">{{ errorMessage }}</mat-error>
+    </mat-form-field>
+
+  
+    
+    <div mat-dialog-actions class="dialog-actions">
+      <button mat-button (click)="onCancel()" [disabled]="loading">Cancel</button>
+    </div>
+  </form>
+  
+</div>
+

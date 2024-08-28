@@ -4,19 +4,21 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AuthGuard } from './services/auth/auth.guard';
+import { CustomerComponent } from './components/customer/customer.component';
+import { SellerComponent } from './components/seller/seller.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: SignInComponent },
   { path: 'register', component: SignUpComponent },
   { 
-    path: 'customer', 
+    path: 'customer', component:CustomerComponent,
     loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule),
     canActivate: [AuthGuard],
     data: { role: 'customer' } // Ruolo richiesto per accedere a questa rotta
   },
   { 
-    path: 'seller', 
+    path: 'seller', component:SellerComponent,
     loadChildren: () => import('./modules/seller/seller.module').then(m => m.SellerModule ),
     canActivate: [AuthGuard],
     data: { role: 'seller' } // Ruolo richiesto per accedere a questa rotta

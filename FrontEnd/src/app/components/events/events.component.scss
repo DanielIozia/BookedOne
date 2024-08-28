@@ -158,3 +158,34 @@
     }
   }
 }
+
+//no event message
+.no-events-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 50px 20px;
+  color: #666;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  margin-top: 20px;
+
+  h1 {
+    margin: 0;
+  }
+
+  /* Responsivo: Ridimensiona il testo su schermi più piccoli */
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+    padding: 30px 10px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+    padding: 20px 5px;
+  }
+}
+
