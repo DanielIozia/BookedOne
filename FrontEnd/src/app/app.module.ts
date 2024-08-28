@@ -16,6 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';  // Importa sia ReactiveFormsModule che FormsModule
 import { HttpClient, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DialogReserveEventComponent } from './components/dialog-reserve-event/dialog-reserve-event.component';
+import { DialogDeleteReserveEventComponent } from './components/dialog-delete-reserve-event/dialog-delete-reserve-event.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     SignUpComponent,
     SignInComponent,
     PageNotFoundComponent,
+    DialogReserveEventComponent,
+    DialogDeleteReserveEventComponent,
   ],
   imports: [
     BrowserModule,

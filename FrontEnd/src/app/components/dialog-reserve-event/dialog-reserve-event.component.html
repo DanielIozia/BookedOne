@@ -1,0 +1,24 @@
+<div class="dialog-container">
+    <h1>Prenota Evento</h1>
+    
+    <div class="event-details">
+      <p><strong>Nome:</strong> {{ event.name }}</p>
+      <p><strong>Data:</strong> {{ event.date | date }}</p>
+      <p><strong>Descrizione:</strong> {{ event.description }}</p>
+      <p><strong>Luogo:</strong> {{ event.location }}</p>
+      <p><strong>Prezzo:</strong> {{ event.price * tickets | currency }}</p>
+      <p><strong>Categoria:</strong> {{ event.category }}</p>
+    </div>
+  
+    <div class="ticket-selection">
+      <label for="tickets">Numero di Biglietti:</label>
+      <input type="number" id="tickets" [(ngModel)]="tickets" min="1" />
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    </div>
+  
+    <div class="dialog-actions">
+      <button mat-button (click)="onCancel()">Annulla</button>
+      <button mat-raised-button color="primary" (click)="onPurchase()">Acquista</button>
+    </div>
+  </div>
+  

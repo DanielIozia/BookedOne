@@ -1,10 +1,10 @@
-<div class="reservations-container" *ngIf="reservations.length != 0">
 
-  <div class="loading-spinner" *ngIf="isLoading">
-    <div class="spinner"></div>
-    <p>Caricamento in corso...</p>
-  </div>  
+<div class="loading-spinner" *ngIf="isLoading">
+  <div class="spinner"></div>
+  <p>Caricamento in corso...</p>
+</div>  
 
+<div class="reservations-container" *ngIf="reservations.length != 0 && !isLoading">
     <!-- Filtri -->
   <div class="filters">
     <input type="text" placeholder="Categoria" [(ngModel)]="category">
@@ -21,12 +21,12 @@
       <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
       <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
       <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
-      <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
-
-      <button class="delete-button" (click)="deleteReservation(reservation.reservation)" style="background-color: red; color: white;">
-        Elimina Prenotazione
-      </button>
-
+      <div class="button_delete">
+        <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+        <button class="delete-button" (click)="deleteReservation(reservation)">
+          Elimina Prenotazione
+        </button>
+      </div>
     </div>
   
     <div class="pagination-controls">

@@ -16,7 +16,7 @@
         </div>
       
         <ul class="content__list">
-            <li><span>{{reservedEvents}}</span>Eventi prenotati</li>
+            <li (click)="showAllEvent()"><span>{{reservedEvents}}</span>Eventi prenotati</li>
             <li (click)="showUpComingEvent()"><span>{{upcomingReservations}}</span>Eventi da svolgere</li>
             <li (click)="showPastEvent()"><span>{{pastReservations}}</span>Eventi scaduti</li>
         </ul>
@@ -85,7 +85,28 @@
         <h1>Non hai eventi scaduti</h1>
       </div>
     </div>
-    
-    
+  </div>
+
+  <!-- Pannello Eventi Scaduti -->
+  <div class="reservations-container" *ngIf="showAllEvents">
+    <!-- Aggiungi un nuovo contenitore per i gruppi di eventi -->
+    <div class="events-group">
+        <div class="title__button">
+            <h2>Tutti i tuoi eventi</h2>
+            <button (click)="showAllEvents = false"><mat-icon>close</mat-icon></button>
+          </div>
+      <div class="reservation-card" *ngFor="let reservation of reservations">
+        <h3><strong>{{ reservation.event.name }}</strong></h3>
+        <p>{{ reservation.event.description }}</p>
+        <p><strong>Data:</strong> {{ reservation.event.date }}</p>
+        <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
+        <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
+        <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
+        <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+      </div>
+      <div *ngIf="reservations.length == 0" class="no-events-message">
+        <h1>Non ci sono eventi prenotati</h1>
+      </div>
+    </div>
   </div>
   

@@ -312,6 +312,10 @@ body {
 
 .content__list li{
   cursor: pointer;
+
+  &:hover{
+    color: #1d8cf8;
+  }
 }
 
 .profile-page .content__list {
@@ -826,3 +830,4 @@ body {
     }
   }
 }
+

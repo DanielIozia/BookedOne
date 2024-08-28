@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ReservationEventResponse } from '../interfaces/reservation/reservationEventResponse';
 import { Reservation } from '../interfaces/reservation/reservation';
+import { ReserveEvent } from '../interfaces/event/reserveEvent';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class CustomerService {
   private BASE_URL:string = 'http://localhost:8080/api/customer';
   private MY_RESERVATION:string = '/my-reservations';
   private DELETE_RESERVATION:string = '/delete-reservation';
+  private RESERVE_EVENT:string = '/reserve-event';
 
   getReservations(page: number, size: number, category?: string, location?: string, name?: string, date?: string): Observable<ReservationEventResponse> {
     
@@ -49,5 +51,13 @@ export class CustomerService {
       headers: headers,
       responseType: 'text' as 'json' 
     });
+  }
+
+  reserveEvent(event:ReserveEvent):Observable<ReservationEventResponse>{
+    const token = this.auth.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<ReservationEventResponse>(this.BASE_URL + this.RESERVE_EVENT, event, {headers});
   }
 }

@@ -10,5 +10,4 @@ public class ReserveEvent {
 
     private Event event;
     private int numberOfTickets;
-    
 }

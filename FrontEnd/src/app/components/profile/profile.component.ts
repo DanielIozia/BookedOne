@@ -40,6 +40,7 @@ export class ProfileComponent implements OnInit {
 
   showUpcomingEvents: boolean = false;
   showPastEvents: boolean = false;
+  showAllEvents:boolean = false;
 
   loadUser() {
     this.isLoading = true;
@@ -115,10 +116,18 @@ export class ProfileComponent implements OnInit {
   showPastEvent(){
     this.showPastEvents = true;
     this.showUpcomingEvents = false;
+    this.showAllEvents = false;
   }
 
   showUpComingEvent(){
     this.showUpcomingEvents = true;
+    this.showPastEvents = false;
+    this.showAllEvents = false;
+  }
+
+  showAllEvent(){
+    this.showAllEvents = true;
+    this.showUpcomingEvents = false;
     this.showPastEvents = false;
   }
 

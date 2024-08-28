@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { EventService } from '../../services/event.service';
 import { EventResponse } from '../../interfaces/event/eventResponse';
 import { EventDetails } from '../../interfaces/event/event';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogReserveEventComponent } from '../dialog-reserve-event/dialog-reserve-event.component';
+import { CustomerService } from '../../services/customer.service';
 
 
 @Component({
@@ -15,6 +18,7 @@ export class EventsComponent {
   page: number = 0;
   size: number = 10;
   totalPages: number = 0;
+  buyEventLoading:boolean = false;
   
   filters = {
     name: '',
@@ -25,7 +29,7 @@ export class EventsComponent {
   isLoading:boolean = false;
   
 
-  constructor(private eventService: EventService) {}
+  constructor(private eventService: EventService, public dialog: MatDialog, private customerService:CustomerService) {}
 
   ngOnInit(): void {
     this.loadEvents();
@@ -60,4 +64,27 @@ export class EventsComponent {
     }
   }
 
+  openDialogReserveEvent(event: EventDetails): void {
+
+    const dialogRef = this.dialog.open(DialogReserveEventComponent, {
+      width: '400px',
+      data: event
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      //se chiudo senza prenotare, result è undefined(inutile fare chiamate al back)
+      if(result != undefined){
+        this.buyEventLoading = true;
+        this.customerService.reserveEvent(result).subscribe (data => {
+          this.buyEventLoading = false; 
+          this.loadEvents();
+        }, error => {
+          this.buyEventLoading = false;
+          console.error(error);
+          this.loadEvents();
+        })
+      }
+    });
+
+}
 }

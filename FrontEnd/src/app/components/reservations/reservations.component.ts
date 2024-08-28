@@ -3,6 +3,8 @@ import { ReservationEvent } from '../../interfaces/reservation/reservationEvent'
 import { CustomerService } from '../../services/customer.service';
 import { ReservationEventResponse } from '../../interfaces/reservation/reservationEventResponse';
 import { Reservation } from '../../interfaces/reservation/reservation';
+import { DialogDeleteReserveEventComponent } from '../dialog-delete-reserve-event/dialog-delete-reserve-event.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-reservations',
@@ -17,6 +19,7 @@ export class ReservationComponent implements OnInit {
   totalElements: number = 0;
   totalPages: number = 0;
   isLoading: boolean = false;
+  isDeleting:boolean = false;
 
   // Filtri per categoria, località, nome e data
   category: string | undefined;
@@ -24,7 +27,7 @@ export class ReservationComponent implements OnInit {
   name: string | undefined;
   date: string | undefined;
 
-  constructor(private customerService: CustomerService) {}
+  constructor(private customerService: CustomerService, private dialog:MatDialog) {}
 
 
   ngOnInit(): void {
@@ -67,7 +70,7 @@ export class ReservationComponent implements OnInit {
     }
   }
 
-  deleteReservation(reservation: Reservation): void {
+  deleteReservation1(reservation: Reservation): void {
     if (confirm('Sei sicuro di voler eliminare questa prenotazione?')) {
       this.isLoading = true;
       this.customerService.deleteReservation(reservation).subscribe(
@@ -83,4 +86,30 @@ export class ReservationComponent implements OnInit {
       );
     }
   }
+
+  deleteReservation(reservation: ReservationEvent): void {
+
+    const dialogRef = this.dialog.open(DialogDeleteReserveEventComponent, {
+      width: '300px',
+      data: { reservation }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) { // If user confirmed deletion
+        this.isDeleting = true;
+        this.customerService.deleteReservation(reservation.reservation).subscribe(
+          () => {
+            this.isDeleting = false;
+            this.loadReservations();
+            console.log('Prenotazione eliminata con successo');
+          },
+          (error) => {
+            console.error('Errore nell\'eliminazione della prenotazione', error);
+            this.isDeleting = false;
+          }
+        );
+      }
+    });
+  }
+  
 }
