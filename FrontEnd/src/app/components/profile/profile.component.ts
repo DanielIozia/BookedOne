@@ -42,6 +42,8 @@ export class ProfileComponent implements OnInit {
   showPastEvents: boolean = false;
   showAllEvents:boolean = false;
 
+  
+
   loadUser() {
     this.isLoading = true;
     this.userService.profile(this.auth.getToken()!).subscribe(
@@ -131,7 +133,7 @@ export class ProfileComponent implements OnInit {
     this.showPastEvents = false;
   }
 
-  delete() {
-    // Implementa la logica per eliminare un elemento se necessario
+  deleteProfile() {
+    console.log("Profile deleted.");
   }
 }

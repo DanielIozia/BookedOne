@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,5 +78,21 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Errore inatteso: " + e.getMessage());
         }
     }
+
+    @PostMapping("/verify-password")
+    public ResponseEntity<?> verifyPassword(HttpServletRequest request, @RequestBody String password) throws ExceptionBackend {
+        try {
+            String token = request.getHeader("Authorization");
+            String userId = jwtTokenService.decode(token);
+            return ResponseEntity.ok(userService.verifyPassword(userId, password.toCharArray()));
+            
+        } catch (ExceptionBackend e) {
+            return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Errore inatteso: " + e.getMessage());
+        }
+    }
+    
+
 }
 

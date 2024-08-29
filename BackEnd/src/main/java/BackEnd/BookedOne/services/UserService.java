@@ -99,7 +99,8 @@ public class UserService {
             user.getLastName(),
             user.getEmail(),
             user.getRole(),
-            jwtTokenService.generateToken(user.getId(), 86400000L) //1 giorno
+            jwtTokenService.generateToken(user.getId(), 86400000L), //1 giorno
+            argon2PasswordEncoderService.hashPassword(userRequest.getPassword().toCharArray())
         );
 
         
@@ -124,7 +125,8 @@ public class UserService {
             user.getLastName(),
             user.getEmail(),
             user.getRole(),
-            token.substring(7)
+            token.substring(7),
+            user.getPassword()
         );
     }
 
@@ -193,7 +195,6 @@ public class UserService {
     }
     
     public void deleteUser(String id) throws ExceptionBackend {
-
         User user = userRepository.findById(id).get();
         
         if(user == null){
@@ -204,5 +205,17 @@ public class UserService {
             );
         }
         userRepository.delete(user);
+    }
+
+    public boolean verifyPassword(String userId, char[] password) throws ExceptionBackend {
+    
+        User user = userRepository.findById(userId).orElseThrow(() ->
+            new ExceptionBackend(
+                "Utente non trovato",
+                "L'utente non è stato trovato.",
+                HttpStatus.NOT_FOUND
+            )
+        );
+        return argon2PasswordEncoderService.verifyPassword(user.getPassword(), password);
     }
 }

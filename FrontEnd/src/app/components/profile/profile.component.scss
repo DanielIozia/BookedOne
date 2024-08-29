@@ -831,3 +831,59 @@ body {
   }
 }
 
+.profile-page .content {
+  position: relative; /* Ensure that position is relative for absolute positioning */
+  padding: 2rem; /* Add any padding needed */
+}
+
+.profile-page .settings-icon {
+  position: absolute;
+  bottom: 15%; /* Adjust this value as needed */
+  right: 5%; /* Adjust this value as needed */
+  cursor: pointer;
+}
+
+.profile-page .settings-icon mat-icon {
+  font-size: 24px; /* Adjust the size of the icon */
+  color: #555; /* Adjust color if needed */
+}
+
+.profile-page .dropdown-menu {
+  position: absolute;
+  bottom: 35px; /* Adjust position based on your needs */
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none; 
+  padding: 10px;
+  display: block; /* Cambiato temporaneamente per il test */
+}
+
+.profile-page .dropdown-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile-page .dropdown-menu li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.profile-page .dropdown-menu li:hover {
+  background-color: #f1f1f1;
+}
+
+.profile-page .dropdown-menu {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  opacity: 0; /* Inizia invisibile */
+  visibility: hidden; /* Inizia invisibile */
+}
+
+.profile-page .dropdown-menu[ng-reflect-ng-if="true"] {
+  opacity: 1; /* Visibile quando isSettingsMenuOpen è true */
+  visibility: visible;
+}

@@ -1,0 +1,55 @@
+.navbar {
+    background-color: #407BF7;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif; /* Applica il font a tutta la navbar */
+  }
+  
+  .navbar-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fff;
+    font-family: 'Serif', sans-serif; /* Applica il font specifico al titolo */
+  }
+  
+  .navbar-spacer {
+    flex: 1;
+  }
+  
+  .navbar-links {
+    display: flex;
+    gap: 16px;
+    
+    a {
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Roboto', sans-serif; /* Applica il font ai link */
+  
+      &.active {
+        color: rgba(255, 227, 48, 0.921); /* Colore per link attivo */
+      }
+    }
+  }
+  
+  .menu-icon {
+    color:white;
+    display: none; /* Nascondi l'icona del menu per schermi grandi */
+    font-family: 'Roboto', sans-serif; /* Applica il font anche al menu icon */
+  }
+  
+  /* Media query per schermi piccoli */
+  @media (max-width: 768px) {
+    .navbar-links {
+      display: none; /* Nascondi le icone di navigazione su schermi piccoli */
+    }
+  
+    .menu-icon {
+      display: block; /* Mostra l'icona del menu su schermi piccoli */
+    }
+  }
+  

@@ -1,29 +1,27 @@
-<h1 mat-dialog-title *ngIf="!loading">Update Profile</h1>
-
-<!-- Spinner-->
-<div *ngIf="loading" class="loading-container">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
-
-<div mat-dialog-content>
- 
-  <form #profileForm="ngForm" class="profile-form">
-
-
-    <mat-form-field appearance="fill" class="full-width-form-field">
-      <mat-label>Email</mat-label>
-      <input matInput type="email" name="email" [(ngModel)]="data.email" required>
-      <mat-error *ngIf="showErrorMessage">{{ errorMessage }}</mat-error>
-    </mat-form-field>
-
-  
+<div class="dialog-container">
+  <form class="update-form">
+    <div class="form-group">
+      <label for="firstName">Nome:</label>
+      <input id="firstName" [(ngModel)]="user.firstName" [attr.disabled]="isDisabledName ? true : null" />
+      <button type="button" class="icon-button" (click)="toggleEditName()">
+        <mat-icon>{{ isDisabledName ? 'edit' : 'check' }}</mat-icon>
+      </button>
+    </div>
     
-    <div mat-dialog-actions class="dialog-actions">
-      <button mat-button (click)="onCancel()" [disabled]="loading">Cancel</button>
+    <div class="form-group">
+      <label for="lastName">Cognome:</label>
+      <input id="lastName" [(ngModel)]="user.lastName" [attr.disabled]="isDisabledSurname ? true : null" />
+      <button type="button" class="icon-button" (click)="toggleEditSurname()">
+        <mat-icon>{{ isDisabledSurname ? 'edit' : 'check' }}</mat-icon>
+      </button>
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input id="password" type="password" [(ngModel)]="user.password" [attr.disabled]="isDisabledPassword ? true : null" />
+      <button type="button" class="icon-button" (click)="toggleEditPassword()">
+        <mat-icon>{{ isDisabledPassword ? 'edit' : 'check' }}</mat-icon>
+      </button>
     </div>
   </form>
-  
 </div>
-

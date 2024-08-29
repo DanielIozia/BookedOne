@@ -20,6 +20,7 @@ export class UserService {
   private PROFILE_URL = '/profile';
   private UPDATE_URL = '/update-user';
   private DELETE_URL = '/delete-user';
+  private VERIFY_PASSWORD = '/verify-password';
 
 
   login(user:LoginUser):Observable<User>{
@@ -43,9 +44,14 @@ export class UserService {
   }
 
   update(token:string, user:User):Observable<User>{
-    return this.http.put<User>(this.BASE_URL + this.USERS_URL + this.UPDATE_URL, {
+    return this.http.put<User>(this.BASE_URL + this.USERS_URL + this.UPDATE_URL, user, {
       headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)
     });
   }
 
+  verifyPassword(token:string, password:string):Observable<boolean>{
+    return this.http.post<boolean>(this.BASE_URL + this.USERS_URL + this.VERIFY_PASSWORD, password, {
+      headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)
+    });
+  }
 }
