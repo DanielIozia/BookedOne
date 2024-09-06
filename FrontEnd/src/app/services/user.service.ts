@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../interfaces/user/User';
 import { LoginUser } from '../interfaces/user/loginUser';
+import { DialogLogoutComponent } from '../components/dialog-logout/dialog-logout.component';
+import { updateUser } from '../interfaces/user/updateUser';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  dialog: any;
 
   constructor(private http: HttpClient) { }
 
@@ -43,10 +46,16 @@ export class UserService {
     });
   }
 
-  update(token:string, user:User):Observable<User>{
+  update(token:string, user:updateUser):Observable<User>{
     return this.http.put<User>(this.BASE_URL + this.USERS_URL + this.UPDATE_URL, user, {
       headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)
     });
+  }
+
+  delete(token:string){
+    return this.http.delete<void>(this.BASE_URL + this.USERS_URL + this.DELETE_URL,{
+      headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)
+    })
   }
 
   verifyPassword(token:string, password:string):Observable<boolean>{

@@ -1,27 +1,74 @@
 <div class="dialog-container">
-  <form class="update-form">
-    <div class="form-group">
-      <label for="firstName">Nome:</label>
-      <input id="firstName" [(ngModel)]="user.firstName" [attr.disabled]="isDisabledName ? true : null" />
-      <button type="button" class="icon-button" (click)="toggleEditName()">
-        <mat-icon>{{ isDisabledName ? 'edit' : 'check' }}</mat-icon>
-      </button>
+  <h1><strong>Modifica Profilo</strong></h1>
+  <form #profileForm="ngForm" class="update-form">
+
+    <!-- Nome e Cognome nella stessa riga -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="firstName">Nome:</label>
+        <input id="firstName" name="firstName" [(ngModel)]="user.firstName" [attr.disabled]="isDisabledName ? true : null" />
+        <div *ngIf="user.firstName === '' && !isDisabledName" class="error-message">
+          Il nome non può essere vuoto.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Cognome:</label>
+        <input id="lastName" name="lastName" [(ngModel)]="user.lastName" [attr.disabled]="isDisabledSurname ? true : null" />
+        <div *ngIf="user.lastName === '' && !isDisabledSurname" class="error-message">
+          Il cognome non può essere vuoto.
+        </div>
+      </div>
     </div>
-    
-    <div class="form-group">
-      <label for="lastName">Cognome:</label>
-      <input id="lastName" [(ngModel)]="user.lastName" [attr.disabled]="isDisabledSurname ? true : null" />
-      <button type="button" class="icon-button" (click)="toggleEditSurname()">
-        <mat-icon>{{ isDisabledSurname ? 'edit' : 'check' }}</mat-icon>
-      </button>
+
+    <!-- Password -->
+    <h2>Modifica Password</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="password">Password Attuale:</label>
+        <div class="input-with-button">
+          <input id="password" name="password" type="password" [(ngModel)]="user.password" [disabled]="passwordIsVerified"/>
+          
+          <!-- Bottone per verifica password e spinner -->
+          <button *ngIf="!isVerifingPassword && !passwordIsVerified" type="button" class="icon-button" (click)="verifyPassword(user.password)" [disabled]="!user.password">
+            Verifica password
+          </button>
+
+          <!-- Spinner durante la verifica -->
+          <mat-spinner *ngIf="isVerifingPassword && !passwordIsVerified" diameter="24"></mat-spinner>
+
+        </div>
+        <p *ngIf="!isVerifingPassword && passwordIsVerified" class="icon-button" style="color:green;">
+          Password verificata
+        </p>
+
+        <p *ngIf="!isVerifingPassword && !passwordIsVerified && errorMessage" class="icon-button" style="color:red;">
+          {{errorMessage}}
+        </p>
+      </div>
     </div>
-    
-    <div class="form-group">
-      <label for="password">Password:</label>
-      <input id="password" type="password" [(ngModel)]="user.password" [attr.disabled]="isDisabledPassword ? true : null" />
-      <button type="button" class="icon-button" (click)="toggleEditPassword()">
-        <mat-icon>{{ isDisabledPassword ? 'edit' : 'check' }}</mat-icon>
-      </button>
+
+    <!-- Nuova Password e Conferma Password -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="newPassword">Nuova Password:</label>
+        <input id="newPassword" name="newPassword" type="password" [(ngModel)]="newPassword" [disabled]="!passwordIsVerified" />
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Conferma Password:</label>
+        <input id="confirmPassword" name="confirmPassword" type="password" [(ngModel)]="confirmPassword" [disabled]="!passwordIsVerified" />
+      </div>
     </div>
+
+    <!-- Pulsanti di azione -->
+    <div mat-dialog-actions class="dialog-actions">
+      <button mat-button class="mat-warn" (click)="onCancel()">Annulla</button>
+      <button mat-button class="mat-primary" [disabled]="isAnyInputInvalid()" (click)="update()">Aggiorna</button>
+    </div>
+
+    <button mat-button class="mat-warn delete-buttom" (click)="deleteAccount()">Elimina profilo</button>
+      
   </form>
+  
 </div>

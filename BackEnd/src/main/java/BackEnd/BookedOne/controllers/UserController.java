@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import BackEnd.BookedOne.dto.User;
 import BackEnd.BookedOne.exception.ExceptionBackend;
-import BackEnd.BookedOne.interfaces.User.request.CreateUser;
+import BackEnd.BookedOne.interfaces.User.request.UpdateUser;
 import BackEnd.BookedOne.jwt.JwtUtil;
 import BackEnd.BookedOne.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @PutMapping("/update-user")
-    public ResponseEntity<?> updateUser(HttpServletRequest request, @RequestBody CreateUser updatedUser) throws ExceptionBackend {
+    public ResponseEntity<?> updateUser(HttpServletRequest request, @RequestBody UpdateUser updatedUser) throws ExceptionBackend {
 
         try{
             String token = request.getHeader("Authorization");
@@ -84,14 +84,16 @@ public class UserController {
         try {
             String token = request.getHeader("Authorization");
             String userId = jwtTokenService.decode(token);
-            return ResponseEntity.ok(userService.verifyPassword(userId, password.toCharArray()));
-            
+            boolean isPasswordCorrect = userService.verifyPassword(userId, password.toCharArray());
+            return ResponseEntity.ok(isPasswordCorrect);
+    
         } catch (ExceptionBackend e) {
             return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Errore inatteso: " + e.getMessage());
         }
     }
+    
     
 
 }

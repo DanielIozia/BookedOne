@@ -18,6 +18,8 @@ import { HttpClient, HttpClientModule, provideHttpClient, withFetch } from '@ang
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogReserveEventComponent } from './components/dialog-reserve-event/dialog-reserve-event.component';
 import { DialogDeleteReserveEventComponent } from './components/dialog-delete-reserve-event/dialog-delete-reserve-event.component';
+import { DialogLogoutComponent } from './components/dialog-logout/dialog-logout.component';
+import { DeleteUserComponent } from './components/delete-user/delete-user.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { DialogDeleteReserveEventComponent } from './components/dialog-delete-re
     PageNotFoundComponent,
     DialogReserveEventComponent,
     DialogDeleteReserveEventComponent,
+    DialogLogoutComponent,
+    DeleteUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,8 @@ import { DialogDeleteReserveEventComponent } from './components/dialog-delete-re
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    MatDialogModule,  // Aggiungi MatDialogModule qui
+    MatDialogModule,
+    
   ],
   providers: [
     provideClientHydration(),

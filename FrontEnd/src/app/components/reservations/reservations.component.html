@@ -15,11 +15,12 @@
   </div>
   
     <div class="reservation-card" *ngFor="let reservation of reservations">
-      <h3>{{ reservation.event.name }}</h3>
+      <h2>{{ reservation.event.name }}</h2>
       <p>{{ reservation.event.description }}</p>
       <p><strong>Data:</strong> {{ reservation.event.date }}</p>
       <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
       <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
+      <p><strong>Categoria:</strong> {{ reservation.event.category }}</p>
       <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
       <div class="button_delete">
         <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>

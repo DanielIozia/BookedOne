@@ -10,6 +10,7 @@ import BackEnd.BookedOne.dto.User;
 import BackEnd.BookedOne.exception.ExceptionBackend;
 import BackEnd.BookedOne.interfaces.User.request.CreateUser;
 import BackEnd.BookedOne.interfaces.User.request.LoginUser;
+import BackEnd.BookedOne.interfaces.User.request.UpdateUser;
 import BackEnd.BookedOne.interfaces.User.response.LoginResponse;
 import BackEnd.BookedOne.interfaces.User.response.RegisterResponse;
 import BackEnd.BookedOne.jwt.JwtUtil;
@@ -145,51 +146,30 @@ public class UserService {
         return user;
     }
     
-    public User updateUser(String id, CreateUser user) throws ExceptionBackend {
+    public User updateUser(String id, UpdateUser user) throws ExceptionBackend {
 
-        User existingUser = userRepository.findById(id).get();
-
-        if(existingUser == null){
-            throw new ExceptionBackend(
+        User existingUser = userRepository.findById(id).orElseThrow(() ->
+            new ExceptionBackend(
                 "Utente non trovato",
                 "L'utente non è stato trovato.",
                 HttpStatus.NOT_FOUND
-            );
-        }
+            )
+        );
 
-        if(user.getRole() != null){
-            throw new ExceptionBackend(
-                "Ruolo non modificabile",
-                "Il ruolo non può essere modificato",  
-                HttpStatus.NOT_FOUND
-            );
-        }
-
-        String firstName = (user.getFirstName() == null)  ? existingUser.getFirstName() : user.getFirstName();
-        String lastName = (user.getLastName() == null)  ? existingUser.getLastName() : user.getLastName();
-        String email = (user.getEmail() == null)  ? existingUser.getEmail() : user.getEmail();
-        String role = existingUser.getRole();
+        
+        String firstName = (user.getFirstName() == null) ? existingUser.getFirstName() : user.getFirstName();
+        String lastName = (user.getLastName() == null) ? existingUser.getLastName() : user.getLastName();
         existingUser.setFirstName(firstName);
         existingUser.setLastName(lastName);
-        existingUser.setRole(role);
-
-        if (user.getEmail() != null) {
-            User emailOwner = userRepository.findByEmail(user.getEmail());
-            if (emailOwner != null && !emailOwner.getId().equals(id)) {
-                throw new ExceptionBackend(
-                    "Email già in uso",
-                    "L'email " + user.getEmail() + " è già in uso da un altro utente.",
-                    HttpStatus.CONFLICT
-                );
-            }
-            existingUser.setEmail(email);
-        }
-
+        
+    
+        // Se la password non è nulla, aggiorna la password
         if (user.getPassword() != null) {
             existingUser.setPassword(
                 argon2PasswordEncoderService.hashPassword(user.getPassword().toCharArray())
             );
         }
+    
         userRepository.save(existingUser);
         return existingUser;
     }
@@ -216,6 +196,26 @@ public class UserService {
                 HttpStatus.NOT_FOUND
             )
         );
-        return argon2PasswordEncoderService.verifyPassword(user.getPassword(), password);
+    
+        if (password.length == 0) {
+            throw new ExceptionBackend(
+                "Password non valida",
+                "Inserisci una password valida",  
+                HttpStatus.NOT_ACCEPTABLE
+            );
+        }
+    
+        boolean isPasswordCorrect = argon2PasswordEncoderService.verifyPassword(user.getPassword(), password);
+    
+        if (!isPasswordCorrect) {
+            
+            throw new ExceptionBackend(
+                "Password errata",
+                "La password fornita non è corretta.",
+                HttpStatus.NOT_ACCEPTABLE
+            );
+        }
+    
+        return isPasswordCorrect;
     }
 }

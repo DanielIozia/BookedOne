@@ -7,8 +7,6 @@ import { UpdateUserComponent } from '../update-user/update-user.component';
 import { CustomerService } from '../../services/customer.service';
 import { ReservationEventResponse } from '../../interfaces/reservation/reservationEventResponse';
 import { ReservationEvent } from '../../interfaces/reservation/reservationEvent';
-import { Router } from '@angular/router';
-import { EventDetails } from '../../interfaces/event/event';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +20,6 @@ export class ProfileComponent implements OnInit {
     private auth: AuthService,
     private dialog: MatDialog,
     private customerService: CustomerService,
-    private router:Router
   ) {}
 
   user: User = {} as User;
@@ -46,16 +43,18 @@ export class ProfileComponent implements OnInit {
 
   loadUser() {
     this.isLoading = true;
-    this.userService.profile(this.auth.getToken()!).subscribe(
-      (user: User) => {
-        this.isLoading = false;
-        this.user = user;
-      },
-      (error) => {
-        console.error('Errore nel caricamento del profilo', error);
-        this.isLoading = false;
-      }
-    );
+    if(this.auth.getToken()){
+      this.userService.profile(this.auth.getToken()!).subscribe(
+        (user: User) => {
+          this.isLoading = false;
+          this.user = user;
+        },
+        (error) => {
+          console.log('Errore nel caricamento del profilo', error);
+          this.isLoading = false;
+        }
+      );
+    }
   }
 
   loadReservation() {
@@ -109,9 +108,27 @@ export class ProfileComponent implements OnInit {
   }
 
   update() {
-    this.dialog.open(UpdateUserComponent, {
-      width: '400px', // Imposta la larghezza del dialogo
-      data: { user: this.user } // Puoi passare dati al dialogo se necessario
+    let dialogWidth = '70%';
+    let dialogHeight = '60%';
+  
+    if (window.innerWidth <= 768) { // Schermi piccoli come tablet o cellulari
+      dialogWidth = '95%';
+      dialogHeight = '70%';
+    } else if (window.innerWidth > 768 && window.innerWidth <= 1024) { // Schermi medi come tablet
+      dialogWidth = '85%';
+      dialogHeight = '65%';
+    }
+  
+    const dialogRef = this.dialog.open(UpdateUserComponent, {
+      width: dialogWidth,
+      height: dialogHeight,
+      data: { user: this.user }
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result){
+        this.loadUser();  
+      }
     });
   }
 
@@ -136,4 +153,23 @@ export class ProfileComponent implements OnInit {
   deleteProfile() {
     console.log("Profile deleted.");
   }
+
+  getEventStatus(eventDate: Date): number {
+    const currentDate = new Date();
+    const eventDateTime = new Date(eventDate).getTime();
+    const currentTime = currentDate.getTime();
+  
+    if (eventDateTime < currentTime) {
+      return -1;
+    } 
+    else {
+      const diffTime = eventDateTime - currentTime;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      if(diffDays == 0){
+        return 0;
+      }
+      return diffDays;
+    }
+  }
+
 }
