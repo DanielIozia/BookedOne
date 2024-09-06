@@ -207,15 +207,6 @@ public class UserService {
     
         boolean isPasswordCorrect = argon2PasswordEncoderService.verifyPassword(user.getPassword(), password);
     
-        if (!isPasswordCorrect) {
-            
-            throw new ExceptionBackend(
-                "Password errata",
-                "La password fornita non è corretta.",
-                HttpStatus.NOT_ACCEPTABLE
-            );
-        }
-    
         return isPasswordCorrect;
     }
 }

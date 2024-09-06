@@ -9,6 +9,8 @@ import { CustomerRoutingModule } from './customer-routing.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 
 
@@ -23,6 +25,9 @@ import { MatMenuModule } from '@angular/material/menu';
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
+
+    MatTooltipModule,
+    
   ]
 })
 

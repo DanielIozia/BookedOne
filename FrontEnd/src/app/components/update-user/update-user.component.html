@@ -35,14 +35,14 @@
           </button>
 
           <!-- Spinner durante la verifica -->
-          <mat-spinner *ngIf="isVerifingPassword && !passwordIsVerified" diameter="24"></mat-spinner>
+          <mat-spinner *ngIf="isVerifingPassword" diameter="24"></mat-spinner>
 
         </div>
-        <p *ngIf="!isVerifingPassword && passwordIsVerified" class="icon-button" style="color:green;">
-          Password verificata
+        <p *ngIf="!isVerifingPassword && passwordIsVerified" class="success-message verify-password"  style="color:green;">
+          Password verificata con successo
         </p>
 
-        <p *ngIf="!isVerifingPassword && !passwordIsVerified && errorMessage" class="icon-button" style="color:red;">
+        <p *ngIf="!isVerifingPassword && !passwordIsVerified && errorMessage" class="error-message verify-password" style="color:red;">
           {{errorMessage}}
         </p>
       </div>

@@ -12,21 +12,19 @@
 
   <!-- Menu di navigazione per schermi grandi -->
   <div class="navbar-links">
-    <a mat-icon-button routerLink="profile" routerLinkActive="active">
+    <a mat-icon-button routerLink="profile" routerLinkActive="active" matTooltip="Profilo">
       <mat-icon>account_circle</mat-icon>
     </a>
-    <a mat-icon-button routerLink="events" routerLinkActive="active">
+    <a mat-icon-button routerLink="events" routerLinkActive="active" matTooltip="Eventi">
       <mat-icon>event</mat-icon> 
     </a>
-    <a mat-icon-button routerLink="reservations" routerLinkActive="active">
+    <a mat-icon-button routerLink="reservations" routerLinkActive="active" matTooltip="Prenotazioni">
       <mat-icon>assignment</mat-icon> 
     </a>
-    <a mat-icon-button (click)="logout()">
+    <a mat-icon-button (click)="logout()" matTooltip="Logout">
       <mat-icon>logout</mat-icon>
     </a>
   </div>
-  
-
 </mat-toolbar>
 
 <!-- Menu a tendina per schermi piccoli -->
@@ -47,4 +45,3 @@
 
 <!-- Contenuto principale -->
 <router-outlet></router-outlet>
-

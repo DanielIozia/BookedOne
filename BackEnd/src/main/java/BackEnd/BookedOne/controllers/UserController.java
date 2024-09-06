@@ -86,7 +86,7 @@ public class UserController {
             String userId = jwtTokenService.decode(token);
             boolean isPasswordCorrect = userService.verifyPassword(userId, password.toCharArray());
             return ResponseEntity.ok(isPasswordCorrect);
-    
+            
         } catch (ExceptionBackend e) {
             return ResponseEntity.status(e.getStatus()).body(e.getErrorResponse());
         } catch (Exception e) {

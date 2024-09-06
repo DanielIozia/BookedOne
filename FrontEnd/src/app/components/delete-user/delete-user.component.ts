@@ -59,17 +59,21 @@ export class DeleteUserComponent {
       if(data){
         this.isLoading = true;
          // Verifica dell'email e password e successiva eliminazione dell'account
-      this.userService.delete(this.authService.getToken()!).subscribe(
+        this.userService.delete(this.authService.getToken()!).subscribe(
 
         () => {
           this.isLoading = false;
           this.dialogRef.close(true);
         },
+      
         error => {
           this.isLoading = false;
           this.errorMessage = error.error.message;
         }
       );
+      }
+      else{
+        this.errorMessage = "Password errata";
       }
     }, error => {
       this.verifingPassword = false;

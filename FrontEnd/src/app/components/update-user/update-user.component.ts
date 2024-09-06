@@ -108,24 +108,32 @@ export class UpdateUserComponent {
 
   // Funzione per verificare la password corrente
   verifyPassword(pass: string): void {
-    this.isVerifingPassword = true; // Attiva lo spinner
+    this.isVerifingPassword = true;
+    this.errorMessage = '';
+  
     this.userService.verifyPassword(this.authService.getToken()!, pass).subscribe(
       (isValid: boolean) => {
-        console.log("Password verificata:", isValid);
-        this.isVerifingPassword = false; // Disattiva lo spinner
-        this.passwordIsVerified = isValid; // Aggiorna lo stato se la password è valida
-        if (!isValid) {
-          this.errorMessage = "La password attuale non è corretta.";
+        console.log("isValid: -> " + isValid);
+        this.isVerifingPassword = false;
+        console.log("isVerifingPassword: -> " + this.isVerifingPassword);
+        if (isValid) {
+          console.log("Password verificata:", isValid);
+          this.passwordIsVerified = isValid;
+        } 
+        else {
+          this.errorMessage = "La password non è corretta.";
+          this.passwordIsVerified = false;
         }
       },
       error => {
-        this.isVerifingPassword = false; // Disattiva lo spinner in caso di errore
+        this.isVerifingPassword = false;
         this.passwordIsVerified = false;
-        this.errorMessage = error.error.title;
-        console.log("Errore durante la verifica della password, Tipo di errore:", this.errorMessage);
+        console.log("Errore:", error); // Log dell'errore
+        this.errorMessage = error?.error?.title || 'Errore durante la verifica della password';
       }
     );
   }
+  
   
    // Funzione per aprire il dialogo di eliminazione account
    deleteAccount(): void {

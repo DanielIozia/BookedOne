@@ -21,6 +21,8 @@ import { DialogDeleteReserveEventComponent } from './components/dialog-delete-re
 import { DialogLogoutComponent } from './components/dialog-logout/dialog-logout.component';
 import { DeleteUserComponent } from './components/delete-user/delete-user.component';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +45,7 @@ import { DeleteUserComponent } from './components/delete-user/delete-user.compon
     FormsModule,
     HttpClientModule,
     MatDialogModule,
+    
     
   ],
   providers: [
