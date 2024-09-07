@@ -1,67 +1,95 @@
 .reservations-container {
   padding: 20px;
-  max-width: 800px;
+  max-width: 800px; // Maggiore larghezza per schermi più ampi
   margin: auto;
   display: flex;
   flex-direction: column;
-  min-height: 93vh;  // Fa sì che il contenitore prenda almeno l'altezza della finestra
+  min-height: 93vh;
 
   .filters {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin: 0 auto;
+    justify-content: space-between; // Migliore distribuzione dei filtri
+    gap: 15px;
     margin-bottom: 20px;
-    width: 100%;
-    max-width: 800px;
 
     input, select {
-      flex: 1 1 150px;
-      min-width: 120px;
-      margin: 5px 0;
-      padding: 8px;
-      border: 1px solid #ccc;
+      flex: 1 1 200px; // Larghezza minima maggiore per i filtri
+      min-width: 150px;
+      padding: 10px;
+      border: 1px solid #ddd;
       border-radius: 5px;
-      transition: border-color 0.3s ease;
+      transition: border-color 0.3s, box-shadow 0.3s;
 
       &:focus {
         border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+    }
+
+    mat-checkbox {
+      display: flex;
+      align-items: center;
+      flex: 1 1 200px;
+      min-width: 150px;
+      
+      .mat-checkbox-inner-container {
+        border-radius: 4px;
+      }
+      
+      .mat-checkbox-frame {
+        border-color: #ddd;
+      }
+
+      .mat-checkbox-checked {
+        .mat-checkbox-background {
+          background-color: #007bff;
+        }
+      }
+
+      .mat-checkbox-label {
+        margin-left: 8px;
+        font-size: 1rem;
       }
     }
 
     button {
       flex: 0 0 auto;
-      padding: 8px 15px;
+      padding: 10px 20px;
       background-color: #007bff;
       color: #fff;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s, transform 0.2s;
 
       &:hover {
         background-color: #0056b3;
+        transform: scale(1.05);
       }
     }
   }
 
   .reservation-card {
     border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
     border-radius: 8px;
-    background-color: #f9f9f9;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    gap: 10px;
 
     .button_delete {
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
 
-    h3 {
+    h2 {
       margin-top: 0;
+      font-size: 1.5rem;
     }
 
     p {
@@ -69,37 +97,37 @@
     }
 
     button {
-      width: 25%;
-      padding: 5px 10px;
-      background-color: red;
-      color: white;
+      padding: 8px 15px;
+      background-color: #d32f2f;
+      color: #fff;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
 
       &:hover {
-        background-color: #d32f2f;
+        background-color: #b71c1c;
+        transform: scale(1.05);
       }
     }
   }
 
-  // La paginazione si posiziona in basso al contenitore
   .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-    margin-top: auto; // Fa sì che la paginazione sia spinta verso il basso
-    padding-bottom: 20px;
+    gap: 15px;
+    margin-top: auto;
+    padding: 10px;
 
     button {
       padding: 10px;
       border: 1px solid #3498db;
       background: #fff;
       color: #3498db;
-      border-radius: 4px;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s, color 0.3s;
+      transition: background 0.3s, color 0.3s, transform 0.2s;
 
       &:disabled {
         cursor: not-allowed;
@@ -109,39 +137,38 @@
       &:hover {
         background: #3498db;
         color: #fff;
+        transform: scale(1.05);
       }
     }
   }
 }
 
-//no event message
 .no-events-message {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 50px 20px;
+  padding: 30px;
   color: #666;
   font-size: 1.5rem;
   font-weight: bold;
   border: 2px dashed #ccc;
   border-radius: 10px;
   margin: 5% auto 0 auto;
-  max-width: 80%;
+  width: 80%;
 
   h1 {
     margin: 0;
   }
 
-  /* Responsivo: Ridimensiona il testo su schermi più piccoli */
   @media (max-width: 768px) {
     font-size: 1.2rem;
-    padding: 30px 10px;    
+    padding: 20px;
   }
 
   @media (max-width: 480px) {
     font-size: 1rem;
-    padding: 20px 5px;
+    padding: 15px;
   }
 }
 
@@ -156,30 +183,13 @@
     border: 4px solid rgba(0, 0, 0, 0.1);
     border-radius: 50%;
     border-top: 4px solid #3498db;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     animation: spin 1s linear infinite;
   }
 
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-  }
-}
-
-.delete-button {
-  @media (max-width: 768px) {
-    width: 100%;
-    font-size: 14px;
-  }
-
-  @media (max-width: 480px) {
-    width: 100%;
-    font-size: 10px;
-  }
-
-  @media (max-width: 320px) {
-    width: 100%;
-    font-size: 8px;
   }
 }

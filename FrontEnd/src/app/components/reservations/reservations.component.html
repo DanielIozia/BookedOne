@@ -4,7 +4,7 @@
   <p>Caricamento in corso...</p>
 </div>  
 
-<div class="reservations-container" *ngIf="reservations.length != 0 && !isLoading">
+<div class="reservations-container" *ngIf="!isLoading">
     <!-- Filtri -->
   <div class="filters">
     <input type="text" placeholder="Categoria" [(ngModel)]="category">
@@ -12,8 +12,10 @@
     <input type="text" placeholder="Nome Evento" [(ngModel)]="name">
     <input type="date" placeholder="Data" [(ngModel)]="date">
     <button (click)="applyFilters()">Applica Filtri</button>
+    <button (click)="cleanFilters()">Ripristina Filtri</button>
   </div>
   
+  <div *ngIf="reservations.length != 0">
     <div class="reservation-card" *ngFor="let reservation of reservations">
       <h2>{{ reservation.event.name }}</h2>
       <p>{{ reservation.event.description }}</p>
@@ -29,15 +31,17 @@
         </button>
       </div>
     </div>
+  </div>
   
-    <div class="pagination">
-      <button (click)="previousPage()" [disabled]="currentPage === 0">Precedente</button>
-      <span>Pagina {{ currentPage + 1 }} di {{ totalPages }}</span>
-      <button (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= totalElements">Successivo</button>
-    </div>
+  <div class="pagination" *ngIf="reservations.length != 0">
+    <button (click)="previousPage()" [disabled]="currentPage === 0">Precedente</button>
+    <span>Pagina {{ currentPage + 1 }} di {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= totalElements">Successivo</button>
   </div>
 
+
   <div *ngIf="reservations.length == 0 && !isLoading" class="no-events-message">
-    <h1>Non hai prenotato nessun evento</h1>
+    <h1>Nessuna prenotazione disponibile</h1>
+  </div>
+    
 </div>
-  

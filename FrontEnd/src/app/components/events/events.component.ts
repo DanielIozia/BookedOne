@@ -19,6 +19,8 @@ export class EventsComponent {
   size: number = 10;
   totalPages: number = 0;
   buyEventLoading:boolean = false;
+  success:boolean|undefined = undefined;
+  viewNotification:boolean = false;
   
   filters = {
     name: '',
@@ -39,8 +41,10 @@ export class EventsComponent {
     this.isLoading = true;
     this.eventService.getAllEvents(this.page, this.size, this.filters.category, this.filters.location, this.filters.name, this.filters.date)
       .subscribe((response: EventResponse) => {
+        console.log(response.content);
         this.isLoading = false;
         this.events = response.content;
+        console.log("lunghezza: ", this.events.length);
         this.totalPages = response.totalPages;
       });
   }
@@ -76,15 +80,32 @@ export class EventsComponent {
       if(result != undefined){
         this.buyEventLoading = true;
         this.customerService.reserveEvent(result).subscribe (data => {
+          this.success = true;
+          this.viewNotification = true;
           this.buyEventLoading = false; 
           this.loadEvents();
         }, error => {
+          this.success = false;
+          this.viewNotification = true;
           this.buyEventLoading = false;
           console.error(error);
           this.loadEvents();
         })
       }
     });
+  }
+  cleanFilters(){
+    this.filters.category = '';
+    this.filters.location = '';
+    this.filters.name = '';
+    this.filters.date = null;;
+    this.applyFilters();
+  }
 
-}
+  closeNotification() {
+    this.viewNotification = false;
+  }
+  
+
+  
 }

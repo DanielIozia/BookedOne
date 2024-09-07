@@ -120,6 +120,10 @@ $font-size-small: 0.875rem;
       }
     }
 
+    .verify-password{
+      max-width: 70%;
+    }
+
     .error-message {
       color: $error-color;
       background-color: $error-background;
@@ -128,6 +132,20 @@ $font-size-small: 0.875rem;
       padding: 0.5rem;
       font-size: $font-size-small;
       margin-top: 0.5rem;
+
+      
+    }
+
+    .success-message {
+      color: rgb(0, 88, 0);
+      background-color: rgba(7, 255, 3, 0.642);
+      border: 1px solid green;
+      border-radius: $border-radius;
+      padding: 0.5rem;
+      font-size: $font-size-small;
+      margin-top: 0.5rem;
+
+
     }
   }
 

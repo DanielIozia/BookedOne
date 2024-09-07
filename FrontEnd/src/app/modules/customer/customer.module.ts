@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 
@@ -27,6 +28,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatMenuModule,
 
     MatTooltipModule,
+    MatCheckboxModule
+    
     
   ]
 })

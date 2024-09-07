@@ -27,6 +27,7 @@ export class ReservationComponent implements OnInit {
   name: string | undefined;
   date: string | undefined;
 
+
   constructor(private customerService: CustomerService, private dialog:MatDialog) {}
 
 
@@ -38,11 +39,17 @@ export class ReservationComponent implements OnInit {
     this.isLoading = true;
     this.customerService.getReservations(this.currentPage, this.pageSize, this.category, this.location, this.name, this.date).subscribe(
       (data: ReservationEventResponse) => {
-        console.log(data);
-        this.reservations = data.content; 
-        this.totalElements = data.totalElements;
-        this.totalPages = data.totalPages; 
-        this.isLoading = false;
+        if(data.content.length == 0 && this.currentPage > 0){
+          //Non ci sono altre prenotazioni nella pagina attuale, quindi torno indietro
+          this.currentPage--;
+          this.loadReservations();
+        }
+        else{
+          this.reservations = data.content; 
+          this.totalElements = data.totalElements;
+          this.totalPages = data.totalPages; 
+          this.isLoading = false;
+        }
       },
       (error) => {
         console.error('Errore nel caricamento delle prenotazioni', error);
@@ -101,6 +108,7 @@ export class ReservationComponent implements OnInit {
           () => {
             this.isDeleting = false;
             this.loadReservations();
+            
             console.log('Prenotazione eliminata con successo');
           },
           (error) => {
@@ -110,6 +118,15 @@ export class ReservationComponent implements OnInit {
         );
       }
     });
+  }
+
+  cleanFilters(){
+    this.category = undefined;
+    this.location = undefined;
+    this.name = undefined;
+    this.date = undefined;
+    
+    this.applyFilters();
   }
   
 }

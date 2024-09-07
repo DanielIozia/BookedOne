@@ -6,7 +6,19 @@
     <p>Caricamento in corso...</p>
 </div>  
 
-<div class="event-container" *ngIf="events.length != 0 && !isLoading && !buyEventLoading">
+<div class="notification">
+  <div *ngIf="viewNotification && success" class="snackbar success" [ngClass]="{'show': viewNotification }">
+    <button class="close-btn" (click)="closeNotification()"><mat-icon>close</mat-icon></button>
+    Acquisto avvenuto con successo
+  </div>
+  <div *ngIf="viewNotification && !success" class="snackbar error" [ngClass]="{'show': viewNotification }">
+    <button class="close-btn" (click)="closeNotification()"><mat-icon>close</mat-icon></button>
+    Errore durante l'acquisto
+  </div>
+</div>
+
+
+<div class="event-container" *ngIf="!isLoading && !buyEventLoading">
     <!-- Filtri -->
     <div class="filters">
       <input type="text" placeholder="Categoria" [(ngModel)]="filters.category">
@@ -14,10 +26,11 @@
       <input type="text" placeholder="Nome Evento" [(ngModel)]="filters.name">
       <input type="date" placeholder="Data" [(ngModel)]="filters.date">
       <button (click)="applyFilters()">Applica Filtri</button>
+      <button (click)="cleanFilters()">Ripristina Filtri</button>
     </div>
   
     <!-- Lista Eventi -->
-    <div class="event-list">
+    <div class="event-list" *ngIf="events.length != 0">
       <div class="event-card" *ngFor="let event of events">
         
         <div class="card-header">
@@ -27,25 +40,31 @@
         <div class="card-body">
           <p class="event-description">{{ event.description }}</p>
           <p><strong>Luogo:</strong> {{ event.location }}</p>
-          <p><strong>Prezzo:</strong> {{ event.price | currency }}</p>
+          <p><strong>Prezzo:</strong> {{ event.price | currency : 'EUR' }}</p>
           <p><strong>Categoria:</strong> {{ event.category }}</p>
-          <p *ngIf="event.availableTickets == 0" class="noMoreTickets"><strong>Sold Out</strong></p>
+          
         </div>
 
         <div class="card-footer">
-          <button (click)="openDialogReserveEvent(event)">Prenota evento</button>
+          <button (click)="openDialogReserveEvent(event)" *ngIf="event.availableTickets > 0">Prenota evento</button>
+          <p *ngIf="event.availableTickets == 0" class="noMoreTickets"><strong>Sold Out</strong></p>
         </div>
       </div>
-
     </div>
     <!-- Paginazione -->
-    <div class="pagination">
+    <div class="pagination" *ngIf="events.length != 0" [ngStyle]="{ 'margin-top': events.length > 2 ? '5%' : 'auto' }">
       <button (click)="previousPage()" [disabled]="page <= 0">Precedente</button>
       <span>Pagina {{ page + 1 }} di {{ totalPages }}</span>
       <button (click)="nextPage()" [disabled]="page >= totalPages - 1">Successiva</button>
     </div>
+
+    <div *ngIf="events.length == 0 && !isLoading" class="no-events-message">
+      <h1>Nessun Evento Disponibile</h1>
+    </div>
+    
 </div>
 
-<div *ngIf="events.length == 0 && !isLoading" class="no-events-message">
-  <h1>Nessun Evento Disponibile</h1>
-</div>
+
+
+
+
