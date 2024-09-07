@@ -7,6 +7,8 @@ import { UpdateUserComponent } from '../update-user/update-user.component';
 import { CustomerService } from '../../services/customer.service';
 import { ReservationEventResponse } from '../../interfaces/reservation/reservationEventResponse';
 import { ReservationEvent } from '../../interfaces/reservation/reservationEvent';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-profile',
@@ -20,6 +22,7 @@ export class ProfileComponent implements OnInit {
     private auth: AuthService,
     private dialog: MatDialog,
     private customerService: CustomerService,
+    private router:Router
   ) {}
 
   user: User = {} as User;
@@ -60,7 +63,7 @@ export class ProfileComponent implements OnInit {
   loadReservation() {
     this.isLoadingReservation = true;
 
-    this.customerService.getReservations(0, 10000).subscribe(
+    this.customerService.getReservations(0, 1000).subscribe(
       (data: ReservationEventResponse) => {
         this.isLoadingReservation = false;
         this.reservedEvents = data.totalElements;
@@ -114,9 +117,10 @@ export class ProfileComponent implements OnInit {
     if (window.innerWidth <= 768) { // Schermi piccoli come tablet o cellulari
       dialogWidth = '95%';
       dialogHeight = '70%';
-    } else if (window.innerWidth > 768 && window.innerWidth <= 1024) { // Schermi medi come tablet
+    } 
+    else if (window.innerWidth > 768 && window.innerWidth <= 1024) { // Schermi medi come tablet
       dialogWidth = '85%';
-      dialogHeight = '65%';
+      dialogHeight = '70%';
     }
   
     const dialogRef = this.dialog.open(UpdateUserComponent, {
@@ -148,11 +152,13 @@ export class ProfileComponent implements OnInit {
     this.showAllEvents = true;
     this.showUpcomingEvents = false;
     this.showPastEvents = false;
+    // Controlla se ci sono più di 10 eventi
+    if (this.reservedEvents > 10) {
+      // Se sì, reindirizza alla pagina delle prenotazioni
+      this.router.navigate(['/customer/reservations']);
+    }
   }
 
-  deleteProfile() {
-    console.log("Profile deleted.");
-  }
 
   getEventStatus(eventDate: Date): number {
     const currentDate = new Date();

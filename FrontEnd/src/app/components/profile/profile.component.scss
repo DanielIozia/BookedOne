@@ -885,3 +885,21 @@ body {
   opacity: 1; /* Visibile quando isSettingsMenuOpen è true */
   visibility: visible;
 }
+
+.view-more {
+  text-align: center;
+  margin-top: 20px;
+
+  a {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #2980b9;
+    }
+  }
+}
+

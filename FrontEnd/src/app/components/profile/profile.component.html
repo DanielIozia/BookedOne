@@ -97,32 +97,35 @@
   </div>
 
   <!-- Pannello Tutti gli eventi  -->
-  <div class="reservations-container" *ngIf="showAllEvents">
-    
-    <div class="events-group">
-        <div class="title__button">
-            <h2>Tutti i tuoi eventi</h2>
-            <button (click)="showAllEvents = false"><mat-icon>close</mat-icon></button>
-          </div>
-      <div class="reservation-card" *ngFor="let reservation of reservations">
-
-        <div class="separator">
-          <h3><strong>{{ reservation.event.name }}</strong></h3> 
-          <h4 *ngIf="getEventStatus(reservation.event.date) < 0" style="color:red"><strong>Scaduto</strong></h4>
-          <h4 *ngIf="getEventStatus(reservation.event.date) == 0" style="color:green"><strong> Oggi alle {{ reservation.event.time }}</strong></h4>
-          <h4 *ngIf="getEventStatus(reservation.event.date) > 0" style="color:green"><strong> Mancano {{getEventStatus(reservation.event.date)}} giorni </strong></h4>
-        </div>
-        
-        <p>{{ reservation.event.description }}</p>
-        <p><strong>Data:</strong> {{ reservation.event.date }}</p>
-        <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
-        <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
-        <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
-        <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+ <!-- Pannello Tutti gli eventi -->
+<div class="reservations-container" *ngIf="showAllEvents">
+  <div class="events-group">
+    <div class="title__button">
+      <h2>Tutti i tuoi eventi</h2>
+      <button (click)="showAllEvents = false"><mat-icon>close</mat-icon></button>
+    </div>
+    <div class="reservation-card" *ngFor="let reservation of reservations">
+      <div class="separator">
+        <h3><strong>{{ reservation.event.name }}</strong></h3> 
+        <h4 *ngIf="getEventStatus(reservation.event.date) < 0" style="color:red"><strong>Scaduto</strong></h4>
+        <h4 *ngIf="getEventStatus(reservation.event.date) == 0" style="color:green"><strong> Oggi alle {{ reservation.event.time }}</strong></h4>
+        <h4 *ngIf="getEventStatus(reservation.event.date) > 0" style="color:green"><strong> Mancano {{getEventStatus(reservation.event.date)}} giorni </strong></h4>
       </div>
-      <div *ngIf="reservations.length == 0" class="no-events-message">
-        <h1>Non ci sono eventi prenotati</h1>
-      </div>
+      <p>{{ reservation.event.description }}</p>
+      <p><strong>Data:</strong> {{ reservation.event.date }}</p>
+      <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
+      <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
+      <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
+      <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+    </div>
+    <div *ngIf="reservations.length == 0" class="no-events-message">
+      <h1>Non ci sono eventi prenotati</h1>
+    </div>
+    <!-- Link per le prenotazioni se ci sono più di 10 eventi -->
+    <div *ngIf="reservedEvents > 10" class="view-more">
+      <a routerLink="/reservation">Vai alle prenotazioni</a>
     </div>
   </div>
+</div>
+
   

@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 93vh;
 
   .spinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
@@ -19,19 +19,20 @@
   }
 }
 
-.noMoreTickets{
-  margin-top:20%;
+.noMoreTickets {
+  margin-top: 20%;
   text-align: center;
   font-size: 1.7rem;
   font-weight: bold;
   color: red;
 }
 
-
 .event-container {
   font-family: Arial, sans-serif;
   padding: 20px;
-
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // Altezza minima della pagina per spingere la paginazione in basso
 
   h1 {
     text-align: center;
@@ -140,12 +141,14 @@
     }
   }
 
+  // La paginazione si trova sempre a piè di pagina
   .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
-    margin-top: 20px;
+    margin-top: auto; // Fa sì che la paginazione sia spinta verso il basso
+    padding-bottom: 20px;
 
     button {
       padding: 10px;
@@ -169,7 +172,7 @@
   }
 }
 
-//no event message
+// Messaggio di nessun evento
 .no-events-message {
   display: flex;
   justify-content: center;
@@ -187,7 +190,7 @@
     margin: 0;
   }
 
-  /* Responsivo: Ridimensiona il testo su schermi più piccoli */
+  // Responsivo: Ridimensiona il testo su schermi più piccoli
   @media (max-width: 768px) {
     font-size: 1.2rem;
     padding: 30px 10px;
@@ -198,4 +201,3 @@
     padding: 20px 5px;
   }
 }
-

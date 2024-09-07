@@ -2,6 +2,9 @@
   padding: 20px;
   max-width: 800px;
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 93vh;  // Fa sì che il contenitore prenda almeno l'altezza della finestra
 
   .filters {
     display: flex;
@@ -49,10 +52,10 @@
     margin-bottom: 15px;
     border-radius: 8px;
     background-color: #f9f9f9;
-    display:flex;
+    display: flex;
     flex-direction: column;
 
-    .button_delete{
+    .button_delete {
       display: flex;
       justify-content: space-between;
     }
@@ -66,52 +69,47 @@
     }
 
     button {
-      width: 25%;;
+      width: 25%;
       padding: 5px 10px;
       background-color: red;
       color: white;
-      color: #fff;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      justify-items: flex-end;
 
-      &:hover{
+      &:hover {
         background-color: #d32f2f;
       }
-
-      
     }
-
-
-
   }
 
-  .pagination-controls {
+  // La paginazione si posiziona in basso al contenitore
+  .pagination {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 20px;
+    margin-top: auto; // Fa sì che la paginazione sia spinta verso il basso
+    padding-bottom: 20px;
 
     button {
-      padding: 5px 10px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
+      padding: 10px;
+      border: 1px solid #3498db;
+      background: #fff;
+      color: #3498db;
+      border-radius: 4px;
       cursor: pointer;
+      transition: background 0.3s, color 0.3s;
 
       &:disabled {
-        background-color: #ccc;
         cursor: not-allowed;
+        opacity: 0.5;
       }
 
-      &:hover:not(:disabled) {
-        background-color: #0056b3;
+      &:hover {
+        background: #3498db;
+        color: #fff;
       }
-    }
-
-    span {
-      font-size: 14px;
     }
   }
 }
@@ -130,7 +128,6 @@
   border-radius: 10px;
   margin: 5% auto 0 auto;
   max-width: 80%;
-  
 
   h1 {
     margin: 0;
@@ -145,8 +142,6 @@
   @media (max-width: 480px) {
     font-size: 1rem;
     padding: 20px 5px;
-
-  
   }
 }
 
@@ -165,20 +160,17 @@
     height: 40px;
     animation: spin 1s linear infinite;
   }
+
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
 }
 
-
-.delete-button{
-
+.delete-button {
   @media (max-width: 768px) {
     width: 100%;
     font-size: 14px;
-    
-    
   }
 
   @media (max-width: 480px) {
@@ -190,7 +182,4 @@
     width: 100%;
     font-size: 8px;
   }
-
-
-
 }

@@ -30,7 +30,7 @@
       </div>
     </div>
   
-    <div class="pagination-controls">
+    <div class="pagination">
       <button (click)="previousPage()" [disabled]="currentPage === 0">Precedente</button>
       <span>Pagina {{ currentPage + 1 }} di {{ totalPages }}</span>
       <button (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= totalElements">Successivo</button>
