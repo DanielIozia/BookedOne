@@ -77,14 +77,25 @@ export class SignUpComponent {
         this.router.navigate([`${data.role}`]);
 
       }, (error: HttpErrorResponse) => {
+        if(error.error.title == "Email già esistente"){
+          this.registerForm.get('email')?.setValue('');
+          this.registerForm.get('password')?.setValue('');
+          this.registerForm.get('confirmPassword')?.setValue('');
+        }
+        
         this.errorMessage = error.error.title;
+
         this.isLoading = false;
       });
 
     } else {
+      let p1 = this.registerForm.get('password')!.value;
+      let p2 = this.registerForm.get('confirmPassword')!.value;
+
       if (this.registerForm.get('email')?.errors?.['invalidEmail']) {
         this.errorMessage = 'Email non valida';
-      } else if (this.registerForm.hasError('mismatch')) {
+      } 
+      else if (p1 != p2) {
         this.errorMessage = 'Le password non corrispondono';
       }
       this.isLoading = false;

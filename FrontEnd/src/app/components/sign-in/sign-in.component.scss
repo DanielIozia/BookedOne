@@ -3,19 +3,21 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  // Gradiente di sfondo dal blu al violetto
+  background-image: linear-gradient(to right, #6230c5, #8e2de2);
 
-  @media(max-width: 1024px) {
-    height:auto;
+  @media (max-width: 1024px) {
+    height: auto;
   }
 
-  @media(max-width: 480px) {
+  @media (max-width: 480px) {
     height: 100vh;
   }
 }
 
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-top: 4px solid #3498db;
+  border-top: 4px solid #ffffff; // Colore bianco per la parte superiore del loader
   border-radius: 50%;
   width: 25px;
   height: 25px;
@@ -35,11 +37,11 @@
 
 .center {
   margin: 0 auto;
-  width: 50%;
-  height: 50%;
-  background: white;
+  width: 40%;
+  height: 85%;
+  background: linear-gradient(to right, #8e2de2, #6230c5);
   border-radius: 10px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.472);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -57,24 +59,24 @@
     padding: 10px;
   }
 
-  h1{
+  h1 {
     text-align: center;
     font-size: 2rem;
-    margin-bottom: 1rem;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #f7f7f7; /* Colore bianco per il testo dell'intestazione */
 
     @media (max-width: 480px) {
       font-size: 1.5rem;
-      
+      margin-top: 2rem;
     }
   }
 }
 
 .form {
-  --bg-light: #efefef;
-  --bg-dark: #707070;
-  --clr: #58bc82;
-  --clr-alpha: #9c9c9c60;
+  --bg-light: #333333; /* Colore di sfondo chiaro per il form */
+  --bg-dark: #4a00e0; /* Colore scuro per il form */
+  --clr: #8e2de2; /* Colore principale del gradiente del form */
+  --clr-alpha: #333333; /* Colore di sfondo leggero per i campi di input */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -102,7 +104,9 @@
 }
 
 .form input[type="email"],
-.form input[type="password"] {
+.form input[type="password"],
+.form input[type="text"],
+.form select {
   border-radius: 0.5rem;
   padding: 1rem 0.75rem;
   width: 100%;
@@ -111,21 +115,34 @@
   align-items: center;
   gap: 0.5rem;
   background-color: var(--clr-alpha);
+  color: #ffffff; /* Colore del testo degli input */
   outline: 2px solid var(--bg-dark);
-  
+
   @media (max-width: 480px) {
     padding: 0.75rem 0.5rem;
   }
 }
 
+.form select {
+  max-width: 100%; /* Assicurati che il select non superi la larghezza del contenitore */
+  box-sizing: border-box; /* Include padding e bordo nella larghezza totale */
+  font-size: 1rem; /* Dimensione del testo */
+
+  @media (max-width: 480px) {
+    font-size: 1.1rem; /* Dimensione del testo su dispositivi mobili */
+  }
+}
+
 .form input[type="email"]:focus,
-.form input[type="password"]:focus {
+.form input[type="password"]:focus,
+.form input[type="text"]:focus,
+.form select:focus {
   outline: 2px solid var(--clr);
 }
 
 .label {
   align-self: flex-start;
-  color: var(--clr);
+  color: #ffffff; /* Colore delle etichette */
   font-weight: 600;
 }
 
@@ -136,8 +153,8 @@
   align-items: center;
   gap: 0.5rem;
   border-radius: 3rem;
-  background-color: var(--bg-dark);
-  color: var(--bg-light);
+  background-color: var(--clr); /* Colore di sfondo del bottone */
+  color: #fff; /* Colore del testo del bottone */
   border: none;
   cursor: pointer;
   transition: all 300ms;
@@ -151,19 +168,19 @@
 }
 
 .form .submit:hover {
-  background-color: var(--clr);
-  color: var(--bg-dark);
+  background-color: #7c1f8c; /* Colore del bottone al passaggio del mouse */
+  color: #fff; /* Colore del testo del bottone al passaggio del mouse */
 }
 
-.form .submit:disabled{
-  background-color: var(--bg-light);
-  color: var(--bg-dark);
+.form .submit:disabled {
+  background-color: #e0e0e0; /* Colore di sfondo del bottone disabilitato */
+  color: #b0b0b0; /* Colore del testo del bottone disabilitato */
   cursor: not-allowed;
 }
 
 .span {
   text-decoration: none;
-  color: var(--bg-dark);
+  color: #ffffff; /* Colore del testo della span */
   text-align: center;
 
   @media (max-width: 480px) {
@@ -172,26 +189,31 @@
 }
 
 .span a {
-  color: var(--clr);
+  color: #f7f7f7; /* Colore del link */
+
+  &:hover {
+    color: #9a9a9a;
+  }
 }
 
 /* Stile per i messaggi di errore */
 .error {
-  color: red; /* Colore rosso per i messaggi di errore */
+  color: #f5a623; /* Colore arancione per i messaggi di errore */
   font-size: 1.3rem;
   margin-top: 2.5rem;
-  margin-bottom: 0.5rem;
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 
   @media (max-width: 480px) {
     font-size: 1rem;
-    margin-top:5%;
+    margin-top: 5%;
   }
 }
 
-//contorno input// Contorno predefinito nero per tutti gli input
+// Contorno predefinito nero per tutti gli input
 .form input[type="email"].ng-touched,
-.form input[type="password"].ng-touched{
+.form input[type="password"].ng-touched,
+.form input[type="text"].ng-touched,
+.form select.ng-touched {
   border-radius: 0.5rem;
   padding: 1rem 0.75rem;
   width: 100%;
@@ -199,6 +221,7 @@
   display: flex;
   align-items: center;
   background-color: var(--clr-alpha);
+  color: #ffffff; /* Colore del testo degli input */
   outline: none;
 
   @media (max-width: 480px) {
@@ -208,21 +231,29 @@
 
 // Cambia il contorno in base alla validità e al focus
 .form input[type="email"]:focus,
-.form input[type="password"]:focus{
-  border-color: blue; // Contorno blu quando il campo è in 
+.form input[type="password"]:focus,
+.form input[type="text"]:focus,
+.form select:focus {
+  border-color: #8e2de2; // Contorno blu quando il campo è in focus
 }
 
 .form input[type="email"].ng-valid:focus,
-.form input[type="password"].ng-valid:focus{
-  border-color: blue; // Contorno blu anche quando il campo è valido e in focus
+.form input[type="password"].ng-valid:focus,
+.form input[type="text"].ng-valid:focus,
+.form select.ng-valid:focus {
+  border-color: #8e2de2; // Contorno blu anche quando il campo è valido e in focus
 }
 
 .form input[type="email"].ng-valid:not(:focus),
-.form input[type="password"].ng-valid:not(:focus){
-  border-color: green; // Contorno verde quando il campo è valido e non è in focus
+.form input[type="password"].ng-valid:not(:focus),
+.form input[type="text"].ng-valid:not(:focus),
+.form select.ng-valid:not(:focus) {
+  border-color: #4a00e0; // Contorno blu scuro quando il campo è valido e non è in focus
 }
 
 .form input[type="email"].ng-invalid:not(:focus),
-.form input[type="password"].ng-invalid:not(:focus){
-  border-color: red; // Contorno rosso quando il campo è non valido e non è in focus
+.form input[type="password"].ng-invalid:not(:focus),
+.form input[type="text"].ng-invalid:not(:focus),
+.form select.ng-invalid:not(:focus) {
+  border-color: #e74c3c; // Contorno rosso quando il campo è non valido e non è in focus
 }
