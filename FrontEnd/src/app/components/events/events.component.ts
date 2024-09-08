@@ -46,10 +46,8 @@ export class EventsComponent {
     this.eventService.getAllEvents(this.page, this.size, this.filters.category, this.filters.location, this.filters.name, this.filters.date)
       .subscribe((response: EventResponse) => {
         this.canClean = (this.filters.category || this.filters.location || this.filters.name || this.filters.date) ? true : false;
-        console.log(response.content);
         this.isLoading = false;
         this.events = response.content;
-        console.log("lunghezza: ", this.events.length);
         this.totalPages = response.totalPages;
       });
   }
