@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user/User';
@@ -7,58 +7,61 @@ import { LoginUser } from '../../interfaces/user/loginUser';
 import { AuthService } from '../../services/auth/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
-
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrl: './sign-in.component.scss'
+  styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent {
 
   loginForm: FormGroup;
-  user:User = {} as User;
+  user: User = {} as User;
   errorMessage: string | null = null;
-  isLoading:boolean = false;
+  isLoading: boolean = false;
 
-  constructor(private userService:UserService, private router:Router, private fb: FormBuilder, private authService:AuthService){
+  constructor(private userService: UserService, private router: Router, private fb: FormBuilder, private authService: AuthService) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      email: ['', [Validators.required, this.emailValidator]],
+      password: ['', [Validators.required]]
     });
   }
 
 
+  emailValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    if (!control.value) {
+      return null; // Se il controllo è vuoto, non fa nulla (si aspetta la validazione dei campi obbligatori)
+    }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const isValid = emailRegex.test(control.value);
+    return isValid ? null : { invalidEmail: true };
+  }
 
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
-      let userForm: LoginUser = {
+      const userForm: LoginUser = {
         email: this.loginForm.get('email')?.value,
         password: this.loginForm.get('password')?.value
       };
-  
+
       this.userService.login(userForm).subscribe({
         next: (data) => {
           this.isLoading = false;
           this.authService.login(data.token!, data.email, data.id!, data.firstName, data.lastName, data.role);
-          let navigateTo = data.role === 'customer' ? 'customer' : 'seller';
-  
+          const navigateTo = data.role === 'customer' ? 'customer' : 'seller';
           this.router.navigate([`${navigateTo}`]);
         },
-        error: (error: HttpErrorResponse) => {  // Modifica qui: specifica il tipo di errore
+        error: (error: HttpErrorResponse) => {
           this.isLoading = false;
-          console.log(error);
-          // Gestione dell'errore
-          if (error.error && error.error.title) {
-            this.errorMessage = error.error.message;  // Modifica qui: Salva il messaggio dell'errore
+          if (error.error && error.error.message) {
+            this.errorMessage = "Credenziali non valide";
+            this.loginForm.get('password')?.setValue('');
+
           } else {
-            this.errorMessage = 'Errore scononosciuto.';  // Messaggio di errore generico
+            this.errorMessage = 'Errore sconosciuto.';
           }
         }
       });
     }
   }
 }
-
-
-

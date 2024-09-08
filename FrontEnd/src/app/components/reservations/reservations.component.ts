@@ -27,6 +27,8 @@ export class ReservationComponent implements OnInit {
   name: string | undefined;
   date: string | undefined;
 
+  canClean:boolean = false;
+
 
   constructor(private customerService: CustomerService, private dialog:MatDialog) {}
 
@@ -39,6 +41,7 @@ export class ReservationComponent implements OnInit {
     this.isLoading = true;
     this.customerService.getReservations(this.currentPage, this.pageSize, this.category, this.location, this.name, this.date).subscribe(
       (data: ReservationEventResponse) => {
+        this.canClean = (this.category || this.location || this.name || this.date) ? true : false;
         if(data.content.length == 0 && this.currentPage > 0){
           //Non ci sono altre prenotazioni nella pagina attuale, quindi torno indietro
           this.currentPage--;
@@ -121,12 +124,14 @@ export class ReservationComponent implements OnInit {
   }
 
   cleanFilters(){
-    this.category = undefined;
-    this.location = undefined;
-    this.name = undefined;
-    this.date = undefined;
-    
-    this.applyFilters();
+    if(this.canClean){
+      this.category = undefined;
+      this.location = undefined;
+      this.name = undefined;
+      this.date = undefined;
+      this.canClean = false;
+      this.applyFilters();
+    }
   }
-  
+
 }

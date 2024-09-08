@@ -1,120 +1,50 @@
 <div class="center">
-  <h1>Registrazione</h1>
-  <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" class="register-form">
-    <div class="spinner" *ngIf="isLoading"></div>
-    <!-- Campo Nome -->
-    <div class="txt_field">
-      <input 
-        type="text" 
-        formControlName="firstName" 
-        required 
-        (blur)="registerForm.get('nome')?.markAsTouched()"
-      />
-      <span></span>
-      <label [ngClass]="{ 'active': registerForm.get('firstName')?.value || (registerForm.get('firstName')?.touched && !registerForm.get('firstName')?.errors) }">
-        Nome
-      </label>
-      <span class="error-message" *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
-        {{ registerForm.get('firstName')?.errors?.['required'] ? 'Campo obbligatorio' : '' }}
-      </span>
-    </div>
+  <!-- Spinner durante il caricamento -->
+  <div class="spinner" *ngIf="isLoading"></div>   
 
-    <!-- Campo cognome -->
-    <div class="txt_field">
-      <input 
-        type="text" 
-        formControlName="lastName" 
-        required 
-        (blur)="registerForm.get('lastName')?.markAsTouched()"
-      />
-      <span></span>
-      <label [ngClass]="{ 'active': registerForm.get('lastName')?.value || (registerForm.get('lastName')?.touched && !registerForm.get('lastName')?.errors) }">
-        Cognome
-      </label>
-      <span class="error-message" *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
-        {{ registerForm.get('lastName')?.errors?.['required'] ? 'Campo obbligatorio' : '' }}
-      </span>
-    </div>
+  <h1>Registrati a BookedOne</h1>
 
-    <!-- Campo Email -->
-    <div class="txt_field">
-      <input 
-        type="email" 
-        formControlName="email" 
-        required 
-        (blur)="registerForm.get('email')?.markAsTouched()"
-      />
-      <span></span>
-      <label [ngClass]="{ 'active': registerForm.get('email')?.value || (registerForm.get('email')?.touched && !registerForm.get('email')?.errors) }">
-        Email
-      </label>
-      <span class="error-message" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-        {{ registerForm.get('email')?.errors?.['required'] ? 'Campo obbligatorio' : 'Email non valida' }}
-      </span>
-    </div>
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
 
-    <!-- Campo Password -->
-    <div class="txt_field">
-      <input 
-        type="password" 
-        formControlName="password" 
-        required 
-        (blur)="registerForm.get('password')?.markAsTouched()"
-      />
-      <span></span>
-      <label [ngClass]="{ 'active': registerForm.get('password')?.value || (registerForm.get('password')?.touched && !registerForm.get('password')?.errors) }">
-        Password
-      </label>
-      <span class="error-message" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-        {{ registerForm.get('password')?.errors?.['required'] ? 'Campo obbligatorio' : 'Minimo 6 caratteri' }}
-      </span>
-    </div>
+  <form [formGroup]="registerForm" class="form" (ngSubmit)="onSubmit()">
+    <span class="input-span">
+      <label for="firstName" class="label">Nome</label>
+      <input type="text" formControlName="firstName" id="firstName" />
+    </span>
 
-    <!-- Campo Conferma Password -->
-    <div class="txt_field">
-      <input 
-        type="password" 
-        formControlName="confirmPassword" 
-        required 
-        (blur)="registerForm.get('confirmPassword')?.markAsTouched()"
-      />
-      <span></span>
-      <label [ngClass]="{ 'active': registerForm.get('confirmPassword')?.value || (registerForm.get('confirmPassword')?.touched && !registerForm.get('confirmPassword')?.errors) }">
-        Conferma Password
-      </label>
-      <span class="error-message" *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
-        {{ registerForm.get('confirmPassword')?.errors?.['required'] ? 'Campo obbligatorio' : 'Le password non corrispondono' }}
-      </span>
-    </div>
+    <span class="input-span">
+      <label for="lastName" class="label">Cognome</label>
+      <input type="text" formControlName="lastName" id="lastName" />
+    </span>
 
-    <!-- Campo Ruolo -->
-    <div class="txt_field">
-      <select 
-        formControlName="ruolo" 
-        required 
-        (blur)="registerForm.get('ruolo')?.markAsTouched()"
-      >
-        <option default="Scegli un ruolo" disabled selected></option>
+    <span class="input-span">
+      <label for="email" class="label">Email</label>
+      <input type="email" formControlName="email" id="email" />
+    </span>
+
+    <span class="input-span">
+      <label for="password" class="label">Password</label>
+      <input type="password" formControlName="password" id="password" />
+    </span>
+
+    <span class="input-span">
+      <label for="confirmPassword" class="label">Conferma Password</label>
+      <input type="password" formControlName="confirmPassword" id="confirmPassword" />
+    </span>
+
+    <span class="input-span">
+      <label for="ruolo" class="label">Ruolo</label>
+      <select formControlName="ruolo" id="ruolo">
+        <option value="" disabled selected>Scegli un ruolo</option>
         <option value="venditore">Venditore</option>
         <option value="cliente">Cliente</option>
       </select>
-      <span></span>
-      <label [ngClass]="{ 'active': registerForm.get('ruolo')?.value || (registerForm.get('ruolo')?.touched && !registerForm.get('ruolo')?.errors) }">
-        Ruolo
-      </label>
-      <span class="error-message" *ngIf="registerForm.get('ruolo')?.invalid && registerForm.get('ruolo')?.touched">
-        {{ registerForm.get('ruolo')?.errors?.['required'] ? 'Campo obbligatorio' : '' }}
-      </span>
-    </div>
-
-    <!-- Messaggio di errore sopra il bottone -->
-    <span *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
     </span>
 
-    <input type="submit" [disabled]="registerForm.invalid" value="Registrati" />
-    <div class="signup_link">
-      Sei già registrato? <a routerLink="/login">Accedi</a>
-    </div>
+    <input class="submit" type="submit" [disabled]="registerForm.invalid || isLoading" value="Registrati" />
+
+    <span class="span">Sei già registrato? <a routerLink="/login">Accedi</a></span>
   </form>
 </div>

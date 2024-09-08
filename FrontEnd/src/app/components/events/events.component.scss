@@ -75,6 +75,11 @@
         background-color: #0056b3;
         transform: scale(1.05);
       }
+
+      &:disabled{
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
     }
   }
 
@@ -226,12 +231,13 @@
     padding: 16px;
     position: fixed;
     z-index: 1;
-    right: 10%;
+    right: 5%;
     bottom: 30px;
     font-size: 17px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: right 0.5s ease-out; // Aggiungi una transizione
 
     .close-btn {
       background: none;
@@ -266,8 +272,8 @@
 
   .snackbar.show {
     visibility: visible;
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 5s;
+    animation: fadein 0.5s, slideout 0.5s 5s forwards; // Usa una nuova animazione per uscire a destra
   }
 
   @-webkit-keyframes fadein {
@@ -280,14 +286,13 @@
     to { bottom: 30px; opacity: 1; }
   }
 
-  @-webkit-keyframes fadeout {
-    from { bottom: 30px; opacity: 1; }
-    to { bottom: 0; opacity: 0; }
+  @-webkit-keyframes slideout {
+    from { right: 5%; opacity: 1; }
+    to { right: -100%; opacity: 0; } // Sposta la notifica verso destra fuori dallo schermo
   }
 
-  @keyframes fadeout {
-    from { bottom: 30px; opacity: 1; }
-    to { bottom: 0; opacity: 0; }
+  @keyframes slideout {
+    from { right: 5%; opacity: 1; }
+    to { right: -100%; opacity: 0; }
   }
 }
-

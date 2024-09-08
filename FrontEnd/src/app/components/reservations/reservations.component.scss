@@ -67,6 +67,11 @@
         background-color: #0056b3;
         transform: scale(1.05);
       }
+
+      &:disabled{
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
     }
   }
 

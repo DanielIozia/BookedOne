@@ -31,8 +31,8 @@ public class UserService {
 
         if (userRepository.findByEmail(userRequest.getEmail()) != null) {
             throw new ExceptionBackend(
-                    "Email non valida",
-                    "L'email inserita è stata usata precedentemente.",  
+                    "Email già esistente",
+                    "L'email inserita è già in uso",  
                     HttpStatus.PRECONDITION_FAILED
             );
         }

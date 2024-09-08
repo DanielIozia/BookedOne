@@ -1,21 +1,27 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap");
-
 :host {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(to left, #2980b9, #c4e0ef);
+
+  @media(max-width: 1024px) {
+    height:auto;
+  }
+
+  @media(max-width: 480px) {
+    height: 100vh;
+  }
 }
+
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-top: 4px solid #3498db;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   animation: spin 1s linear infinite;
   margin: 20px auto;
-  display: block; /* Per centrare lo spinner */
+  display: block;
 }
 
 @keyframes spin {
@@ -28,172 +34,195 @@
 }
 
 .center {
-  width: 90%;
-  max-width: 420px;
+  margin: 0 auto;
+  width: 50%;
+  height: 50%;
   background: white;
   border-radius: 10px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  text-align: center;
   display: flex;
   flex-direction: column;
-}
+  justify-content: center;
+  align-items: center;
 
-.center h1 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.txt_field {
-  position: relative;
-  margin: 20px 0;
-}
-
-.txt_field input {
-  width: 100%;
-  padding: 5px 0;
-  height: 40px;
-  font-size: 14px;
-  border: none;
-  border-bottom: 2px solid #adadad; /* Linea grigia di default */
-  background: none;
-  outline: none;
-  transition: border-color 0.3s;
-}
-
-.txt_field input:focus {
-  border-bottom: 2px solid #2691d9; /* Linea blu quando in focus */
-}
-
-.txt_field label {
-  position: absolute;
-  top: 50%;
-  left: 5px;
-  color: #adadad;
-  transform: translateY(-50%);
-  font-size: 14px;
-  pointer-events: none;
-  transition: all 0.3s ease;
-}
-
-.txt_field label.active {
-  top: -10px;
-  color: #2691d9;
-  font-size: 12px;
-}
-
-.txt_field input:focus ~ label.active,
-.txt_field input:valid ~ label.active {
-  top: -10px;
-  color: #2691d9;
-  font-size: 12px;
-}
-
-.error-message {
-  color: red;
-  font-size: 12px;
-  margin-top: 5px; /* Spaziatura sotto l'input */
-  text-align: left;
-  display: none; /* Nascondi il messaggio di errore inizialmente */
-}
-
-.txt_field input:invalid:not(:focus) ~ .error-message {
-  display: block; /* Mostra il messaggio di errore sotto l'input */
-}
-
-.txt_field input:focus ~ span::before,
-.txt_field input:valid ~ span::before {
-  width: 100%;
-}
-
-input[type="submit"] {
-  width: 100%;
-  padding: 15px;
-  font-size: 18px;
-  background: #2691d9;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  margin-top: 10px;
-}
-
-input[type="submit"]:disabled {
-  background: #aaa;
-  cursor: not-allowed;
-}
-
-.signup_link {
-  margin-top: 20px;
-  font-size: 14px;
-  color: #666;
-}
-
-.signup_link a {
-  color: #2691d9;
-  text-decoration: none;
-}
-
-.signup_link a:hover {
-  text-decoration: underline;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .center {
-    padding: 15px;
-    max-width: 90%;
+  /* Media query per schermi piccoli */
+  @media (max-width: 768px) {
+    width: 80%;
+    height: auto;
   }
 
-  .center h1 {
-    font-size: 22px;
-  }
-
-  input[type="submit"] {
-    font-size: 16px;
-  }
-
-  .txt_field {
-    margin: 15px 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .center {
+  @media (max-width: 480px) {
+    width: 95%;
     padding: 10px;
+  }
+
+  h1{
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+    @media (max-width: 480px) {
+      font-size: 1.5rem;
+      
+    }
+  }
+}
+
+.form {
+  --bg-light: #efefef;
+  --bg-dark: #707070;
+  --clr: #58bc82;
+  --clr-alpha: #9c9c9c60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 300px;
+  padding: 1rem;
+  border-radius: 0.5rem;
+
+  @media (max-width: 768px) {
     max-width: 100%;
   }
 
-  .center h1 {
-    font-size: 20px;
-  }
-
-  input[type="submit"] {
-    font-size: 14px;
-  }
-
-  .txt_field input {
-    height: 35px;
-    font-size: 12px;
-  }
-
-  .txt_field label {
-    font-size: 12px;
+  @media (max-width: 480px) {
+    gap: 0.75rem;
   }
 }
 
-.server-error-message {
-  color: red;
-  font-size: 14px;
-  margin-bottom: 10px; /* Aggiunge uno spazio sotto il messaggio di errore */
+.form .input-span {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form input[type="email"],
+.form input[type="password"] {
+  border-radius: 0.5rem;
+  padding: 1rem 0.75rem;
+  width: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--clr-alpha);
+  outline: 2px solid var(--bg-dark);
+  
+  @media (max-width: 480px) {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+.form input[type="email"]:focus,
+.form input[type="password"]:focus {
+  outline: 2px solid var(--clr);
+}
+
+.label {
+  align-self: flex-start;
+  color: var(--clr);
+  font-weight: 600;
+}
+
+.form .submit {
+  padding: 1rem 0.75rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 3rem;
+  background-color: var(--bg-dark);
+  color: var(--bg-light);
+  border: none;
+  cursor: pointer;
+  transition: all 300ms;
+  font-weight: 600;
+  font-size: 0.9rem;
+
+  @media (max-width: 480px) {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+.form .submit:hover {
+  background-color: var(--clr);
+  color: var(--bg-dark);
+}
+
+.form .submit:disabled{
+  background-color: var(--bg-light);
+  color: var(--bg-dark);
+  cursor: not-allowed;
+}
+
+.span {
+  text-decoration: none;
+  color: var(--bg-dark);
   text-align: center;
+
+  @media (max-width: 480px) {
+    font-size: 0.85rem;
+  }
 }
 
+.span a {
+  color: var(--clr);
+}
+
+/* Stile per i messaggi di errore */
+.error {
+  color: red; /* Colore rosso per i messaggi di errore */
+  font-size: 1.3rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+    margin-top:5%;
+  }
+}
+
+//contorno input// Contorno predefinito nero per tutti gli input
+.form input[type="email"].ng-touched,
+.form input[type="password"].ng-touched{
+  border-radius: 0.5rem;
+  padding: 1rem 0.75rem;
+  width: 100%;
+  border: 2px solid black; // Contorno predefinito nero
+  display: flex;
+  align-items: center;
+  background-color: var(--clr-alpha);
+  outline: none;
+
+  @media (max-width: 480px) {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+// Cambia il contorno in base alla validità e al focus
+.form input[type="email"]:focus,
+.form input[type="password"]:focus{
+  border-color: blue; // Contorno blu quando il campo è in 
+}
+
+.form input[type="email"].ng-valid:focus,
+.form input[type="password"].ng-valid:focus{
+  border-color: blue; // Contorno blu anche quando il campo è valido e in focus
+}
+
+.form input[type="email"].ng-valid:not(:focus),
+.form input[type="password"].ng-valid:not(:focus){
+  border-color: green; // Contorno verde quando il campo è valido e non è in focus
+}
+
+.form input[type="email"].ng-invalid:not(:focus),
+.form input[type="password"].ng-invalid:not(:focus){
+  border-color: red; // Contorno rosso quando il campo è non valido e non è in focus
+}

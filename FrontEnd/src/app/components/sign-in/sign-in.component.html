@@ -1,56 +1,37 @@
+
+
 <div class="center">
-  <h1>Login</h1>
-  <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login-form">
-    <!-- Spinner di caricamento -->
-    <div class="spinner" *ngIf="isLoading"></div>
+
+  <div class="spinner" *ngIf="isLoading"></div>   
+  
+
+  <h1>Accedi a BookedOne</h1>
+
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+
+  <form [formGroup]="loginForm" class="form" (ngSubmit)="onSubmit()">
+    <span class="input-span">
+      <label for="email" class="label">Email</label>
+      <input type="email" formControlName="email" id="email" />
+    </span>
+
+    <span class="input-span">
+      <label for="password" class="label">Password </label>
+      <input type="password" formControlName="password" id="password" />
+      
+    </span>
+
+    <input class="submit" type="submit" [disabled]="loginForm.invalid || isLoading" value="Accedi"/>
+    <span class="span">Non hai un account? <a routerLink="/register">Registrati</a></span>
 
     
-
-    <!-- Campo Email -->
-    <div class="txt_field">
-      <input 
-        type="email" 
-        formControlName="email" 
-        required 
-        (blur)="loginForm.get('email')?.markAsTouched()"
-      />
-      <span></span>
-      <label [ngClass]="{ 'active': loginForm.get('email')?.value || (loginForm.get('email')?.touched && !loginForm.get('email')?.errors) }">
-        Email
-      </label>
-      <!-- Messaggio di errore fuori dal label -->
-      <span class="error-message" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-        {{ loginForm.get('email')?.errors?.['required'] ? 'Campo obbligatorio' : 'Email non valida' }}
-      </span>
-    </div>
-
-    <!-- Campo Password -->
-    <div class="txt_field">
-      <input 
-        type="password" 
-        formControlName="password" 
-        required 
-        (blur)="loginForm.get('password')?.markAsTouched()"
-      />
-      <span></span>
-      <label [ngClass]="{ 'active': loginForm.get('password')?.value || (loginForm.get('password')?.touched && !loginForm.get('password')?.errors) }">
-        Password
-      </label>
-      
-      <!-- Messaggio di errore fuori dal label -->
-      <span class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-        {{ loginForm.get('password')?.errors?.['required'] ? 'Campo obbligatorio' : 'Minimo 6 caratteri' }}
-      </span>
-    </div>  
-
-    <!-- Messaggio di errore sopra il bottone -->
-    <div class="server-error-message" *ngIf="errorMessage && !loginForm.invalid ">
-      {{ errorMessage }}
-    </div>
-
-    <input type="submit" [disabled]="loginForm.invalid || isLoading" value="Login" />
-    <div class="signup_link">
-      Non sei registrato? <a routerLink="/register">Registrati</a>
-    </div>
+  
+    
   </form>
+  
 </div>
+
+
+

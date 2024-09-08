@@ -5,6 +5,9 @@ import { EventsRoutingModule } from "./event-routing.module";
 import { FormsModule } from "@angular/forms";
 import { MatIconModule } from "@angular/material/icon";
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 
@@ -17,8 +20,13 @@ import { MatIconModule } from "@angular/material/icon";
       CommonModule,
       EventsRoutingModule,
       FormsModule,
-      MatIconModule
-    ]
+      MatIconModule,
+      MatDatepickerModule,
+      MatFormFieldModule,
+      MatInputModule,
+    ],
+    providers: [
+    ],
   })
 
 

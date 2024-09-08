@@ -12,6 +12,8 @@ import { CustomerService } from '../../services/customer.service';
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss'
 })
+
+
 export class EventsComponent {
 
   events: EventDetails[] = [];
@@ -29,6 +31,8 @@ export class EventsComponent {
     date: null
   }
   isLoading:boolean = false;
+
+  canClean:boolean = false;
   
 
   constructor(private eventService: EventService, public dialog: MatDialog, private customerService:CustomerService) {}
@@ -41,6 +45,7 @@ export class EventsComponent {
     this.isLoading = true;
     this.eventService.getAllEvents(this.page, this.size, this.filters.category, this.filters.location, this.filters.name, this.filters.date)
       .subscribe((response: EventResponse) => {
+        this.canClean = (this.filters.category || this.filters.location || this.filters.name || this.filters.date) ? true : false;
         console.log(response.content);
         this.isLoading = false;
         this.events = response.content;
@@ -84,27 +89,39 @@ export class EventsComponent {
           this.viewNotification = true;
           this.buyEventLoading = false; 
           this.loadEvents();
+          this.autoCloseNotification(); // Chiude automaticamente la notifica
         }, error => {
           this.success = false;
           this.viewNotification = true;
           this.buyEventLoading = false;
           console.error(error);
           this.loadEvents();
+          this.autoCloseNotification(); // Chiude automaticamente la notifica
         })
       }
     });
   }
   cleanFilters(){
-    this.filters.category = '';
-    this.filters.location = '';
-    this.filters.name = '';
-    this.filters.date = null;;
-    this.applyFilters();
+    if(this.canClean){
+      this.filters.category = '';
+      this.filters.location = '';
+      this.filters.name = '';
+      this.filters.date = null;;
+      this.applyFilters();
+    }
   }
 
   closeNotification() {
     this.viewNotification = false;
   }
+
+  autoCloseNotification() {
+    setTimeout(() => {
+      this.viewNotification = false;
+    }, 7000); // Chiude dopo 7 secondi
+  }
+
+  
   
 
   

@@ -12,11 +12,11 @@
     <input type="text" placeholder="Nome Evento" [(ngModel)]="name">
     <input type="date" placeholder="Data" [(ngModel)]="date">
     <button (click)="applyFilters()">Applica Filtri</button>
-    <button (click)="cleanFilters()">Ripristina Filtri</button>
+    <button (click)="cleanFilters()" [disabled]="!canClean">Ripristina Filtri</button>
   </div>
   
   <div *ngIf="reservations.length != 0">
-    <div class="reservation-card" *ngFor="let reservation of reservations">
+    <div class="reservation-card" *ngFor="let reservation of reservations"> 
       <h2>{{ reservation.event.name }}</h2>
       <p>{{ reservation.event.description }}</p>
       <p><strong>Data:</strong> {{ reservation.event.date }}</p>
