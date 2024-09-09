@@ -3,13 +3,13 @@
 <div class="center">
 
   <div class="spinner" *ngIf="isLoading"></div>   
-  
-
-  <h1>Accedi a BookedOne</h1>
 
   <div *ngIf="errorMessage" class="error">
     {{ errorMessage }}
   </div>
+  
+
+  <h1>Accedi a BookedOne</h1>
 
   <form [formGroup]="loginForm" class="form" (ngSubmit)="onSubmit()">
     <span class="input-span">

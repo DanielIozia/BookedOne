@@ -11,7 +11,7 @@
   }
 
   @media(max-width: 480px) {
-    height: 100vh;
+    height: auto;
   }
 }
 
@@ -38,7 +38,7 @@
 .center {
   margin: 0 auto;
   width: 40%;
-  height: 85%;
+  
   background: linear-gradient(to right, #8e2de2, #6230c5);
   border-radius: 10px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.472);
@@ -64,6 +64,7 @@
     font-size: 2rem;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: #f7f7f7; /* Colore bianco per il testo dell'intestazione */
+    margin-top: 2rem;
 
     @media (max-width: 480px) {
       font-size: 1.5rem;
@@ -205,7 +206,7 @@
 
   @media (max-width: 480px) {
     font-size: 1rem;
-    margin-top: 5%;
+    margin-bottom: 5%;
   }
 }
 

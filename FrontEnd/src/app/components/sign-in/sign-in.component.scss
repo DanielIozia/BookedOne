@@ -64,6 +64,7 @@
     font-size: 2rem;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: #f7f7f7; /* Colore bianco per il testo dell'intestazione */
+    margin-top: 2rem;
 
     @media (max-width: 480px) {
       font-size: 1.5rem;
@@ -205,7 +206,7 @@
 
   @media (max-width: 480px) {
     font-size: 1rem;
-    margin-top: 5%;
+    margin-bottom: 5%;
   }
 }
 

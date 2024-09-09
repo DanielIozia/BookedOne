@@ -2,11 +2,13 @@
   <!-- Spinner durante il caricamento -->
   <div class="spinner" *ngIf="isLoading"></div>   
 
-  <h1>Registrati a BookedOne</h1>
-
   <div *ngIf="errorMessage" class="error">
     {{ errorMessage }}
   </div>
+
+  <h1>Registrati a BookedOne</h1>
+
+  
 
   <form [formGroup]="registerForm" class="form" (ngSubmit)="onSubmit()">
     <span class="input-span">
