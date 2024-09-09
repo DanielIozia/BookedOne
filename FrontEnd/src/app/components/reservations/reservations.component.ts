@@ -26,6 +26,7 @@ export class ReservationComponent implements OnInit {
   location: string | undefined;
   name: string | undefined;
   date: string | undefined;
+  expired:boolean = false;
 
   canClean:boolean = false;
   success: boolean | undefined = undefined;
@@ -41,9 +42,9 @@ export class ReservationComponent implements OnInit {
 
   loadReservations(): void {
     this.isLoading = true;
-    this.customerService.getReservations(this.currentPage, this.pageSize, this.category, this.location, this.name, this.date).subscribe(
+    this.customerService.getReservations(this.currentPage, this.pageSize, this.category, this.location, this.name, this.date, this.expired).subscribe(
       (data: ReservationEventResponse) => {
-        this.canClean = (this.category || this.location || this.name || this.date) ? true : false;
+        this.canClean = (this.category || this.location || this.name || this.date || this.expired) ? true : false;
         if(data.content.length == 0 && this.currentPage > 0){
           //Non ci sono altre prenotazioni nella pagina attuale, quindi torno indietro
           this.currentPage--;
@@ -92,7 +93,7 @@ export class ReservationComponent implements OnInit {
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined) { // If user confirmed deletion
+      if (result) { // If user confirmed deletion
         this.success = true;
         this.isDeleting = true;
         this.viewNotification = true;
@@ -122,6 +123,7 @@ export class ReservationComponent implements OnInit {
       this.name = undefined;
       this.date = undefined;
       this.canClean = false;
+      this.expired = false;
       this.applyFilters();
     }
   }

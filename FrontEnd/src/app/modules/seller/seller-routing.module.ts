@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', redirectTo: 'profile', pathMatch: 'full' },
-  { path: 'events', loadChildren: () => import('../event/event.module').then(m => m.EventsModule) },
+  { path: 'seller-events', loadChildren: () => import('../event/event.module').then(m => m.EventsModule) },
   { path: 'profile', loadChildren: () => import('../profile/profile.module').then(m => m.ProfileModule) },
 ];
 

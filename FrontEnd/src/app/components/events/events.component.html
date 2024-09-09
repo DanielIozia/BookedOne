@@ -20,7 +20,8 @@
 
 <div class="event-container" *ngIf="!isLoading && !buyEventLoading">
     
-  <h1 class="title-event">Eventi Disponibili</h1>
+  <h1 class="title-event" *ngIf="role == 'customer'">Eventi Disponibili</h1>
+  <h1 class="title-event" *ngIf="role == 'seller'">Eventi Creati</h1>
   
     <div class="filters">
       <input type="text" placeholder="Categoria" [(ngModel)]="filters.category">
@@ -45,7 +46,7 @@
           <div>
             <h2>{{event.price | currency : 'EUR'}}</h2>
           </div>
-          <div class="card-actions">
+          <div class="card-actions" *ngIf="role == 'customer' ">
             <button (click)="openDialogReserveEvent(event)" *ngIf="event.availableTickets > 0">Acquista</button>
             <p *ngIf="event.availableTickets == 0" class="noMoreTickets"><strong>Sold Out</strong></p>
           </div>

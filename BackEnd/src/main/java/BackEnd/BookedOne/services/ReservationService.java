@@ -188,24 +188,26 @@ public class ReservationService {
                 HttpStatus.NOT_FOUND
             );
         }
+        
         // Trova tutte le prenotazioni dell'utente
         List<Reservation> reservations = reservationRepository.findByUserId(userId);
-
+    
         // Estrai tutti gli ID degli eventi dalle prenotazioni
         List<String> eventIds = reservations.stream()
             .map(Reservation::getEventId)
             .collect(Collectors.toList());
-
+    
         // Recupera tutti gli eventi associati agli ID estratti
         List<Event> allEvents = eventRepository.findAllById(eventIds);
-
+    
         // Crea una mappa degli eventi per un rapido accesso basato su eventId
         Map<String, Event> eventMap = allEvents.stream()
             .collect(Collectors.toMap(Event::getId, event -> event));
-
+    
         // Crea un formatter per la data se necessario (adatta il formato alla tua data)
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
+        LocalDate today = LocalDate.now(); // Data di oggi
+    
         // Filtra e ordina le prenotazioni
         List<ReservationEvent> filteredReservationsWithEvents = reservations.stream()
             .map(reservation -> {
@@ -214,11 +216,23 @@ public class ReservationService {
             })
             .filter(reservationEvent -> {
                 Event event = reservationEvent.getEvent();
-                return (event != null &&
-                        (myRes.getCategory() == null || event.getCategory().toLowerCase().contains(myRes.getCategory().toLowerCase())) &&
-                        (myRes.getLocation() == null || event.getLocation().toLowerCase().contains(myRes.getLocation().toLowerCase())) &&
-                        (myRes.getName() == null || event.getName().toLowerCase().contains(myRes.getName().toLowerCase())) &&
-                        (myRes.getDate() == null || event.getDate().equalsIgnoreCase(myRes.getDate())));
+                if (event == null) {
+                    return false;
+                }
+                // Filtra per categoria, location, nome, data, etc.
+                boolean matchesFilter = 
+                    (myRes.getCategory() == null || event.getCategory().toLowerCase().contains(myRes.getCategory().toLowerCase())) &&
+                    (myRes.getLocation() == null || event.getLocation().toLowerCase().contains(myRes.getLocation().toLowerCase())) &&
+                    (myRes.getName() == null || event.getName().toLowerCase().contains(myRes.getName().toLowerCase())) &&
+                    (myRes.getDate() == null || event.getDate().equalsIgnoreCase(myRes.getDate()));
+    
+                // Filtra per eventi "scaduti" (se richiesto)
+                if (myRes.isExpired()) {
+                    LocalDate eventDate = LocalDate.parse(event.getDate(), formatter);
+                    return matchesFilter && eventDate.isBefore(today); // Se scaduto, deve essere prima di oggi
+                }
+    
+                return matchesFilter;
             })
             .sorted((re1, re2) -> {
                 LocalDate date1 = LocalDate.parse(re1.getReservation().getBookingDate(), formatter);
@@ -226,18 +240,19 @@ public class ReservationService {
                 return date2.compareTo(date1); // Ordinamento decrescente
             })
             .collect(Collectors.toList());
-
+    
         // Calcola la paginazione dopo il filtraggio e ordinamento
         int start = (int) PageRequest.of(myRes.getPage(), myRes.getSize()).getOffset();
         int end = Math.min((start + myRes.getSize()), filteredReservationsWithEvents.size());
         if(start > end){
             return new PageImpl<>(new ArrayList<>(), PageRequest.of(myRes.getPage(), myRes.getSize()), filteredReservationsWithEvents.size());
         }
-
+    
         List<ReservationEvent> paginatedReservationsWithEvents = filteredReservationsWithEvents.subList(start, end);
-
+    
         return new PageImpl<>(paginatedReservationsWithEvents, PageRequest.of(myRes.getPage(), myRes.getSize()), filteredReservationsWithEvents.size());
     }
+    
 
    
 }

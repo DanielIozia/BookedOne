@@ -5,6 +5,8 @@ import { EventDetails } from '../../interfaces/event/event';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogReserveEventComponent } from '../dialog-reserve-event/dialog-reserve-event.component';
 import { CustomerService } from '../../services/customer.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { SellerService } from '../../services/seller.service';
 
 
 @Component({
@@ -33,13 +35,21 @@ export class EventsComponent {
   isLoading: boolean = false;
   canClean: boolean = false;
 
-  constructor(private eventService: EventService, public dialog: MatDialog, private customerService: CustomerService) {}
+  role:string = this.auth.getRole()!;
+
+  constructor(private eventService: EventService, public dialog: MatDialog, private customerService: CustomerService, private auth:AuthService, private seller:SellerService) {}
 
   ngOnInit(): void {
-    this.loadEvents();
+    if(this.auth.getRole() == "customer"){
+      this.loadEventsCustomer();
+    }
+    else{
+      this.loadEventsSeller();
+    }
+
   }
 
-  loadEvents(): void {
+  loadEventsCustomer(): void {
     this.isLoading = true;
     this.eventService.getAllEvents(this.page, this.size, this.filters.category, this.filters.location, this.filters.name, this.filters.date)
       .subscribe((response: EventResponse) => {
@@ -50,22 +60,57 @@ export class EventsComponent {
       });
   }
 
+  loadEventsSeller():void{
+    this.isLoading = true;
+    this.seller.getSellerEvents(this.page, this.size, this.filters.category, this.filters.location, this.filters.name, this.filters.date!)
+    .subscribe((response: EventResponse) => {
+      this.canClean = (this.filters.category || this.filters.location || this.filters.name || this.filters.date) ? true : false;
+        this.isLoading = false;
+        this.events = response.content;
+        this.totalPages = response.totalPages;
+    })
+
+    
+  }
+
   applyFilters(): void {
     this.page = 0;
-    this.loadEvents();
+    if(this.auth.getRole() == "customer"){
+      this.loadEventsCustomer();
+    }
+    else{
+      this.loadEventsSeller();
+    }
+    
   }
 
   nextPage(): void {
-    if (this.page < this.totalPages - 1) {
-      this.page++;
-      this.loadEvents();
+    if(this.auth.getRole() == "customer"){
+      if (this.page < this.totalPages - 1) {
+        this.page++;
+        this.loadEventsCustomer();
+      }
+    }
+    else{
+      if (this.page < this.totalPages - 1) {
+        this.page++;
+        this.loadEventsSeller();
+      }
     }
   }
 
   previousPage(): void {
-    if (this.page > 0) {
-      this.page--;
-      this.loadEvents();
+    if(this.auth.getRole() == "customer"){
+      if (this.page > 0) {
+        this.page--;
+        this.loadEventsCustomer();
+      }
+    }
+    else{
+      if (this.page > 0) {
+        this.page--;
+        this.loadEventsSeller();
+      }
     }
   }
 
@@ -95,14 +140,14 @@ export class EventsComponent {
           this.success = true;
           this.viewNotification = true;
           this.buyEventLoading = false;
-          this.loadEvents();
+          this.loadEventsCustomer();
           this.autoCloseNotification();
         }, error => {
           this.success = false;
           this.viewNotification = true;
           this.buyEventLoading = false;
           console.error(error);
-          this.loadEvents();
+          this.loadEventsCustomer();
           this.autoCloseNotification();
         })
       }

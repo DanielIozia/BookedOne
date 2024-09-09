@@ -27,7 +27,13 @@
     <input type="text" placeholder="Località" [(ngModel)]="location">
     <input type="text" placeholder="Nome Evento" [(ngModel)]="name">
     <input type="date" placeholder="Data" [(ngModel)]="date">
-    <button (click)="applyFilters()" [disabled]="!category && !location && !name && !date">Applica Filtri</button>
+
+    <label>
+      <input type="checkbox" [(ngModel)]="expired">
+      Eventi scaduti
+    </label>
+
+    <button (click)="applyFilters()" [disabled]="!category && !location && !name && !date && !expired">Applica Filtri</button>
     <button (click)="cleanFilters()" [disabled]="!canClean">Ripristina Filtri</button>
   </div>
   
@@ -42,9 +48,7 @@
           <p class="card-description"><strong>Categoria</strong>: {{ reservation.event.category }}</p>
           <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
           <div class="separator">
-            <div>
-              
-              
+            <div>  
             </div>
             <div class="card-actions">
               <button class="delete-button" (click)="deleteReservation(reservation)">Elimina Prenotazione</button>

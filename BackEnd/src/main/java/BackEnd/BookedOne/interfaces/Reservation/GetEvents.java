@@ -10,4 +10,6 @@ public class GetEvents {
     private String location;
     private String name;
     private String date;
+    private boolean expired;
+    
 }

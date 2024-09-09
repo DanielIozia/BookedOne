@@ -85,8 +85,7 @@ public class CustomerController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Errore interno","Si è verificato un errore nel server"));        
         }
-    }
-   
+    }   
     @PostMapping("/all-events")//post perchè paginata
     public ResponseEntity<?> getAllEvents(HttpServletRequest request, @RequestBody GetEvents allEvents) throws ExceptionBackend {
         try{

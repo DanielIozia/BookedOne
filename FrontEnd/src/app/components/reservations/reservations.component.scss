@@ -67,7 +67,11 @@
 .separator{
   display:flex;
   justify-content: space-between;
-}
+  .card-actions{
+    @media (max-width: 480px) {
+      font-size: 0.7rem;
+    }
+  }}
 .reservations-container {
   padding: 20px;
   max-width: 800px; // Maggiore larghezza per schermi più ampi
@@ -82,21 +86,21 @@
     justify-content: space-between;
     gap: 15px;
     margin-bottom: 20px;
-
-    input, select {
+  
+    input[type="text"],input[type="date"], select {
       flex: 1 1 200px;
       min-width: 150px;
       padding: 10px;
       border: 1px solid #ddd;
       border-radius: 5px;
       transition: border-color 0.3s, box-shadow 0.3s;
-
+  
       &:focus {
         border-color: #007bff;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
       }
     }
-
+  
     button {
       padding: 10px;
       border: 1px solid #3498db;
@@ -104,17 +108,42 @@
       color: #3498db;
       cursor: pointer;
       transition: background 0.3s, color 0.3s;
-      border-radius:5px;
-
+      border-radius: 5px;
+  
       &:disabled {
         cursor: not-allowed;
         opacity: 0.5;
       }
-
+  
       &:hover {
         border: 1px solid #f7f7f7;
         background: #3498db;
         color: #fff;
+      }
+    }
+  
+    /* Checkbox per eventi scaduti */
+    label {
+      display: flex; /* Cambia il display a flex per allineare correttamente gli elementi */
+      align-items: center; /* Allinea la checkbox e il testo verticalmente */
+      justify-content: flex-start; /* Allinea tutto a sinistra */
+      font-size: 1rem;
+      color: #f7f7f7;
+      gap: 10px; /* Aggiunge uno spazio tra la checkbox e il testo */
+  
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #3498db; // Cambia colore della checkbox per adattarsi al tema
+        cursor: pointer;
+      }
+  
+      @media (max-width: 1024px) {
+        font-size: 0.9rem;
+      }
+  
+      @media (max-width: 480px) {
+        font-size: 0.8rem;
       }
     }
   }

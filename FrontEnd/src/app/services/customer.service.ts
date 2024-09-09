@@ -20,7 +20,7 @@ export class CustomerService {
   private DELETE_RESERVATION:string = '/delete-reservation';
   private RESERVE_EVENT:string = '/reserve-event';
 
-  getReservations(page: number, size: number, category?: string, location?: string, name?: string, date?: string): Observable<ReservationEventResponse> {
+  getReservations(page: number, size: number, category?: string, location?: string, name?: string, date?: string, expired?:boolean): Observable<ReservationEventResponse> {
     
     const token = this.auth.getToken();
     const headers = new HttpHeaders({
@@ -33,7 +33,8 @@ export class CustomerService {
       category,
       location,
       name,
-      date
+      date,
+      expired
     };
 
     return this.http.post<ReservationEventResponse>(this.BASE_URL + this.MY_RESERVATION, body, { headers });
