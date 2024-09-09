@@ -69,30 +69,9 @@ export class EventsComponent {
     }
   }
 
-  /*
-  let dialogWidth = '70%';
-    let dialogHeight = '60%';
-  
-    if (window.innerWidth <= 768) { // Schermi piccoli come tablet o cellulari
-      dialogWidth = '95%';
-      dialogHeight = '70%';
-    } 
-    else if (window.innerWidth > 768 && window.innerWidth <= 1024) { // Schermi medi come tablet
-      dialogWidth = '85%';
-      dialogHeight = '70%';
-    }
-  
-    const dialogRef = this.dialog.open(UpdateUserComponent, {
-      width: dialogWidth,
-      height: dialogHeight,
-      data: { user: this.user }
-    });
-  */
-
   openDialogReserveEvent(event: EventDetails): void {
     let dialogWidth = '50%';
     
-
     // Imposta la larghezza dinamica in base alla larghezza della finestra
     if (window.innerWidth <= 768) { // Schermi piccoli come tablet o cellulari
       dialogWidth = '95%';
@@ -138,10 +117,6 @@ export class EventsComponent {
       this.filters.date = null;
       this.applyFilters();
     }
-  }
-
-  closeNotification() {
-    this.viewNotification = false;
   }
 
   autoCloseNotification() {

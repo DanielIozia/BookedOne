@@ -28,8 +28,8 @@ export class ReservationComponent implements OnInit {
   date: string | undefined;
 
   canClean:boolean = false;
-viewNotification: any;
-success: any;
+  success: boolean | undefined = undefined;
+  viewNotification: boolean = false;
 
 
   constructor(private customerService: CustomerService, private dialog:MatDialog) {}
@@ -82,22 +82,7 @@ success: any;
     }
   }
 
-  deleteReservation1(reservation: Reservation): void {
-    if (confirm('Sei sicuro di voler eliminare questa prenotazione?')) {
-      this.isLoading = true;
-      this.customerService.deleteReservation(reservation).subscribe(
-        () => {
-          this.isLoading = false;
-          this.loadReservations();
-          console.log('Prenotazione eliminata con successo');
-        },
-        (error) => {
-          console.error('Errore nell\'eliminazione della prenotazione', error);
-          this.isLoading = false;
-        }
-      );
-    }
-  }
+ 
 
   deleteReservation(reservation: ReservationEvent): void {
 
@@ -107,18 +92,23 @@ success: any;
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      if (result) { // If user confirmed deletion
+      if (result != undefined) { // If user confirmed deletion
+        this.success = true;
         this.isDeleting = true;
+        this.viewNotification = true;
         this.customerService.deleteReservation(reservation.reservation).subscribe(
           () => {
             this.isDeleting = false;
             this.loadReservations();
-            
             console.log('Prenotazione eliminata con successo');
+            this.autoCloseNotification();
           },
           (error) => {
+            this.success = false;
+            this.viewNotification = true;
             console.error('Errore nell\'eliminazione della prenotazione', error);
             this.isDeleting = false;
+            this.autoCloseNotification();
           }
         );
       }
@@ -134,6 +124,12 @@ success: any;
       this.canClean = false;
       this.applyFilters();
     }
+  }
+
+  autoCloseNotification() {
+    setTimeout(() => {
+      this.viewNotification = false;
+    }, 5000); // Nascondi dopo 5 secondi
   }
 
 }

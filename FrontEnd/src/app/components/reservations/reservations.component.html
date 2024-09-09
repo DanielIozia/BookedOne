@@ -7,13 +7,13 @@
 </div>  
 
 <!-- Contenitore delle notifiche -->
-<div class="alert-container" *ngIf="viewNotification && !isLoading">
+<div class="alert-container" *ngIf="viewNotification && !isLoading && !isDeleting">
   <div role="alert" class="alert alert-success" *ngIf="success">
-    <p class="alert-text">Successo - Acquisto andato a buon fine!</p>
+    <p class="alert-text">Prenotazione eliminata con successo</p>
   </div>
 
   <div role="alert" class="alert alert-error" *ngIf="!success">
-    <p class="alert-text">Errore - Qualcosa è andato storto.</p>
+    <p class="alert-text">Errore durante l'eliminazione</p>
   </div>
 </div>
 
