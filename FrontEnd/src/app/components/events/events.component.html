@@ -3,10 +3,10 @@
  <!-- Spinner -->
  <div class="loading-spinner" *ngIf="isLoading || buyEventLoading">
     <div class="spinner"></div>
-    <p>Caricamento in corso...</p>
+    <p style="color:#f7f7f7;">Caricamento in corso...</p>
 </div>  
 
-<div class="notification">
+ <!-- <div class="notification">
   <div *ngIf="viewNotification && success" class="snackbar success" [ngClass]="{'show': viewNotification }">
     <button class="close-btn" (click)="closeNotification()"><mat-icon>close</mat-icon></button>
     Acquisto avvenuto con successo
@@ -15,7 +15,18 @@
     <button class="close-btn" (click)="closeNotification()"><mat-icon>close</mat-icon></button>
     Errore durante l'acquisto
   </div>
+</div>-->
+
+<div  class="alert-container" *ngIf="viewNotification">
+  <div role="alert" class="alert alert-success" *ngIf="success">
+    <p class="alert-text">Successo - Acquisto andato a buon fine!</p>
+  </div>
+
+  <div  role="alert" class="alert alert-error" *ngIf="!success">
+    <p class="alert-text">Errore - Qualcosa è andato storto.</p>
+  </div>
 </div>
+
 
 
 <div class="event-container" *ngIf="!isLoading && !buyEventLoading">
@@ -26,7 +37,7 @@
       <input type="text" placeholder="Località" [(ngModel)]="filters.location">
       <input type="text" placeholder="Nome Evento" [(ngModel)]="filters.name">
       <input type="date" placeholder="Data" [(ngModel)]="filters.date">
-      <button (click)="applyFilters()">Applica Filtri</button>
+      <button (click)="applyFilters()" [disabled]="!filters.category && !filters.location && !filters.name && !filters.date">Applica Filtri</button>
       <button (click)="cleanFilters()" [disabled]="!canClean">Ripristina Filtri</button>
     </div>
   

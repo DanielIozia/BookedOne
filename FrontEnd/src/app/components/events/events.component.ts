@@ -20,22 +20,20 @@ export class EventsComponent {
   page: number = 0;
   size: number = 10;
   totalPages: number = 0;
-  buyEventLoading:boolean = false;
-  success:boolean|undefined = undefined;
-  viewNotification:boolean = false;
-  
+  buyEventLoading: boolean = false;
+  success: boolean | undefined = undefined;
+  viewNotification: boolean = false;
+
   filters = {
     name: '',
     category: '',
     location: '',
     date: null
   }
-  isLoading:boolean = false;
+  isLoading: boolean = false;
+  canClean: boolean = false;
 
-  canClean:boolean = false;
-  
-
-  constructor(private eventService: EventService, public dialog: MatDialog, private customerService:CustomerService) {}
+  constructor(private eventService: EventService, public dialog: MatDialog, private customerService: CustomerService) {}
 
   ngOnInit(): void {
     this.loadEvents();
@@ -53,7 +51,7 @@ export class EventsComponent {
   }
 
   applyFilters(): void {
-    this.page = 0; // Resetta alla prima pagina quando si applicano filtri
+    this.page = 0;
     this.loadEvents();
   }
 
@@ -72,39 +70,38 @@ export class EventsComponent {
   }
 
   openDialogReserveEvent(event: EventDetails): void {
-
     const dialogRef = this.dialog.open(DialogReserveEventComponent, {
       width: '400px',
       data: event
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
-      //se chiudo senza prenotare, result è undefined(inutile fare chiamate al back)
-      if(result != undefined){
+      if (result != undefined) {
         this.buyEventLoading = true;
-        this.customerService.reserveEvent(result).subscribe (data => {
+        this.customerService.reserveEvent(result).subscribe(data => {
           this.success = true;
           this.viewNotification = true;
-          this.buyEventLoading = false; 
+          this.buyEventLoading = false;
           this.loadEvents();
-          this.autoCloseNotification(); // Chiude automaticamente la notifica
+          this.autoCloseNotification();
         }, error => {
           this.success = false;
           this.viewNotification = true;
           this.buyEventLoading = false;
           console.error(error);
           this.loadEvents();
-          this.autoCloseNotification(); // Chiude automaticamente la notifica
+          this.autoCloseNotification();
         })
       }
     });
   }
-  cleanFilters(){
-    if(this.canClean){
+
+  cleanFilters() {
+    if (this.canClean) {
       this.filters.category = '';
       this.filters.location = '';
       this.filters.name = '';
-      this.filters.date = null;;
+      this.filters.date = null;
       this.applyFilters();
     }
   }
@@ -116,11 +113,7 @@ export class EventsComponent {
   autoCloseNotification() {
     setTimeout(() => {
       this.viewNotification = false;
-    }, 7000); // Chiude dopo 7 secondi
+    }, 5000); // Nascondi dopo 5 secondi
   }
 
-  
-  
-
-  
 }
