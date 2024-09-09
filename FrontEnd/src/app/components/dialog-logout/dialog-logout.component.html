@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="dialog-content">
     <h2>Conferma Logout</h2>
     <p>Sei sicuro di voler eseguire il logout?</p>
@@ -11,4 +11,38 @@
 
 
   
+   -->
+
+   <div class="card">
+    <div class="card-content">
+      <div class="icon-container">
+        <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        fill="none" 
+        viewBox="0 0 24 24" 
+        stroke="currentColor" 
+        class="icon" 
+        stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" 
+          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h6a2 2 0 012 2v1" />
+      </svg>
+      
+        
+        <h2 class="title">
+          Logout
+        </h2>
+        <p class="description">
+          Eseguire il logout?
+        </p>
+        
+      </div>
+      <div class="buttons-container">
+        <button class="btn cancel-btn" (click)="onCancel()">Annulla</button>
+        <button class="btn confirm-btn" (click)="onConfirm()">Conferma</button>
+        
+      </div>
+    </div>
+  </div>
   
+    
+    

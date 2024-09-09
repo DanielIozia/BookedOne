@@ -42,6 +42,9 @@ export class ProfileComponent implements OnInit {
   showPastEvents: boolean = false;
   showAllEvents:boolean = false;
 
+  success: boolean | undefined = undefined;
+  viewNotification: boolean = false;
+
   
 
   loadUser() {
@@ -113,7 +116,6 @@ export class ProfileComponent implements OnInit {
   update() {
     let dialogWidth = '50%';
     
-  
     if (window.innerWidth <= 768) { // Schermi piccoli come tablet o cellulari
       dialogWidth = '95%';
       
@@ -126,9 +128,17 @@ export class ProfileComponent implements OnInit {
     });
   
     dialogRef.afterClosed().subscribe((result) => {
-      if(result){
+      if(result != undefined){
+        this.success = true;
+        this.viewNotification = true;
         this.loadUser();  
+        this.autoCloseNotification();
       }
+    }, error => {
+      this.loadUser();  
+      this.success = false;
+      this.viewNotification = true;
+      this.autoCloseNotification();
     });
   }
 
@@ -172,6 +182,12 @@ export class ProfileComponent implements OnInit {
       }
       return diffDays;
     }
+  }
+
+  autoCloseNotification() {
+    setTimeout(() => {
+      this.viewNotification = false;
+    }, 5000); // Nascondi dopo 5 secondi
   }
 
 }

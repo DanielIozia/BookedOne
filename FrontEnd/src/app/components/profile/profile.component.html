@@ -3,6 +3,16 @@
   <p>Caricamento in corso...</p>
 </div>
 
+<div  class="alert-container" *ngIf="viewNotification && !isLoading">
+  <div role="alert" class="alert alert-success" *ngIf="success">
+    <p class="alert-text">Profilo modificato con successo!</p>
+  </div>
+
+  <div  role="alert" class="alert alert-error" *ngIf="!success">
+    <p class="alert-text">Errore durante la modifica del profilo</p>
+  </div>
+</div>
+
 <div class="profile-page" *ngIf="!isLoading && !isLoadingReservation">
   <div class="content">
       <div class="content__actions">

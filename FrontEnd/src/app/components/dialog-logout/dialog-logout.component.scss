@@ -1,22 +1,103 @@
-.dialog-content {
+.card {
+  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  background-color: #2d3748; /* Equivalent to bg-gray-800 */
+  border: 1px solid #2d3748; /* Equivalent to border-gray-800 */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Equivalent to shadow-lg */
+}
+
+.card-content {
   text-align: center;
-  padding: 16px;
+}
 
-  h2 {
-    margin-bottom: 12px;
+.icon-container {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  color: #4d82ab; /* Equivalent to fill-red-500 */
+  margin: 0 auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+.icon-container:hover .icon {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
   }
-
-  .dialog-actions {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-
-    button {
-      min-width: 80px;
-    }
+  40% {
+    transform: translateY(-15px);
+  }
+  60% {
+    transform: translateY(-10px);
   }
 }
+
+.title {
+  font-size: 1.25rem; /* Equivalent to text-xl */
+  font-weight: bold;
+  padding: 16px 0;
+  color: #edf2f7; /* Equivalent to text-gray-200 */
+}
+
+.description {
+  font-size: 0.875rem; /* Equivalent to text-sm */
+  color: #a0aec0; /* Equivalent to text-gray-500 */
+  padding: 0 8px;
+}
+
+.buttons-container {
+  padding: 16px;
+  margin-top: 8px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn {
+  padding: 8px 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 9999px; /* Equivalent to rounded-full */
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #4a5568; /* Equivalent to bg-gray-700 */
+  color: #e2e8f0; /* Equivalent to text-gray-300 */
+  border: 2px solid #718096; /* Equivalent to border-gray-600 */
+}
+
+.cancel-btn:hover {
+  background-color: #2d3748; /* Equivalent to hover:bg-gray-800 */
+  border-color: #4a5568; /* Equivalent to hover:border-gray-700 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Equivalent to hover:shadow-lg */
+}
+
+.confirm-btn {
+  background-color: hsl(206, 38%, 49%); /* Equivalent to bg-red-500 */
+  color: #fff;
+  border: 2px solid  hsl(206, 43%, 53%); /* Equivalent to border-red-500 */
+}
+
+.confirm-btn:hover {
+  background-color: transparent;
+  color: hsl(206, 38%, 49%); /* Equivalent to hover:bg-red-500 */
+  border-color: hsl(206, 43%, 53%); /* Equivalent to hover:border-red-500 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Equivalent to hover:shadow-lg */
+}
+
+  
