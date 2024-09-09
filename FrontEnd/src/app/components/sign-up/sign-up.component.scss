@@ -27,7 +27,7 @@
 
   
   // Gradiente di sfondo dal blu al violetto
-  background-image: linear-gradient(to right, #6230c5, #8e2de2);
+  background-image: linear-gradient(to left, #534567, #360d5a);
 
   @media(max-width: 1024px) {
     height: auto;
@@ -79,10 +79,12 @@
 }
 
 .form {
+  
   --bg-light: #333333; /* Colore di sfondo chiaro per il form */
   --bg-dark: #4a00e0; /* Colore scuro per il form */
   --clr: #8e2de2; /* Colore principale del gradiente del form */
   --clr-alpha: #333333; /* Colore di sfondo leggero per i campi di input */
+  
   display: flex;
   flex-direction: column;
   align-items: center;

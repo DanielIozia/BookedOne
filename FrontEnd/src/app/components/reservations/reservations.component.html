@@ -1,47 +1,70 @@
+<!-- Spinner di caricamento -->
+
 
 <div class="loading-spinner" *ngIf="isLoading">
   <div class="spinner"></div>
-  <p>Caricamento in corso...</p>
+  <p style="color:#f7f7f7;">Caricamento in corso...</p>
 </div>  
 
+<!-- Contenitore delle notifiche -->
+<div class="alert-container" *ngIf="viewNotification && !isLoading">
+  <div role="alert" class="alert alert-success" *ngIf="success">
+    <p class="alert-text">Successo - Acquisto andato a buon fine!</p>
+  </div>
+
+  <div role="alert" class="alert alert-error" *ngIf="!success">
+    <p class="alert-text">Errore - Qualcosa è andato storto.</p>
+  </div>
+</div>
+
+<!-- Contenitore delle prenotazioni -->
 <div class="reservations-container" *ngIf="!isLoading">
-    <!-- Filtri -->
+  <h1 class="title-reservations">Le tue prenotazioni</h1>
+  
+  <!-- Filtri per le prenotazioni -->
   <div class="filters">
     <input type="text" placeholder="Categoria" [(ngModel)]="category">
     <input type="text" placeholder="Località" [(ngModel)]="location">
     <input type="text" placeholder="Nome Evento" [(ngModel)]="name">
     <input type="date" placeholder="Data" [(ngModel)]="date">
-    <button (click)="applyFilters()">Applica Filtri</button>
+    <button (click)="applyFilters()" [disabled]="!category && !location && !name && !date">Applica Filtri</button>
     <button (click)="cleanFilters()" [disabled]="!canClean">Ripristina Filtri</button>
   </div>
   
-  <div *ngIf="reservations.length != 0">
-    <div class="reservation-card" *ngFor="let reservation of reservations"> 
-      <h2>{{ reservation.event.name }}</h2>
-      <p>{{ reservation.event.description }}</p>
-      <p><strong>Data:</strong> {{ reservation.event.date }}</p>
-      <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
-      <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
-      <p><strong>Categoria:</strong> {{ reservation.event.category }}</p>
-      <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
-      <div class="button_delete">
-        <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
-        <button class="delete-button" (click)="deleteReservation(reservation)">
-          Elimina Prenotazione
-        </button>
+  <!-- Lista delle prenotazioni -->
+  <div class="event-list" *ngIf="reservations.length != 0">
+    <div class="reservation-card" *ngFor="let reservation of reservations">
+      <div class="card-container">
+        <div class="card-content">
+          <p class="card-title"> <strong>{{ reservation.event.name }}</strong> <br>{{ reservation.event.description }}</p>
+          <div class="card-header">{{ reservation.event.location }} - {{ reservation.event.date }} - {{ reservation.event.time }}</div>
+          <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
+          <p class="card-description"><strong>Categoria</strong>: {{ reservation.event.category }}</p>
+          <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+          <div class="separator">
+            <div>
+              
+              
+            </div>
+            <div class="card-actions">
+              <button class="delete-button" (click)="deleteReservation(reservation)">Elimina Prenotazione</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   
-  <div class="pagination" *ngIf="reservations.length != 0">
+  <!-- Paginazione -->
+  <div class="pagination" *ngIf="reservations.length != 0" [ngStyle]="{ 'margin-top': reservations.length > 2 ? '5%' : 'auto' }">
     <button (click)="previousPage()" [disabled]="currentPage === 0">Precedente</button>
     <span>Pagina {{ currentPage + 1 }} di {{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= totalElements">Successivo</button>
+    <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Successiva</button>
   </div>
 
-
+  <!-- Nessuna prenotazione disponibile -->
   <div *ngIf="reservations.length == 0 && !isLoading" class="no-events-message">
     <h1>Nessuna prenotazione disponibile</h1>
   </div>
-    
+
 </div>

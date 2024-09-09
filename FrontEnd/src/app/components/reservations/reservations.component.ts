@@ -28,6 +28,8 @@ export class ReservationComponent implements OnInit {
   date: string | undefined;
 
   canClean:boolean = false;
+viewNotification: any;
+success: any;
 
 
   constructor(private customerService: CustomerService, private dialog:MatDialog) {}

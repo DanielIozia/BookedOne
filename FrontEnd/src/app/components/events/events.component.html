@@ -20,7 +20,8 @@
 
 <div class="event-container" *ngIf="!isLoading && !buyEventLoading">
     
-
+  <h1 class="title-event">Eventi Disponibili</h1>
+  
     <div class="filters">
       <input type="text" placeholder="Categoria" [(ngModel)]="filters.category">
       <input type="text" placeholder="Località" [(ngModel)]="filters.location">

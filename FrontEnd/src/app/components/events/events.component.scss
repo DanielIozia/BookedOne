@@ -1,5 +1,3 @@
-/* src/app/components/my-card.component.scss */
-
 /* Spinner */
 .loading-spinner {
   display: flex;
@@ -25,12 +23,37 @@
 }
 
 
+.title-event{
+  text-align: center;
+  padding: 30px;
+  color: #f7f7f7;
+  font-size: 3rem;
+  font-weight: bold;
+  border-radius: 10px;
+  margin: 2% auto;
+  width: 80%;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  @media(max-width: 1024px) {
+    font-size: 2rem;
+  }
+
+  @media(max-width: 480px) {
+    font-size: 1.8rem;
+  }
+
+  @media(max-width: 320px) {
+    font-size: 1.2rem;
+  }
+  
+}
+
+
 :host {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  //background-color: #2d2d2d;
 
   
   // Gradiente di sfondo dal blu al violetto
@@ -225,7 +248,7 @@
     align-items: center;
     text-align: center;
     padding: 50px 20px;
-    color: #f5a623;
+    color: #f7f7f7;
     font-size: 1.5rem;
     font-weight: bold;
     border: 2px dashed #ccc;
@@ -247,70 +270,6 @@
     }
   }
 
-  /* Notification 
-  .notification {
-    .snackbar {
-      min-width: 250px;
-      margin-left: -125px;
-      text-align: center;
-      border-radius: 2px;
-      padding: 16px;
-      position: fixed;
-      z-index: 1;
-      right: 5%;
-      bottom: 30px;
-      font-size: 17px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: right 0.5s ease-out;
-
-      .close-btn {
-        background: none;
-        border: none;
-        font-size: 20px;
-        color: #fff;
-        cursor: pointer;
-        transition: color 0.3s;
-
-        &:hover {
-          color: #ccc;
-        }
-      }
-
-      @media (max-width: 768px) {
-        margin: 0 auto;
-        right: 0;
-        left: 0;
-        bottom: 20px;
-      }
-    }
-
-    .success {
-      background-color: rgba(0, 255, 30, 0.47);
-      color: green;
-    }
-
-    .error {
-      background-color: rgba(255, 0, 0, 0.47);
-      color: red;
-    }
-
-    .snackbar.show {
-      visibility: visible;
-      animation: fadein 0.5s, slideout 0.5s 5s forwards;
-    }
-
-    @keyframes fadein {
-      from { bottom: 0; opacity: 0; }
-      to { bottom: 30px; opacity: 1; }
-    }
-
-    @keyframes slideout {
-      from { right: 5%; opacity: 1; }
-      to { right: -100%; opacity: 0; }
-    }
-  }*/
 }
 .alert-container {
   position: fixed;

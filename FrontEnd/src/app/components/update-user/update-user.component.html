@@ -1,5 +1,5 @@
 <div class="form-container">
-  <mat-icon  (click)="onCancel()">close</mat-icon>
+    <mat-icon  (click)="onCancel()">close</mat-icon>
 	<p class="title">Modifica Profilo</p>
 	<form class="form">
 		<div class="input-group">
@@ -16,8 +16,8 @@
 
 		<div class="input-group" style="margin-bottom:4%;">
 			<label for="password" *ngIf=" !isVerifingPassword && !passwordIsVerified && !errorMessage">Password Attuale</label>
-      <label for="password" *ngIf="!isVerifingPassword && !passwordIsVerified && errorMessage" style="color:red;">{{errorMessage}}</label>
-      <label for="password" *ngIf="!isVerifingPassword && passwordIsVerified" style="color:green;">Password verificata</label>
+			<label for="password" *ngIf="!isVerifingPassword && !passwordIsVerified && errorMessage" style="color:red;">{{errorMessage}}</label>
+			<label for="password" *ngIf="!isVerifingPassword && passwordIsVerified" style="color:green;">Password verificata</label>
 			<input id="password" name="password" type="password" [(ngModel)]="user.password" [disabled]="passwordIsVerified"/>
     <div>
       <button *ngIf="!isVerifingPassword && !passwordIsVerified" type="button" class="icon-button" (click)="verifyPassword(user.password)" [disabled]="!user.password">
@@ -28,15 +28,23 @@
       
       <mat-spinner *ngIf="isVerifingPassword" diameter="20"></mat-spinner>
 		</div>
-    <div class="input-group" *ngIf="passwordIsVerified">
+    	<div class="input-group" *ngIf="passwordIsVerified">
 			<label for="password">Nuova Password</label>
 			<input id="newPassword" name="newPassword" type="password" [(ngModel)]="newPassword" [disabled]="!passwordIsVerified" />
 		</div>
-    <div class="input-group" *ngIf="passwordIsVerified">
+		<div class="input-group" *ngIf="passwordIsVerified">
 			<label for="password">Conferma Password</label>
 			<input id="confirmPassword" name="confirmPassword" type="password" [(ngModel)]="confirmPassword" [disabled]="!passwordIsVerified" />
 		</div>
-		<button class="sign" [disabled]="isAnyInputInvalid()" (click)="update()">Modifica</button>
+		<div class="input-group">
+			<button class="sign" [disabled]="isAnyInputInvalid()" (click)="update()">Modifica</button>
+			<a (click)="deleteAccount()" class="delete" style="margin-top:5% !important;">Elimina Account</a>
+		</div>
+		
 	</form>
+	
+
+	
+
 	
 </div>

@@ -2,8 +2,10 @@
     width: 100%;
     max-width: 400px;
     padding: 1.5rem;
-    border-radius: 8px;
-    background-color: #fff;
+    
+    background-color: rgba(17, 24, 39, 1);
+    padding: 2rem;
+    color: rgba(243, 244, 246, 1);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
     position: relative; // Per il posizionamento assoluto dello spinner
@@ -42,7 +44,7 @@
   
     .dialog-actions {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       flex-wrap: wrap;
       margin-top: 1rem;
   
@@ -60,34 +62,63 @@
       }
   
       .mat-button {
-        background-color: #007bff;
-        color: white;
-        border-radius: 15px;
+        background: #3498db;
+        color: #fff;
+        margin: 0 auto;
+        display: block;
+        border-radius: 4px;
+        width: 100%;
+        cursor: pointer;
+        transition: background 0.3s, color 0.3s;
+        padding: 0.75rem;
+        text-align: center;
+        border: none;
+        border-radius: 0.375rem;
+        font-weight: 600;
+        margin-top:5%;
+        margin-top:5%;
+        
   
         &:hover {
-          background-color: #0056b3;
+        background-color: rgba(167, 139, 250, 1);
+        color: #f7f7f7;
         }
       }
   
       .mat-warn {
-        background-color: #d32f2f;
-        color: white;
-        border-radius: 15px;
-        
+        margin: 0 auto;
+        display: block;
+        border-radius: 4px;
+        width: 100%;
+        background-color: rgba(167, 139, 250, 1);
+        color: #f7f7f7;
+        cursor: pointer;
+        transition: background 0.3s, color 0.3s;
+        padding: 0.75rem;
+        text-align: center;
+        border: none;
+        border-radius: 0.375rem;
+        font-weight: 600;
+        margin-top:5%;
+        margin-top:5%;
+      
         &:disabled {
-          background-color: rgba(253, 7, 7, 0.4);
-          color: white;
           cursor: not-allowed;
+          opacity: 0.5;
+           /* Hover per lo stato disabilitato */
+           &:hover {
+            background-color: rgba(167, 139, 250, 0.5); /* Mantieni lo stesso colore disabilitato */
+            color: #f7f7f7; /* Mantieni lo stesso colore del testo disabilitato */
           }
-
-          &:not(:disabled):hover { 
-            background-color: #b71c1c; // Colore quando non è disabilitato
-          }
-        
+        }
+      
+        &:hover {
+          background: #3498db;
+          color: #fff;
+        }
       
         
       
-        
       }
       
     }

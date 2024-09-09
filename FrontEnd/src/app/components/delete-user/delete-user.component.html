@@ -1,33 +1,26 @@
 <div class="delete-user-dialog">
-    <h2>Inserisci Email e Password per eliminare l'account</h2>
+  <h2>Inserisci Email e Password per eliminare l'account</h2>
 
-     <!-- Spinner di caricamento -->
-     <div *ngIf="isLoading" class="spinner-overlay">
-        <div class="spinner"></div>
-      </div>
-  
-    <form #deleteForm="ngForm" (ngSubmit)="deleteAccount()">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" [(ngModel)]="email" name="email" required #emailField="ngModel"/>
-      </div>
-  
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" [(ngModel)]="password" name="password" required #passwordField="ngModel"/>
-      </div>
-  
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
-  
-      <div class="dialog-actions">
-        <button type="button" (click)="onCancel()" class="mat-button">Annulla</button>
-        <button type="submit" [disabled]="deleteForm.invalid || isLoading" class="mat-warn">
-          Elimina Account
-        </button>
-      </div>
-    </form>
+  <!-- Spinner di caricamento -->
+  <div *ngIf="isLoading" class="spinner-overlay">
+    <div class="spinner"></div>
   </div>
 
-  
+  <form #deleteForm="ngForm" (ngSubmit)="deleteAccount()">
+    <div class="form-group">
+      <label *ngIf="!emailErrorMessage && !errorMessage" for="email">Email</label>
+      <label *ngIf="emailErrorMessage || errorMessage " for="email" style="color:red;">{{ emailErrorMessage }}</label>
+      <input type="email" id="email" [(ngModel)]="email" (ngModelChange)="checkEmail()" name="email" required #emailField="ngModel" />
+    </div>
+
+    <div class="form-group">
+      <label for="password" class="error-message" *ngIf="errorMessage">{{ errorMessage }}</label>
+      <label for="password" *ngIf="!errorMessage">Password</label>
+      <input type="password" id="password" [(ngModel)]="password" name="password" required #passwordField="ngModel" />
+    </div>
+    <div class="dialog-actions">
+      <button type="submit" [disabled]="deleteForm.invalid || isLoading || emailErrorMessage" class="mat-warn">Elimina Account</button>
+      <button type="button" (click)="onCancel()" [disabled]="isLoading" class="mat-button">Annulla</button>
+    </div>
+  </form>
+</div>

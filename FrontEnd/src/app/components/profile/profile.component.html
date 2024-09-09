@@ -1,131 +1,167 @@
 <div class="loading-spinner" *ngIf="isLoading">
-    <div class="spinner"></div>
-    <p>Caricamento in corso...</p>
-</div> 
+  <div class="spinner"></div>
+  <p>Caricamento in corso...</p>
+</div>
 
 <div class="profile-page" *ngIf="!isLoading && !isLoadingReservation">
-    <div class="content">
-        <!-- <div class="content__cover">
-            <div class="content__avatar"></div>
-        </div>-->
-        <div class="content__actions"><a></a></div>
-          
-        <div class="content__title">
-            <h1>{{user.firstName}} {{user.lastName}}</h1>
-            <span>{{user.email}}</span>
-        </div>
-      
-        <ul class="content__list">
-            <li (click)="showAllEvent()"><span>{{reservedEvents}}</span>Eventi prenotati</li>
-            <li (click)="showUpComingEvent()"><span>{{upcomingReservations}}</span>Eventi da svolgere</li>
-            <li (click)="showPastEvent()"><span>{{pastReservations}}</span>Eventi scaduti</li>
-        </ul>
-        <div class="content__button">
-            <a class="button">
-                <div class="button__border"></div>
-                <div class="button__bg"></div>
-                <p class="button__text" (click)="update()">Modifica Profilo</p>
-            </a>
-        </div>
-    </div>
-    <div class="bg">
-        <div><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-    </div>
-   
+  <div class="content">
+      <div class="content__actions">
+          <a></a>
+      </div>
+
+      <div class="content__title">
+          <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+          <span>{{ user.email }}</span>
+      </div>
+
+      <ul class="content__list">
+          <li (click)="showAllEvent()">
+              <span>{{ reservedEvents }}</span> Eventi prenotati
+          </li>
+          <li (click)="showUpComingEvent()">
+              <span>{{ upcomingReservations }}</span> Eventi da svolgere
+          </li>
+          <li (click)="showPastEvent()">
+              <span>{{ pastReservations }}</span> Eventi scaduti
+          </li>
+      </ul>
+
+      <div class="content__button">
+          <a class="button">
+              <div class="button__border"></div>
+              <div class="button__bg"></div>
+              <p class="button__text" (click)="update()">Modifica Profilo</p>
+          </a>
+      </div>
   </div>
 
-  <!-- Pannello Eventi non scaduti -->
-  <div class="reservations-container" *ngIf="showUpcomingEvents">
-    
-    <!-- Pannello Eventi non scaduti -->
-    <div class="events-group">
-        <div class="title__button">
-            <h2>Eventi da svolgere</h2>
-            <button (click)="showUpcomingEvents = false"><mat-icon>close</mat-icon></button>
-          </div>
-      <div class="reservation-card" *ngFor="let reservation of upComingEvent">
-
-        <div class="separator">
-          <h3><strong>{{ reservation.event.name }}</strong></h3> 
-          <h4 *ngIf="getEventStatus(reservation.event.date) < 0" style="color:red"><strong>Scaduto</strong></h4>
-          <h4 *ngIf="getEventStatus(reservation.event.date) == 0" style="color:green"><strong> Oggi alle {{ reservation.event.time }}</strong></h4>
-          <h4 *ngIf="getEventStatus(reservation.event.date) > 0" style="color:green"><strong> Mancano {{getEventStatus(reservation.event.date)}} giorni </strong></h4>
-        </div>
-
-        <p>{{ reservation.event.description }}</p>
-        <p><strong>Data:</strong> {{ reservation.event.date }}</p>
-        <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
-        <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
-        <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
-        <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+  <div class="bg">
+      <div>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
       </div>
-      <div *ngIf="upComingEvent.length == 0" class="no-events-message">
-        <h1>Non hai eventi da svolgere</h1>
-      </div>
-    </div>
-
-  </div>
-  
-  <!-- Pannello Eventi Scaduti -->
-  <div class="reservations-container" *ngIf="showPastEvents">
-    <!-- Aggiungi un nuovo contenitore per i gruppi di eventi -->
-    <div class="events-group">
-        <div class="title__button">
-            <h2>Eventi scaduti</h2>
-            <button (click)="showPastEvents = false"><mat-icon>close</mat-icon></button>
-          </div>
-      <div class="reservation-card" *ngFor="let reservation of expiredEvent">
-
-        <div class="separator">
-          <h3><strong>{{ reservation.event.name }}</strong></h3> 
-          <h4 *ngIf="getEventStatus(reservation.event.date) < 0" style="color:red"><strong>Scaduto</strong></h4>
-          <h4 *ngIf="getEventStatus(reservation.event.date) == 0" style="color:green"><strong> Oggi alle {{ reservation.event.time }}</strong></h4>
-          <h4 *ngIf="getEventStatus(reservation.event.date) > 0" style="color:green"><strong> Mancano {{getEventStatus(reservation.event.date)}} giorni </strong></h4>
-        </div>
-        <p>{{ reservation.event.description }}</p>
-        <p><strong>Data:</strong> {{ reservation.event.date }}</p>
-        <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
-        <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
-        <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
-        <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
-      </div>
-      <div *ngIf="expiredEvent.length == 0" class="no-events-message">
-        <h1>Non hai eventi scaduti</h1>
-      </div>
-    </div>
-  </div>
-
-  <!-- Pannello Tutti gli eventi  -->
- <!-- Pannello Tutti gli eventi -->
-<div class="reservations-container" *ngIf="showAllEvents">
-  <div class="events-group">
-    <div class="title__button">
-      <h2>Tutti i tuoi eventi</h2>
-      <button (click)="showAllEvents = false"><mat-icon>close</mat-icon></button>
-    </div>
-    <div class="reservation-card" *ngFor="let reservation of reservations">
-      <div class="separator">
-        <h3><strong>{{ reservation.event.name }}</strong></h3> 
-        <h4 *ngIf="getEventStatus(reservation.event.date) < 0" style="color:red"><strong>Scaduto</strong></h4>
-        <h4 *ngIf="getEventStatus(reservation.event.date) == 0" style="color:green"><strong> Oggi alle {{ reservation.event.time }}</strong></h4>
-        <h4 *ngIf="getEventStatus(reservation.event.date) > 0" style="color:green"><strong> Mancano {{getEventStatus(reservation.event.date)}} giorni </strong></h4>
-      </div>
-      <p>{{ reservation.event.description }}</p>
-      <p><strong>Data:</strong> {{ reservation.event.date }}</p>
-      <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
-      <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
-      <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
-      <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
-    </div>
-    <div *ngIf="reservations.length == 0" class="no-events-message">
-      <h1>Non ci sono eventi prenotati</h1>
-    </div>
-    <!-- Link per le prenotazioni se ci sono più di 10 eventi -->
-    <div *ngIf="reservedEvents > 10" class="view-more">
-      <a routerLink="/reservation">Vai alle prenotazioni</a>
-    </div>
   </div>
 </div>
 
-  
+<!-- Pannello Eventi non scaduti -->
+<div class="reservations-container" *ngIf="showUpcomingEvents">
+  <div class="events-group">
+      <div class="title__button">
+          <h2>Eventi da svolgere</h2>
+          <button (click)="showUpcomingEvents = false">
+              <mat-icon>close</mat-icon>
+          </button>
+      </div>
+
+      <div class="reservation-card" *ngFor="let reservation of upComingEvent">
+          <div class="separator">
+              <h3><strong>{{ reservation.event.name }}</strong></h3>
+              <h4 *ngIf="getEventStatus(reservation.event.date) < 0" style="color:red">
+                  <strong>Scaduto</strong>
+              </h4>
+              <h4 *ngIf="getEventStatus(reservation.event.date) == 0" style="color:green">
+                  <strong>Oggi alle {{ reservation.event.time }}</strong>
+              </h4>
+              <h4 *ngIf="getEventStatus(reservation.event.date) > 0" style="color:green">
+                  <strong>Mancano {{ getEventStatus(reservation.event.date) }} giorni</strong>
+              </h4>
+          </div>
+
+          <p>{{ reservation.event.description }}</p>
+          <p><strong>Data:</strong> {{ reservation.event.date }}</p>
+          <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
+          <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
+          <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
+          <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+      </div>
+
+      <div *ngIf="upComingEvent.length == 0" class="no-events-message">
+          <h1>Non hai eventi da svolgere</h1>
+      </div>
+  </div>
+</div>
+
+<!-- Pannello Eventi Scaduti -->
+<div class="reservations-container" *ngIf="showPastEvents">
+  <div class="events-group">
+      <div class="title__button">
+          <h2>Eventi scaduti</h2>
+          <button (click)="showPastEvents = false">
+              <mat-icon>close</mat-icon>
+          </button>
+      </div>
+
+      <div class="reservation-card" *ngFor="let reservation of expiredEvent">
+          <div class="separator">
+              <h3><strong>{{ reservation.event.name }}</strong></h3>
+              <h4 *ngIf="getEventStatus(reservation.event.date) < 0" style="color:red">
+                  <strong>Scaduto</strong>
+              </h4>
+              <h4 *ngIf="getEventStatus(reservation.event.date) == 0" style="color:green">
+                  <strong>Oggi alle {{ reservation.event.time }}</strong>
+              </h4>
+              <h4 *ngIf="getEventStatus(reservation.event.date) > 0" style="color:green">
+                  <strong>Mancano {{ getEventStatus(reservation.event.date) }} giorni</strong>
+              </h4>
+          </div>
+
+          <p>{{ reservation.event.description }}</p>
+          <p><strong>Data:</strong> {{ reservation.event.date }}</p>
+          <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
+          <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
+          <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
+          <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+      </div>
+
+      <div *ngIf="expiredEvent.length == 0" class="no-events-message">
+          <h1>Non hai eventi scaduti</h1>
+      </div>
+  </div>
+</div>
+
+<!-- Pannello Tutti gli eventi -->
+<div class="reservations-container" *ngIf="showAllEvents">
+  <div class="events-group">
+      <div class="title__button">
+          <h2>Tutti i tuoi eventi</h2>
+          <button (click)="showAllEvents = false">
+              <mat-icon>close</mat-icon>
+          </button>
+      </div>
+
+      <div class="reservation-card" *ngFor="let reservation of reservations">
+          <div class="separator">
+              <h3><strong>{{ reservation.event.name }}</strong></h3>
+              <h4 *ngIf="getEventStatus(reservation.event.date) < 0" style="color:red">
+                  <strong>Scaduto</strong>
+              </h4>
+              <h4 *ngIf="getEventStatus(reservation.event.date) == 0" style="color:green">
+                  <strong>Oggi alle {{ reservation.event.time }}</strong>
+              </h4>
+              <h4 *ngIf="getEventStatus(reservation.event.date) > 0" style="color:green">
+                  <strong>Mancano {{ getEventStatus(reservation.event.date) }} giorni</strong>
+              </h4>
+          </div>
+
+          <p>{{ reservation.event.description }}</p>
+          <p><strong>Data:</strong> {{ reservation.event.date }}</p>
+          <p><strong>Ora:</strong> {{ reservation.event.time }}</p>
+          <p><strong>Luogo:</strong> {{ reservation.event.location }}</p>
+          <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
+          <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+      </div>
+
+      <div *ngIf="reservations.length == 0" class="no-events-message">
+          <h1>Non ci sono eventi prenotati</h1>
+      </div>
+
+      <div *ngIf="reservedEvents > 10" class="view-more">
+          <a routerLink="/reservation">Vai alle prenotazioni</a>
+      </div>
+  </div>
+</div>

@@ -162,7 +162,9 @@
 
   .lists {
     margin-bottom: 1.5rem;
-    flex: 1 1 0%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
     color: rgba(156, 163, 175, 1);
   }
 
