@@ -6,18 +6,7 @@
     <p style="color:#f7f7f7;">Caricamento in corso...</p>
 </div>  
 
- <!-- <div class="notification">
-  <div *ngIf="viewNotification && success" class="snackbar success" [ngClass]="{'show': viewNotification }">
-    <button class="close-btn" (click)="closeNotification()"><mat-icon>close</mat-icon></button>
-    Acquisto avvenuto con successo
-  </div>
-  <div *ngIf="viewNotification && !success" class="snackbar error" [ngClass]="{'show': viewNotification }">
-    <button class="close-btn" (click)="closeNotification()"><mat-icon>close</mat-icon></button>
-    Errore durante l'acquisto
-  </div>
-</div>-->
-
-<div  class="alert-container" *ngIf="viewNotification">
+<div  class="alert-container" *ngIf="viewNotification && !isLoading">
   <div role="alert" class="alert alert-success" *ngIf="success">
     <p class="alert-text">Successo - Acquisto andato a buon fine!</p>
   </div>

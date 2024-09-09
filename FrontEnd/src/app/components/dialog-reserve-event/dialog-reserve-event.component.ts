@@ -16,11 +16,14 @@ export class DialogReserveEventComponent {
     @Inject(MAT_DIALOG_DATA) public event: EventDetails // Ottieni i dettagli dell'evento passati
   ) {}
 
+
+
   onCancel(): void {
     this.dialogRef.close();
   }
 
   onPurchase(): void {
+   
     if (this.tickets <= 0 || isNaN(this.tickets)) {
       this.errorMessage = "Numero di biglietti non valido";
       return;

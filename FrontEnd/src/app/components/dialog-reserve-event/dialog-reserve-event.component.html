@@ -1,25 +1,50 @@
-<div class="dialog-container">
-    <h1>Prenota Evento</h1>
+<div class="card">
+  <span> <mat-icon (click)="onCancel()" style="color:#f7f7f7;">close</mat-icon></span>
+  <!-- Header Section -->
+  <div class="header">
+    <span class="title">{{event.name}}</span>
+  </div>
+
+  <!-- Description Section -->
+  <p class="desc"><strong>{{ event.description }}</strong></p>
+
+  <!-- List of Features or Benefits -->
+  <ul class="lists">
     
-    <div class="event-details">
-      <p><strong>Nome:</strong> {{ event.name }}</p>
-      <p><strong>Data:</strong> {{ event.date | date }}</p>
-      <p><strong>Descrizione:</strong> {{ event.description }}</p>
+
+    <!-- List Item 2 -->
+    <li class="list">
+      <p> <strong> {{ event.date | date }} </strong> - <strong> {{event.time}}  </strong> </p>
+    </li>
+
+    <!-- List Item 4 -->
+    <li class="list">
       <p><strong>Luogo:</strong> {{ event.location }}</p>
-      <p><strong>Prezzo:</strong> {{ event.price * tickets | currency }}</p>
-      <p><strong>Categoria:</strong> {{ event.category }}</p>
+    </li>
+
+
+    <!-- List Item 7 -->
+    <li class="list">
       <p><strong>Biglietti Disponibili:</strong> {{ event.availableTickets }}</p>
-    </div>
-  
+    </li>
+
+    <!-- List Item 5 -->
+    <li class="list">
+      <h1><strong>Prezzo:</strong> {{ event.price | currency }}</h1>
+    </li>
+
     <div class="ticket-selection">
-      <label for="tickets">Numero di Biglietti:</label>
-      <input type="number" id="tickets" [(ngModel)]="tickets" min="1" />
+      <label for="tickets">Seleziona numero di biglietti:</label>
+      <input type="number" id="tickets" [(ngModel)]="tickets" min="1" max="{{event.availableTickets}}" />
       <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     </div>
-  
-    <div class="dialog-actions">
-      <button mat-button (click)="onCancel()">Annulla</button>
-      <button mat-raised-button color="primary" (click)="onPurchase()">Acquista</button>
-    </div>
-  </div>
-  
+    
+
+  </ul>
+
+  <!-- Call to Action Button -->  
+
+  <button [disabled]="tickets <= 0" type="button" class="action" (click)="onPurchase()">
+    Paga €{{ tickets > 0 ? event.price * tickets : 0}}
+  </button>
+</div>
