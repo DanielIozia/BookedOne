@@ -52,7 +52,7 @@ export class ReservationComponent implements OnInit {
           this.loadReservations();
         }
         else{
-          this.reservations = data.content; 
+          this.reservations = data.content;
           this.totalElements = data.totalElements;
           this.totalPages = data.totalPages; 
           this.isLoading = false;

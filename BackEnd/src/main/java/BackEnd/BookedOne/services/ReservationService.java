@@ -207,7 +207,7 @@ public class ReservationService {
             .collect(Collectors.toMap(Event::getId, event -> event));
     
         // Crea un formatter per la data se necessario (adatta il formato alla tua data)
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        
         
     
         // Filtra e ordina le prenotazioni
@@ -221,14 +221,7 @@ public class ReservationService {
                 if (event == null) {
                     return false;
                 }
-            
-                // Filtra per categoria, location, nome, data, etc.
-                boolean matchesFilter = 
-                    (myRes.getCategory() == null || event.getCategory().toLowerCase().contains(myRes.getCategory().toLowerCase())) &&
-                    (myRes.getLocation() == null || event.getLocation().toLowerCase().contains(myRes.getLocation().toLowerCase())) &&
-                    (myRes.getName() == null || event.getName().toLowerCase().contains(myRes.getName().toLowerCase())) &&
-                    (myRes.getDate() == null || event.getDate().equalsIgnoreCase(myRes.getDate()));
-            
+
                 // Ottieni la data e l'ora dell'evento (supponendo che `event.getTime()` ritorni l'ora in formato "HH:mm")
                 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -236,26 +229,34 @@ public class ReservationService {
                 LocalTime eventTime = LocalTime.parse(event.getTime(), timeFormatter);
                 LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventTime);
                 LocalDateTime now = LocalDateTime.now();
+                boolean isExpired = eventDateTime.isBefore(now);
             
-                // Se expired == null, restituisci tutti gli eventi senza filtro per scadenza
-                if (myRes.getExpired() != null) {
-                // Filtra per eventi scaduti o non scaduti in base a myRes.getExpired()
-                    boolean isExpired = eventDateTime.isBefore(now);
-                    if (myRes.getExpired() && !isExpired) {
-                        return false; // L'utente vuole solo eventi scaduti, ma questo evento non è scaduto
-                    }
-                    if (!myRes.getExpired() && isExpired) {
-                        return false; // L'utente non vuole eventi scaduti, ma questo evento è scaduto
-                    }    
-                }    
-                return matchesFilter;
+            
+                // Filtra per categoria, location, nome, data, etc.
+                boolean matchesFilter = 
+                    (myRes.getCategory() == null || event.getCategory().toLowerCase().contains(myRes.getCategory().toLowerCase())) &&
+                    (myRes.getLocation() == null || event.getLocation().toLowerCase().contains(myRes.getLocation().toLowerCase())) &&
+                    (myRes.getName() == null || event.getName().toLowerCase().contains(myRes.getName().toLowerCase())) &&
+                    (myRes.getDate() == null || event.getDate().equalsIgnoreCase(myRes.getDate())) && 
+                    (myRes.getExpired() == null || (myRes.getExpired() && isExpired) || (!myRes.getExpired() && !isExpired) || (!myRes.getExpired()  && isExpired));
+
+                    return matchesFilter;
             })
             
 
+          
             .sorted((re1, re2) -> {
-                LocalDate date1 = LocalDate.parse(re1.getReservation().getBookingDate(), formatter);
-                LocalDate date2 = LocalDate.parse(re2.getReservation().getBookingDate(), formatter);
-                return date2.compareTo(date1); // Ordinamento decrescente
+                LocalDateTime eventDateTime1 = LocalDateTime.of(
+                    LocalDate.parse(re1.getEvent().getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                    LocalTime.parse(re1.getEvent().getTime(), DateTimeFormatter.ofPattern("HH:mm"))
+                );
+    
+                LocalDateTime eventDateTime2 = LocalDateTime.of(
+                    LocalDate.parse(re2.getEvent().getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                    LocalTime.parse(re2.getEvent().getTime(), DateTimeFormatter.ofPattern("HH:mm"))
+                );
+    
+                return eventDateTime2.compareTo(eventDateTime1); // Ordina in modo decrescente
             })
             .collect(Collectors.toList());
     
