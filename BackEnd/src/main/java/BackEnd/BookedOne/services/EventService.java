@@ -336,43 +336,61 @@ public class EventService {
         // Recupera tutti gli eventi che hanno idSeller = userId dal repository
         List<Event> allEvents = eventRepository.findByIdSeller(userId);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
         // Filtraggio degli eventi
         List<Event> filteredEvents = allEvents.stream()
         
              .filter(event -> {
+
+                // Ottieni la data e l'ora dell'evento (supponendo che `event.getTime()` ritorni l'ora in formato "HH:mm")
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+                LocalDate eventDate = LocalDate.parse(event.getDate(), dateFormatter);
+                LocalTime eventTime = LocalTime.parse(event.getTime(), timeFormatter);
+                LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventTime);
+                LocalDateTime now = LocalDateTime.now();
+                boolean isExpired = eventDateTime.isBefore(now);
             // Filtra per categoria, location, nome e data, come prima
                 boolean matchesFilter = 
                     (allEventsBySeller.getCategory() == null || event.getCategory().toLowerCase().contains(allEventsBySeller.getCategory().toLowerCase())) &&
                     (allEventsBySeller.getLocation() == null || event.getLocation().toLowerCase().contains(allEventsBySeller.getLocation().toLowerCase())) &&
                     (allEventsBySeller.getName() == null || event.getName().toLowerCase().contains(allEventsBySeller.getName().toLowerCase())) &&
-                    (allEventsBySeller.getDate() == null || event.getDate().equalsIgnoreCase(allEventsBySeller.getDate()));
+                    (allEventsBySeller.getDate() == null || event.getDate().equalsIgnoreCase(allEventsBySeller.getDate())) && 
+                    (allEventsBySeller.getExpired() == null || (allEventsBySeller.getExpired() && isExpired) || (!allEventsBySeller.getExpired() && !isExpired) || (!allEventsBySeller.getExpired()  && isExpired));
+
+                    return matchesFilter;
 
                 // Verifica se l'evento è scaduto o meno
-                if (allEventsBySeller.getExpired() != null) {
-                    // Se expired è true o false, filtra in base alla scadenza
-                    LocalDate eventDate = LocalDate.parse(event.getDate(), formatter);
-                    LocalTime eventTime = LocalTime.parse(event.getTime());
-                    LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventTime);
-                    LocalDateTime now = LocalDateTime.now();
+                // if (allEventsBySeller.getExpired() != null) {
+                //     // Se expired è true o false, filtra in base alla scadenza
+                //     LocalDate eventDate = LocalDate.parse(event.getDate(), formatter);
+                //     LocalTime eventTime = LocalTime.parse(event.getTime());
+                //     LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventTime);
+                //     LocalDateTime now = LocalDateTime.now();
                 
-                    boolean isExpired = eventDateTime.isBefore(now);
-                    if (allEventsBySeller.getExpired() && !isExpired) {
-                        return false; // L'utente vuole solo eventi scaduti, ma questo evento non è scaduto
-                    }
-                    if (!allEventsBySeller.getExpired() && isExpired) {
-                        return true; // L'utente non vuole eventi scaduti, ma questo evento è scaduto
-                    }
-                }
+                //     boolean isExpired = eventDateTime.isBefore(now);
+                //     if (allEventsBySeller.getExpired() && !isExpired) {
+                //         return false; // L'utente vuole solo eventi scaduti, ma questo evento non è scaduto
+                //     }
+                //     if (!allEventsBySeller.getExpired() && isExpired) {
+                //         return true; // L'utente non vuole eventi scaduti, ma questo evento è scaduto
+                //     }
+                // }
                 
                 // Se expired è null, non viene applicato alcun filtro di scadenza
-                return matchesFilter;
+                
             })
-            .sorted((e1, e2) -> {
-                LocalDate date1 = LocalDate.parse(e1.getDate(), formatter);
-                LocalDate date2 = LocalDate.parse(e2.getDate(), formatter);
-                return date2.compareTo(date1); // Ordinamento decrescente per data
+            .sorted((re1, re2) -> {
+                LocalDateTime eventDateTime1 = LocalDateTime.of(
+                    LocalDate.parse(re1.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                    LocalTime.parse(re1.getTime(), DateTimeFormatter.ofPattern("HH:mm"))
+                );
+    
+                LocalDateTime eventDateTime2 = LocalDateTime.of(
+                    LocalDate.parse(re2.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                    LocalTime.parse(re2.getTime(), DateTimeFormatter.ofPattern("HH:mm"))
+                );
+    
+                return eventDateTime2.compareTo(eventDateTime1); // Ordina in modo decrescente
             })
             .collect(Collectors.toList());
 
