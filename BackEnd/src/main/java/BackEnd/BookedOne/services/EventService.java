@@ -44,7 +44,7 @@ public class EventService {
 
         if(eventRepository.findByLocationAndDateAndTime(event.getLocation(), event.getDate().toString(), event.getTime().toString()).isPresent()){
             throw new ExceptionBackend(
-                "Errore Evento",  
+                "Evento Esistente",  
                 "C'è già un evento registrato nella stessa data e luogo.",  
                 HttpStatus.PRECONDITION_FAILED
             );
@@ -69,7 +69,7 @@ public class EventService {
         if(event.getDate().isBefore(LocalDate.now())){
             throw new ExceptionBackend(
                 "Errore Data",  
-                "L'orario dell'evento è passato.",  
+                "La data dell'evento è passata.",  
                 HttpStatus.PRECONDITION_FAILED
             );
         }

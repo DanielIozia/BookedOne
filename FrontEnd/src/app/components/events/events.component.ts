@@ -30,7 +30,8 @@ export class EventsComponent {
     name: '',
     category: '',
     location: '',
-    date: null
+    date: undefined,
+    expired: false
   }
   isLoading: boolean = false;
   canClean: boolean = false;
@@ -62,15 +63,14 @@ export class EventsComponent {
 
   loadEventsSeller():void{
     this.isLoading = true;
-    this.seller.getSellerEvents(this.page, this.size, this.filters.category, this.filters.location, this.filters.name, this.filters.date!)
+    this.seller.getSellerEvents(this.page, this.size, this.filters.category, this.filters.location, this.filters.name, this.filters.date, this.filters.expired)
     .subscribe((response: EventResponse) => {
-      this.canClean = (this.filters.category || this.filters.location || this.filters.name || this.filters.date) ? true : false;
+      this.canClean = (this.filters.category || this.filters.location || this.filters.name || this.filters.date) || this.filters.expired ? true : false;
+      console.log("expired: " + this.filters.expired);
         this.isLoading = false;
         this.events = response.content;
         this.totalPages = response.totalPages;
     })
-
-    
   }
 
   applyFilters(): void {
@@ -159,7 +159,8 @@ export class EventsComponent {
       this.filters.category = '';
       this.filters.location = '';
       this.filters.name = '';
-      this.filters.date = null;
+      this.filters.date = undefined;
+      this.filters.expired = false;
       this.applyFilters();
     }
   }

@@ -6,7 +6,19 @@
     <p style="color:#f7f7f7;">Caricamento in corso...</p>
 </div>  
 
-<div  class="alert-container" *ngIf="viewNotification && !isLoading">
+<!-- NOTIFICA DI AVVENUTO ACQUISTO PER IL CLIENTE -->
+<div  class="alert-container" *ngIf="viewNotification && !isLoading && role == 'customer '">
+  <div role="alert" class="alert alert-success" *ngIf="success">
+    <p class="alert-text">Successo - Acquisto andato a buon fine!</p>
+  </div>
+
+  <div  role="alert" class="alert alert-error" *ngIf="!success">
+    <p class="alert-text">Errore - Qualcosa è andato storto.</p>
+  </div>
+</div>
+
+<!-- NOTIFICA DI AVVENUTA MODIFICA/ELIMINAZIONE PER IL VENDITORE -->
+<div  class="alert-container" *ngIf="viewNotification && !isLoading && role == 'seller '">
   <div role="alert" class="alert alert-success" *ngIf="success">
     <p class="alert-text">Successo - Acquisto andato a buon fine!</p>
   </div>
@@ -28,7 +40,11 @@
       <input type="text" placeholder="Località" [(ngModel)]="filters.location">
       <input type="text" placeholder="Nome Evento" [(ngModel)]="filters.name">
       <input type="date" placeholder="Data" [(ngModel)]="filters.date">
-      <button (click)="applyFilters()" [disabled]="!filters.category && !filters.location && !filters.name && !filters.date">Applica Filtri</button>
+      <label *ngIf="role == 'seller' ">
+        <input type="checkbox" [(ngModel)]="filters.expired">
+        Eventi scaduti
+      </label>
+      <button (click)="applyFilters()" [disabled]="!filters.category && !filters.location && !filters.name && !filters.date && !filters.expired">Applica Filtri</button>
       <button (click)="cleanFilters()" [disabled]="!canClean">Ripristina Filtri</button>
     </div>
   

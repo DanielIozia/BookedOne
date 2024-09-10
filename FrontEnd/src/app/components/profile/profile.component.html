@@ -39,14 +39,11 @@
 
       <!-- SEZIONE VENDITORE -->
       <ul class="content__list" *ngIf="user.role == 'seller' ">
-        <li>
-            <span>{{ reservedEvents }}</span> Eventi emessi
+        <li (click)="goToEvents()">
+            <span>{{ myEvent }}</span> Eventi emessi
         </li>
-        <li>
-            <span>{{ upcomingReservations }}</span> Eventi da svolgere
-        </li>
-        <li>
-            <span>{{ pastReservations }}</span> Eventi scaduti
+        <li (click)="goToEvents()">
+            <span>{{ expiredEventSeller }}</span> Eventi scaduti
         </li>
     </ul>
 

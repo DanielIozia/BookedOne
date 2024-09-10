@@ -41,7 +41,19 @@ export class EventService {
   }
 
 
-
+/*
+public class CreateEvent {
+    private String name;
+    private String description;
+    private String location;
+    private LocalDate date;
+    private LocalTime time;
+    private double price;
+    private String category;
+    private int availableTickets;
+    String idSeller;
+}
+*/
 
 
 

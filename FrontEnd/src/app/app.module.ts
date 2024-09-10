@@ -23,6 +23,7 @@ import { DeleteUserComponent } from './components/delete-user/delete-user.compon
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +34,7 @@ import { DeleteUserComponent } from './components/delete-user/delete-user.compon
     DialogDeleteReserveEventComponent,
     DialogLogoutComponent,
     DeleteUserComponent,
+    
   ],
   imports: [
     BrowserModule,
