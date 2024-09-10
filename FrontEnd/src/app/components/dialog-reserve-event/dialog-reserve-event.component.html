@@ -11,24 +11,18 @@
   <!-- List of Features or Benefits -->
   <ul class="lists">
     
-
-    <!-- List Item 2 -->
     <li class="list">
       <p> <strong> {{ event.date | date }} </strong> - <strong> {{event.time}}  </strong> </p>
     </li>
-
-    <!-- List Item 4 -->
+  
     <li class="list">
       <p><strong>Luogo:</strong> {{ event.location }}</p>
     </li>
-
-
-    <!-- List Item 7 -->
+  
     <li class="list">
       <p><strong>Biglietti Disponibili:</strong> {{ event.availableTickets }}</p>
     </li>
 
-    <!-- List Item 5 -->
     <li class="list">
       <h1><strong>Prezzo:</strong> {{ event.price | currency }}</h1>
     </li>
@@ -38,8 +32,7 @@
       <input type="number" id="tickets" [(ngModel)]="tickets" min="1" max="{{event.availableTickets}}" />
       <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     </div>
-    
-
+  
   </ul>
 
   <!-- Call to Action Button -->  
