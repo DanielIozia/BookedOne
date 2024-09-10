@@ -2,6 +2,8 @@ package BackEnd.BookedOne.services;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -275,13 +277,18 @@ public class EventService {
         // Filtra gli eventi in base alla data maggiore di oggi e agli altri criteri forniti
         List<Event> filteredEvents = allEvents.stream()
             .filter(event -> {
-                LocalDate eventDate = LocalDate.parse(event.getDate(), formatter);
-                return (eventDate.isEqual(today)||eventDate.isAfter(today)) && // Filtra eventi con data maggiore di oggi
-                    (events.getCategory() == null || event.getCategory().toLowerCase().contains(events.getCategory().toLowerCase())) &&
-                    (events.getLocation() == null || event.getLocation().toLowerCase().contains(events.getLocation().toLowerCase())) &&
-                    (events.getName() == null || event.getName().toLowerCase().contains(events.getName().toLowerCase())) &&
-                    (events.getDate() == null || event.getDate().equalsIgnoreCase(events.getDate()));
-            })
+            LocalDate eventDate = LocalDate.parse(event.getDate(), formatter);
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm"); // formato dell'orario (adattalo se necessario)
+            LocalTime eventTime = LocalTime.parse(event.getTime(), timeFormatter); // assumendo che getTime() restituisca una stringa dell'orario
+            LocalTime now = LocalTime.now(); // orario attuale
+
+                // Controlla se l'evento è dopo oggi o, se è oggi, che l'orario sia successivo all'ora corrente
+            return (eventDate.isAfter(today) || (eventDate.isEqual(today) && eventTime.isAfter(now))) &&
+            (events.getCategory() == null || event.getCategory().toLowerCase().contains(events.getCategory().toLowerCase())) &&
+            (events.getLocation() == null || event.getLocation().toLowerCase().contains(events.getLocation().toLowerCase())) &&
+            (events.getName() == null || event.getName().toLowerCase().contains(events.getName().toLowerCase())) &&
+            (events.getDate() == null || event.getDate().equalsIgnoreCase(events.getDate()));
+})
             .sorted((e1, e2) -> {
                 LocalDate date1 = LocalDate.parse(e1.getDate(), formatter);
                 LocalDate date2 = LocalDate.parse(e2.getDate(), formatter);
@@ -334,12 +341,33 @@ public class EventService {
 
         // Filtraggio degli eventi
         List<Event> filteredEvents = allEvents.stream()
-            .filter(event -> {
-                return
+        
+             .filter(event -> {
+            // Filtra per categoria, location, nome e data, come prima
+                boolean matchesFilter = 
                     (allEventsBySeller.getCategory() == null || event.getCategory().toLowerCase().contains(allEventsBySeller.getCategory().toLowerCase())) &&
                     (allEventsBySeller.getLocation() == null || event.getLocation().toLowerCase().contains(allEventsBySeller.getLocation().toLowerCase())) &&
                     (allEventsBySeller.getName() == null || event.getName().toLowerCase().contains(allEventsBySeller.getName().toLowerCase())) &&
                     (allEventsBySeller.getDate() == null || event.getDate().equalsIgnoreCase(allEventsBySeller.getDate()));
+
+                // Verifica se l'evento è scaduto o meno
+                if (allEventsBySeller.getExpired() != null) {
+                    // Se expired è true o false, filtra in base alla scadenza
+                    LocalDate eventDate = LocalDate.parse(event.getDate(), formatter);
+                    LocalTime eventTime = LocalTime.parse(event.getTime());
+                    LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventTime);
+                    LocalDateTime now = LocalDateTime.now();
+
+                    boolean isExpired = eventDateTime.isBefore(now);
+                    if (allEventsBySeller.getExpired() && !isExpired) {
+                        return false; // L'utente vuole solo eventi scaduti, ma questo evento non è scaduto
+                    }
+                    if (!allEventsBySeller.getExpired() && isExpired) {
+                        return false; // L'utente non vuole eventi scaduti, ma questo evento è scaduto
+                    }
+                }
+                // Se expired è null, non viene applicato alcun filtro di scadenza
+                return matchesFilter;
             })
             .sorted((e1, e2) -> {
                 LocalDate date1 = LocalDate.parse(e1.getDate(), formatter);

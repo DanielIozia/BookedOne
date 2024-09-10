@@ -1,5 +1,7 @@
 package BackEnd.BookedOne.services;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -206,7 +208,7 @@ public class ReservationService {
     
         // Crea un formatter per la data se necessario (adatta il formato alla tua data)
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate today = LocalDate.now(); // Data di oggi
+        
     
         // Filtra e ordina le prenotazioni
         List<ReservationEvent> filteredReservationsWithEvents = reservations.stream()
@@ -219,21 +221,37 @@ public class ReservationService {
                 if (event == null) {
                     return false;
                 }
+            
                 // Filtra per categoria, location, nome, data, etc.
                 boolean matchesFilter = 
                     (myRes.getCategory() == null || event.getCategory().toLowerCase().contains(myRes.getCategory().toLowerCase())) &&
                     (myRes.getLocation() == null || event.getLocation().toLowerCase().contains(myRes.getLocation().toLowerCase())) &&
                     (myRes.getName() == null || event.getName().toLowerCase().contains(myRes.getName().toLowerCase())) &&
                     (myRes.getDate() == null || event.getDate().equalsIgnoreCase(myRes.getDate()));
-    
-                // Filtra per eventi "scaduti" (se richiesto)
-                if (myRes.isExpired()) {
-                    LocalDate eventDate = LocalDate.parse(event.getDate(), formatter);
-                    return matchesFilter && eventDate.isBefore(today); // Se scaduto, deve essere prima di oggi
-                }
-    
+            
+                // Ottieni la data e l'ora dell'evento (supponendo che `event.getTime()` ritorni l'ora in formato "HH:mm")
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+                LocalDate eventDate = LocalDate.parse(event.getDate(), dateFormatter);
+                LocalTime eventTime = LocalTime.parse(event.getTime(), timeFormatter);
+                LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventTime);
+                LocalDateTime now = LocalDateTime.now();
+            
+                // Se expired == null, restituisci tutti gli eventi senza filtro per scadenza
+                if (myRes.getExpired() != null) {
+                // Filtra per eventi scaduti o non scaduti in base a myRes.getExpired()
+                    boolean isExpired = eventDateTime.isBefore(now);
+                    if (myRes.getExpired() && !isExpired) {
+                        return false; // L'utente vuole solo eventi scaduti, ma questo evento non è scaduto
+                    }
+                    if (!myRes.getExpired() && isExpired) {
+                        return false; // L'utente non vuole eventi scaduti, ma questo evento è scaduto
+                    }    
+                }    
                 return matchesFilter;
             })
+            
+
             .sorted((re1, re2) -> {
                 LocalDate date1 = LocalDate.parse(re1.getReservation().getBookingDate(), formatter);
                 LocalDate date2 = LocalDate.parse(re2.getReservation().getBookingDate(), formatter);

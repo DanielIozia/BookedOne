@@ -111,10 +111,8 @@ export class ProfileComponent implements OnInit {
     const currentDate = new Date();
     this.reservations.forEach(reservationEvent => {
       const eventDate = new Date(reservationEvent.event.date);
-
       
       if (eventDate >= currentDate) {
-        
         // Evento non ancora effettuato
         this.upcomingReservations++;
       } 
@@ -126,27 +124,17 @@ export class ProfileComponent implements OnInit {
   }
 
   calculateEventSeller(): void {
-    this.eventSeller.forEach(event => {
-        const eventDate = new Date(event.date);
-        const currentDate = new Date();
+    let expired:boolean = true;
+    this.isLoadinEventSeller = true;
 
-        const eventTime = new Date(event.time).getTime();  // Convertiamo il tempo dell'evento in millisecondi
-        const currentTime = currentDate.getTime();         // Otteniamo l'ora attuale in millisecondi
-
-        // Verifica se la data dell'evento è passata
-        if (eventDate < currentDate) {  // setHours azzera l'orario per confrontare solo le date
-          console.log(event)
-          this.expiredEventSeller++;
-        }
-        // Verifica se l'evento è oggi
-        else if (eventDate.setHours(0, 0, 0, 0) === currentDate.setHours(0, 0, 0, 0)) {
-            // Verifica l'ora dell'evento
-            if (eventTime < currentTime) {
-              console.log(event)
-                this.expiredEventSeller++;
-            }
-        }
-    });
+    //chaimo gli eventi scaduti per avere il numero esatto
+    this.seller.getSellerEvents(0, 10000,undefined,undefined,undefined,undefined,expired).subscribe (data => {
+      this.isLoadinEventSeller = false;
+      this.expiredEventSeller = data.totalElements;
+    }, error => {
+      console.error('Errore nel caricamento degli eventi', error.error.title, '\n', error.error.message);
+      this.isLoadinEventSeller = false;
+    })
 }
 
   

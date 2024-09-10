@@ -7,7 +7,7 @@
 </div>  
 
 <!-- NOTIFICA DI AVVENUTO ACQUISTO PER IL CLIENTE -->
-<div  class="alert-container" *ngIf="viewNotification && !isLoading && role == 'customer '">
+<div  class="alert-container" *ngIf="viewNotification && !isLoading && role == 'customer' ">
   <div role="alert" class="alert alert-success" *ngIf="success">
     <p class="alert-text">Successo - Acquisto andato a buon fine!</p>
   </div>
@@ -18,7 +18,7 @@
 </div>
 
 <!-- NOTIFICA DI AVVENUTA MODIFICA/ELIMINAZIONE PER IL VENDITORE -->
-<div  class="alert-container" *ngIf="viewNotification && !isLoading && role == 'seller '">
+<div  class="alert-container" *ngIf="viewNotification && !isLoading && role == 'seller' ">
   <div role="alert" class="alert alert-success" *ngIf="success">
     <p class="alert-text">Successo - Acquisto andato a buon fine!</p>
   </div>
@@ -54,16 +54,19 @@
   <div class="event-card" *ngFor="let event of events">
     <div class="card-container">
       <div class="card-content">
-        <div class="card-header">{{event.location}}   {{event.date}} - {{event.time}}</div>
-        <p class="card-title">{{event.name}}</p>
-        <p class="card-description">{{event.description}}</p>
+        <div class="header_content">
+          <p class="card-title"> <strong>{{ event.name }}</strong> <br> {{ event.description }} </p>
+          <p class="card-title expired" *ngIf="isEventExpired(event)">Scaduto</p> 
+        </div>
+
+        <div class="card-header">{{event.location}}   {{event.date | date : 'dd/MM/yyyy'}} - {{event.time}}</div>
         <p class="card-description">Categoria: <strong>{{event.category}}</strong></p>
         <div class="separator">
           <div>
             <h2>{{event.price | currency : 'EUR'}}</h2>
           </div>
-          <div class="card-actions" *ngIf="role == 'customer' ">
-            <button (click)="openDialogReserveEvent(event)" *ngIf="event.availableTickets > 0">Acquista</button>
+          <div class="card-actions">
+            <button  (click)="openDialogReserveEvent(event)" *ngIf="role == 'customer' && event.availableTickets > 0">Acquista</button>
             <p *ngIf="event.availableTickets == 0" class="noMoreTickets"><strong>Sold Out</strong></p>
           </div>
       </div>

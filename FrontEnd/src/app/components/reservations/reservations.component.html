@@ -9,11 +9,11 @@
 <!-- Contenitore delle notifiche -->
 <div class="alert-container" *ngIf="viewNotification && !isLoading && !isDeleting">
   <div role="alert" class="alert alert-success" *ngIf="success">
-    <p class="alert-text">Prenotazione eliminata con successo</p>
+    <p class="alert-text">Prenotazione annullata con successo</p>
   </div>
 
   <div role="alert" class="alert alert-error" *ngIf="!success">
-    <p class="alert-text">Errore durante l'eliminazione</p>
+    <p class="alert-text">Errore durante l'annullamento, riprova</p>
   </div>
 </div>
 
@@ -42,8 +42,11 @@
     <div class="reservation-card" *ngFor="let reservation of reservations">
       <div class="card-container">
         <div class="card-content">
-          <p class="card-title"> <strong>{{ reservation.event.name }}</strong> <br>{{ reservation.event.description }}</p>
-          <div class="card-header">{{ reservation.event.location }} - {{ reservation.event.date }} - {{ reservation.event.time }}</div>
+          <div class="header_content">
+            <p class="card-title"> <strong>{{ reservation.event.name }}</strong> <br>{{ reservation.event.description }}</p>
+            <p class="card-title expired" *ngIf="isEventExpired(reservation.event)">Scaduto</p> 
+          </div>
+          <div class="card-header">{{ reservation.event.location }} - {{ reservation.event.date | date : 'dd/MM/yyyy' }} - {{ reservation.event.time }}</div>
           <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
           <p class="card-description"><strong>Categoria</strong>: {{ reservation.event.category }}</p>
           <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
@@ -51,7 +54,7 @@
             <div>  
             </div>
             <div class="card-actions">
-              <button class="delete-button" (click)="deleteReservation(reservation)">Elimina Prenotazione</button>
+              <button class="delete-button" (click)="deleteReservation(reservation)" [disabled]="isEventExpired(reservation.event)">Annulla Prenotazione</button>
             </div>
           </div>
         </div>

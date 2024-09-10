@@ -1,9 +1,9 @@
-<div class="loading-spinner" *ngIf="isLoading">
+<div class="loading-spinner" *ngIf="isLoading || isLoadinEventSeller">
   <div class="spinner"></div>
   <p>Caricamento in corso...</p>
 </div>
 
-<div  class="alert-container" *ngIf="viewNotification && !isLoading">
+<div  class="alert-container" *ngIf="viewNotification && !isLoading && !isLoadinEventSeller">
   <div role="alert" class="alert alert-success" *ngIf="success">
     <p class="alert-text">Profilo modificato con successo!</p>
   </div>
@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<div class="profile-page" *ngIf="!isLoading && !isLoadingReservation">
+<div class="profile-page" *ngIf="!isLoading && !isLoadingReservation && !isLoadinEventSeller">
   <div class="content">
       <div class="content__actions">
           <a></a>
@@ -38,9 +38,12 @@
       </ul>
 
       <!-- SEZIONE VENDITORE -->
-      <ul class="content__list" *ngIf="user.role == 'seller' ">
+      <ul class="content__list" *ngIf="user.role == 'seller'">
         <li (click)="goToEvents()">
             <span>{{ myEvent }}</span> Eventi emessi
+        </li>
+        <li (click)="goToEvents()">
+            <span>{{ myEvent - expiredEventSeller }}</span> Eventi da svolgersi
         </li>
         <li (click)="goToEvents()">
             <span>{{ expiredEventSeller }}</span> Eventi scaduti
