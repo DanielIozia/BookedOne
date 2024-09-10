@@ -18,13 +18,13 @@
 </div>
 
 <!-- NOTIFICA DI AVVENUTA MODIFICA/ELIMINAZIONE PER IL VENDITORE -->
-<div  class="alert-container" *ngIf="viewNotification && !isLoading && role == 'seller' ">
+<div  class="alert-container" *ngIf="viewNotificationDeleteEvent && !isLoading && role == 'seller' ">
   <div role="alert" class="alert alert-success" *ngIf="success">
-    <p class="alert-text">Successo - Acquisto andato a buon fine!</p>
+    <p class="alert-text">Evento eliminato con successo</p>
   </div>
 
   <div  role="alert" class="alert alert-error" *ngIf="!success">
-    <p class="alert-text">Errore - Qualcosa è andato storto.</p>
+    <p class="alert-text">Errore - Qualcosa è andato storto durante l'eliminazione.</p>
   </div>
 </div>
 

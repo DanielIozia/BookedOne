@@ -61,7 +61,7 @@ export class CreateEventComponent {
       this.isLoading = false;
       this.viewNotification = true;
       this.success = true;
-      //this.createEventForm.reset();
+      this.createEventForm.reset();
       this.autoCloseNotification();
     }, 
     error => {

@@ -26,6 +26,7 @@ export class EventsComponent {
   buyEventLoading: boolean = false;
   success: boolean | undefined = undefined;
   viewNotification: boolean = false;
+  viewNotificationDeleteEvent: boolean = false;
 
   filters = {
     name: '',
@@ -89,20 +90,20 @@ export class EventsComponent {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.success = true;
-        this.isLoading = true;
-        this.viewNotification = true;
         console.log('Deleting event with ID:', event); // Log per verificare l'ID
         this.seller.deleteEvent(event).subscribe(
           () => {
+            this.viewNotificationDeleteEvent = true;
             this.isLoading = false;
+            this.success = true;
             this.loadEventsSeller();
             console.log('Evento eliminato con successo');
             this.autoCloseNotification();
           },
           (error) => {
+            this.viewNotificationDeleteEvent = true;
             this.success = false;
-            this.viewNotification = true;
+            
             console.error('Errore nell\'eliminazione dell\'evento', error);
             this.isLoading = false;
             this.autoCloseNotification();

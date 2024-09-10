@@ -53,3 +53,10 @@
     }
   }
   
+  
+::ng-deep .mat-tooltip {
+  background-color: #333; /* Cambia il colore di sfondo */
+  color: #fff; /* Cambia il colore del testo */
+  font-size: 0.875rem; /* Cambia la dimensione del font */
+  padding: 8px 10px; /* Cambia il padding */
+}

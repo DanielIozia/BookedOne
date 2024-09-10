@@ -12,16 +12,16 @@
 
   <!-- Menu di navigazione per schermi grandi -->
   <div class="navbar-links">
-    <a mat-icon-button routerLink="profile" routerLinkActive="active">
+    <a mat-icon-button routerLink="profile" routerLinkActive="active" matTooltip="Profilo">
       <mat-icon>account_circle</mat-icon>
     </a>
-    <a mat-icon-button routerLink="seller-events" routerLinkActive="active">
+    <a mat-icon-button routerLink="seller-events" routerLinkActive="active" matTooltip="Eventi emessi">
       <mat-icon>event</mat-icon> 
     </a>
-    <a mat-icon-button routerLink="create-event" routerLinkActive="active">
+    <a mat-icon-button routerLink="create-event" routerLinkActive="active" matTooltip="Crea evento">
       <mat-icon>add</mat-icon> 
     </a>
-    <a mat-icon-button (click)="logout()">
+    <a mat-icon-button (click)="logout()" matTooltip="Logout">
       <mat-icon>logout</mat-icon>
     </a>
   </div>
