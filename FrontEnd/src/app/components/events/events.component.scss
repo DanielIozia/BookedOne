@@ -156,6 +156,42 @@
   }
   }
 
+  .button-edit{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    button{
+      padding: 5px;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      border-radius: 5px;
+    }
+
+    .edit{
+      border: 1px solid #3498db;
+      background-color: #2d2d2d;
+      color: #3498db;
+      &:hover {
+        border: 1px solid #f7f7f7;
+        background: #3498db;
+        color: #fff;
+      }
+    }
+
+    .delete{
+      border: 1px solid #e74c3c;
+      background-color: #2d2d2d;
+      color: #e74c3c;
+      &:hover {
+        border: 1px solid #f7f7f7;
+        background: #e74c3c;
+        color: #fff;
+      }
+    }
+  }
+
   .event-list {
     .event-card {
 

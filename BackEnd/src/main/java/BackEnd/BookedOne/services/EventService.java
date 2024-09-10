@@ -189,7 +189,6 @@ public class EventService {
             existingEvent.get().setCategory(category);
             existingEvent.get().setAvailableTickets(availableTickets);
             existingEvent.get().setIdSeller(idSeller);
-
             eventRepository.save(existingEvent.get());
             return existingEvent.get();
         }
@@ -356,27 +355,7 @@ public class EventService {
                     (allEventsBySeller.getName() == null || event.getName().toLowerCase().contains(allEventsBySeller.getName().toLowerCase())) &&
                     (allEventsBySeller.getDate() == null || event.getDate().equalsIgnoreCase(allEventsBySeller.getDate())) && 
                     (allEventsBySeller.getExpired() == null || (allEventsBySeller.getExpired() && isExpired) || (!allEventsBySeller.getExpired() && !isExpired) || (!allEventsBySeller.getExpired()  && isExpired));
-
                     return matchesFilter;
-
-                // Verifica se l'evento è scaduto o meno
-                // if (allEventsBySeller.getExpired() != null) {
-                //     // Se expired è true o false, filtra in base alla scadenza
-                //     LocalDate eventDate = LocalDate.parse(event.getDate(), formatter);
-                //     LocalTime eventTime = LocalTime.parse(event.getTime());
-                //     LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventTime);
-                //     LocalDateTime now = LocalDateTime.now();
-                
-                //     boolean isExpired = eventDateTime.isBefore(now);
-                //     if (allEventsBySeller.getExpired() && !isExpired) {
-                //         return false; // L'utente vuole solo eventi scaduti, ma questo evento non è scaduto
-                //     }
-                //     if (!allEventsBySeller.getExpired() && isExpired) {
-                //         return true; // L'utente non vuole eventi scaduti, ma questo evento è scaduto
-                //     }
-                // }
-                
-                // Se expired è null, non viene applicato alcun filtro di scadenza
                 
             })
             .sorted((re1, re2) -> {

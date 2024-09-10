@@ -59,15 +59,19 @@
           <p class="card-title expired" *ngIf="isEventExpired(event)">Scaduto</p> 
         </div>
 
-        <div class="card-header">{{event.location}}   {{event.date | date : 'dd/MM/yyyy'}} - {{event.time}}</div>
+        <div class="card-header">{{event.location}} {{event.date | date : 'dd/MM/yyyy'}} - {{event.time}}</div>
         <p class="card-description">Categoria: <strong>{{event.category}}</strong></p>
         <div class="separator">
           <div>
             <h2>{{event.price | currency : 'EUR'}}</h2>
           </div>
           <div class="card-actions">
-            <button  (click)="openDialogReserveEvent(event)" *ngIf="role == 'customer' && event.availableTickets > 0">Acquista</button>
+            <button (click)="openDialogReserveEvent(event)" *ngIf="role == 'customer' && event.availableTickets > 0">Acquista</button>
             <p *ngIf="event.availableTickets == 0" class="noMoreTickets"><strong>Sold Out</strong></p>
+          </div>
+          <div *ngIf="role == 'seller' && !isEventExpired(event)" class="button-edit">
+            <button class="edit"><mat-icon>edit</mat-icon></button>
+            <button class="delete" (click)="deleteEvent(event)"> <mat-icon>delete</mat-icon> </button>
           </div>
       </div>
       </div>

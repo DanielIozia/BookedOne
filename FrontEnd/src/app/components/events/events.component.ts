@@ -7,6 +7,7 @@ import { DialogReserveEventComponent } from '../dialog-reserve-event/dialog-rese
 import { CustomerService } from '../../services/customer.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { SellerService } from '../../services/seller.service';
+import { DialogDeleteReserveEventComponent } from '../dialog-delete-reserve-event/dialog-delete-reserve-event.component';
 
 
 @Component({
@@ -73,6 +74,44 @@ export class EventsComponent {
         this.totalPages = response.totalPages;
     })
   }
+
+  updateEvent(){
+    
+  }
+
+  
+
+  deleteEvent(event: EventDetails) {
+    const dialogRef = this.dialog.open(DialogDeleteReserveEventComponent, {
+      width: '300px',
+      data: { event } // Passiamo solo l'evento qui
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.success = true;
+        this.isLoading = true;
+        this.viewNotification = true;
+        console.log('Deleting event with ID:', event); // Log per verificare l'ID
+        this.seller.deleteEvent(event).subscribe(
+          () => {
+            this.isLoading = false;
+            this.loadEventsSeller();
+            console.log('Evento eliminato con successo');
+            this.autoCloseNotification();
+          },
+          (error) => {
+            this.success = false;
+            this.viewNotification = true;
+            console.error('Errore nell\'eliminazione dell\'evento', error);
+            this.isLoading = false;
+            this.autoCloseNotification();
+          }
+        );
+      }
+    });
+  }
+  
 
   applyFilters(): void {
     this.page = 0;
@@ -200,4 +239,5 @@ export class EventsComponent {
     }
   }
 
+  
 }

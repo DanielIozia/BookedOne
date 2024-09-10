@@ -4,6 +4,7 @@ import { AuthService } from './auth/auth.service';
 import { Observable } from 'rxjs';
 import { EventResponse } from '../interfaces/event/eventResponse';
 import { CreateEvent } from '../interfaces/event/createEvent';
+import { EventDetails } from '../interfaces/event/event';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,26 @@ export class SellerService {
       'Authorization': `Bearer ${token}`
     });
     return this.http.post(this.BASE_URL + this.CREATE_EVENT, event, {headers});
+  }
+
+  updateEvent(event:CreateEvent){
+    const token = this.auth.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.put(this.BASE_URL + this.UPDATE_EVENT, event, {headers});
+  }
+
+  deleteEvent(event: EventDetails): Observable<void> {
+    const token = this.auth.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.request<void>('DELETE',this.BASE_URL + this.DELETE_EVENT, {
+      body: event,
+      headers: headers,
+      responseType: 'text' as 'json' 
+    });
   }
 
 }
