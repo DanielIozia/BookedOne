@@ -336,7 +336,6 @@ public class EventService {
         // Recupera tutti gli eventi che hanno idSeller = userId dal repository
         List<Event> allEvents = eventRepository.findByIdSeller(userId);
 
-        
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         // Filtraggio degli eventi
@@ -357,15 +356,16 @@ public class EventService {
                     LocalTime eventTime = LocalTime.parse(event.getTime());
                     LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventTime);
                     LocalDateTime now = LocalDateTime.now();
-
+                
                     boolean isExpired = eventDateTime.isBefore(now);
                     if (allEventsBySeller.getExpired() && !isExpired) {
                         return false; // L'utente vuole solo eventi scaduti, ma questo evento non è scaduto
                     }
                     if (!allEventsBySeller.getExpired() && isExpired) {
-                        return false; // L'utente non vuole eventi scaduti, ma questo evento è scaduto
+                        return true; // L'utente non vuole eventi scaduti, ma questo evento è scaduto
                     }
                 }
+                
                 // Se expired è null, non viene applicato alcun filtro di scadenza
                 return matchesFilter;
             })
