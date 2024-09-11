@@ -123,10 +123,11 @@ public class EventService {
             );
         }
 
+        //controllo luogo,data e ora e se non è lo stesso evento
         if(eventRepository.findByLocationAndDateAndTime(
             event.getLocation(), 
             event.getDate().toString(), 
-            event.getTime().toString()).isPresent()){
+            event.getTime().toString()).isPresent() && !existingEvent.get().getId().equals(event.getId())){
 
             throw new ExceptionBackend(
                 "Errore Evento",  
@@ -153,10 +154,12 @@ public class EventService {
             );  
         }
 
-        if(event.getIdSeller() != null){
+       
+
+        if (!existingEvent.get().getIdSeller().equals(event.getIdSeller())) {
             throw new ExceptionBackend(
-                "L'id del venditore non può essere modificato",  
-                "L'aggiornamento di un evento è consentito solo se l'utente è colui che ha creato l'evento",  
+                "Errore Modifica Evento",
+                "L'evento può essere modificato solo da chi l'ha creato",
                 HttpStatus.FORBIDDEN
             );
         }

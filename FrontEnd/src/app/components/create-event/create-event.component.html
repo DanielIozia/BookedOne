@@ -39,7 +39,7 @@
       <div class="input-group">
         <label for="data" class="label" *ngIf="!dataErrorMessage">Data</label>
         <label for="data" class="label"  *ngIf="dataErrorMessage" style="color:red;">{{dataErrorMessage}}</label>
-        <input type="date" formControlName="data" id="data" />
+        <input type="date" formControlName="data" id="data" [attr.min]="today" />
       </div>
   
       <div class="input-group">

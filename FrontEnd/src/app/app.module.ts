@@ -20,6 +20,7 @@ import { DialogReserveEventComponent } from './components/dialog-reserve-event/d
 import { DialogDeleteReserveEventComponent } from './components/dialog-delete-reserve-event/dialog-delete-reserve-event.component';
 import { DialogLogoutComponent } from './components/dialog-logout/dialog-logout.component';
 import { DeleteUserComponent } from './components/delete-user/delete-user.component';
+import { UpdateEventComponent } from './components/update-event/update-event.component';
 
 
 
@@ -34,6 +35,7 @@ import { DeleteUserComponent } from './components/delete-user/delete-user.compon
     DialogDeleteReserveEventComponent,
     DialogLogoutComponent,
     DeleteUserComponent,
+    UpdateEventComponent,
     
   ],
   imports: [

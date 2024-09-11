@@ -38,21 +38,21 @@ export class SellerService {
   }
 
 
-  createEvent(event:CreateEvent){
+  createEvent(event:CreateEvent):Observable<EventDetails>{
 
     const token = this.auth.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.post(this.BASE_URL + this.CREATE_EVENT, event, {headers});
+    return this.http.post<EventDetails>(this.BASE_URL + this.CREATE_EVENT, event, {headers});
   }
 
-  updateEvent(event:CreateEvent){
+  updateEvent(event:CreateEvent):Observable<EventDetails>{
     const token = this.auth.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put(this.BASE_URL + this.UPDATE_EVENT, event, {headers});
+    return this.http.put<EventDetails>(this.BASE_URL + this.UPDATE_EVENT, event, {headers});
   }
 
   deleteEvent(event: EventDetails): Observable<void> {

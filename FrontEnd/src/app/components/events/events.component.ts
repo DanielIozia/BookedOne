@@ -8,6 +8,7 @@ import { CustomerService } from '../../services/customer.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { SellerService } from '../../services/seller.service';
 import { DialogDeleteReserveEventComponent } from '../dialog-delete-reserve-event/dialog-delete-reserve-event.component';
+import { UpdateEventComponent } from '../update-event/update-event.component';
 
 
 @Component({
@@ -37,11 +38,23 @@ export class EventsComponent {
   }
   isLoading: boolean = false;
   canClean: boolean = false;
+  isUpdating:boolean = false;
+
 
   role:string;
+  today:string;
+  id:number;
+
+  messageUpdateEvent:string|undefined = undefined;
+  viewNotificationUpdating:boolean = false;
 
   constructor(private eventService: EventService, public dialog: MatDialog, private customerService: CustomerService, private auth:AuthService, private seller:SellerService) {
     this.role = this.auth.getRole()!;
+    this.id = this.auth.getId()!;
+    console.log("id nel costruttore: " , this.id);
+
+    const currentDate = new Date();
+    this.today = currentDate.toISOString().split('T')[0];
   }
 
   ngOnInit(): void {
@@ -76,8 +89,38 @@ export class EventsComponent {
     })
   }
 
-  updateEvent(){
+  updateEvent(event:EventDetails){
+
+    const dialogRef = this.dialog.open(UpdateEventComponent, {
+      width: '500px',
+      data: { event } // Passiamo solo l'evento qui
+    });
     
+
+    dialogRef.afterClosed().subscribe((result:EventDetails) => {
+      if (result) {
+        this.isUpdating = true;
+        this.seller.updateEvent(result).subscribe( (data:EventDetails) => {
+          this.viewNotificationUpdating = true;
+          this.isUpdating = false;
+          console.log(data);
+          this.success = true;
+          this.loadEventsSeller();
+          console.log('Evento modifica con successo');
+          this.autoCloseNotification();
+          this.messageUpdateEvent = `Evento modificato con successo`;
+        }, error => {
+          this.viewNotificationUpdating = true;
+          console.log(error.error.title. error.error.message)
+          console.error('Errore durante la modifica dell\'evento', error.error.title);
+          this.isUpdating = false;
+          this.success = false;
+          this.autoCloseNotification();
+          this.messageUpdateEvent = error.error.message;
+        })
+      }
+    });
+
   }
 
   
@@ -107,6 +150,7 @@ export class EventsComponent {
             console.error('Errore nell\'eliminazione dell\'evento', error);
             this.isLoading = false;
             this.autoCloseNotification();
+            
           }
         );
       }
@@ -209,6 +253,7 @@ export class EventsComponent {
   autoCloseNotification() {
     setTimeout(() => {
       this.viewNotification = false;
+      this.viewNotificationUpdating = false;
     }, 5000); // Nascondi dopo 5 secondi
   }
 

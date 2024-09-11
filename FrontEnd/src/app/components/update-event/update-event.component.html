@@ -1,0 +1,58 @@
+<div class="form-container">
+    <mat-icon  (click)="onCancel()">close</mat-icon>
+	<p class="title">Modifica Evento</p>
+	<form [formGroup]="updateEventForm" class="form" (ngSubmit)="updateEvent()">
+      
+        <div class="input-group">
+          <label for="titolo" class="label">Titolo Evento</label>
+          <input type="text" formControlName="titolo" id="titolo" />
+        </div>
+    
+        <div class="input-group">
+          <label for="descrizione" class="label">Descrizione</label>
+          <input type="textarea" formControlName="descrizione" id="descrizione" />
+        </div>
+    
+        <div class="input-group">
+          <label for="luogo" class="label" *ngIf="!locationErrorMessage">Luogo</label>
+          <label for="data" class="label"  *ngIf="locationErrorMessage" style="color:red;">{{locationErrorMessage}}</label>
+          <input type="text" formControlName="luogo" id="luogo" />
+        </div>
+    
+        <div class="input-group">
+          <label for="data" class="label" *ngIf="!dataErrorMessage">Data</label>
+          <label for="data" class="label"  *ngIf="dataErrorMessage" style="color:red;">{{dataErrorMessage}}</label>
+          <input type="date" formControlName="data" id="data" [attr.min]="today" />
+        </div>
+    
+        <div class="input-group">
+          <label for="ora" class="label" *ngIf="!timeErrorMessage">Ora</label>
+          <label for="data" class="label"  *ngIf="timeErrorMessage" style="color:red;">{{timeErrorMessage}}</label>
+          <input type="time" formControlName="ora" id="ora" [attr.min]="minTime"/>
+        </div>
+    
+        <div class="input-group">
+          <label for="categoria" class="label">Categoria</label>
+          <input type="text" formControlName="categoria" id="categoria" />
+        </div>
+    
+        <div class="input-group">
+          <label for="prezzo" class="label">Prezzo</label>
+          <input type="number" formControlName="prezzo" id="prezzo" />
+        </div>
+    
+        <div class="input-group">
+          <label for="bigliettiDisponibili" class="label">Biglietti Disponibili</label>
+          <input type="number" formControlName="bigliettiDisponibili" id="bigliettiDisponibili" />
+        </div>
+    
+        <input class="button submit" type="submit" [disabled]="updateEventForm.invalid || isLoading" value="Modifica evento" />
+        <input class="button clear" [disabled]="isLoading" (click)="onCancel()"  value="Annulla" />
+      
+      </form>
+	
+
+	
+
+	
+</div>

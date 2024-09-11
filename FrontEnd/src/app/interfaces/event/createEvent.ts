@@ -1,4 +1,5 @@
 export interface CreateEvent{
+    id?:string
     name:string,
     description:string,
     location:string,

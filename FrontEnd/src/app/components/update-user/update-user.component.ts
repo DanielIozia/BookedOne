@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { updateUser } from '../../interfaces/user/updateUser';
 import { DeleteUserComponent } from '../delete-user/delete-user.component';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs';
+
 
 @Component({
   selector: 'app-update-user',

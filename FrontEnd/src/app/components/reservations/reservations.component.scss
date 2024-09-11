@@ -155,15 +155,17 @@
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 8px;
-    background-color: #fff;
+    background-color: #f7f7f7;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     gap: 10px;
+    transition: all 0.5s ease-in-out;
+
 
     &:hover{
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      background-color: #f7f7f7; 
+      background-color: #d9d9d9; 
     }
 
     .header_content{

@@ -20,8 +20,10 @@ export class CreateEventComponent {
   dataErrorMessage:string | undefined = undefined;
   timeErrorMessage:string | undefined = undefined;
   locationErrorMessage:string | undefined = undefined;
+  today:string;
 
   constructor(private seller:SellerService, private fb: FormBuilder, private auth:AuthService){
+    
 
     this.createEventForm = this.fb.group({
       titolo: ['', [Validators.required]],
@@ -33,6 +35,9 @@ export class CreateEventComponent {
       prezzo: ['', [Validators.required]],
       bigliettiDisponibili: ['', [Validators.required]]
     });
+
+    const currentDate = new Date();
+    this.today = currentDate.toISOString().split('T')[0];
   }
 
 
