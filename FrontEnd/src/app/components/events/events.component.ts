@@ -51,8 +51,6 @@ export class EventsComponent {
   constructor(private eventService: EventService, public dialog: MatDialog, private customerService: CustomerService, private auth:AuthService, private seller:SellerService) {
     this.role = this.auth.getRole()!;
     this.id = this.auth.getId()!;
-    console.log("id nel costruttore: " , this.id);
-
     const currentDate = new Date();
     this.today = currentDate.toISOString().split('T')[0];
   }
