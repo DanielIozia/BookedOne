@@ -43,10 +43,11 @@
       </div>
   
       <div class="input-group">
-        <label for="ora" class="label" *ngIf="!timeErrorMessage">Ora</label>
-        <label for="data" class="label"  *ngIf="timeErrorMessage" style="color:red;">{{timeErrorMessage}}</label>
+        <label for="ora" class="label" *ngIf="!checkTime()">Ora</label>
+        <label for="ora" class="label" *ngIf="checkTime()" style="color:red;">{{timeErrorMessage}}</label>
         <input type="time" formControlName="ora" id="ora" />
       </div>
+  
   
       <div class="input-group">
         <label for="categoria" class="label">Categoria</label>
@@ -54,16 +55,18 @@
       </div>
   
       <div class="input-group">
-        <label for="prezzo" class="label">Prezzo</label>
+        <label for="prezzo" class="label" *ngIf="!checkPrice()">Prezzo</label>
+        <label for="data" class="label"  *ngIf="checkPrice()" style="color:red;">{{errorMessagePrice}}</label>
         <input type="number" formControlName="prezzo" id="prezzo" />
       </div>
   
       <div class="input-group">
-        <label for="bigliettiDisponibili" class="label">Biglietti Disponibili</label>
+        <label for="bigliettiDisponibili" class="label" *ngIf="!checkAvailableTickets()">Biglietti Disponibili</label>
+        <label for="data" class="label" *ngIf="checkAvailableTickets()" style="color:red;">{{errorMessageAvailableTickets}}</label>
         <input type="number" formControlName="bigliettiDisponibili" id="bigliettiDisponibili" />
       </div>
   
-      <input class="button submit" type="submit" [disabled]="createEventForm.invalid || isLoading" value="Crea Evento" />
+      <input class="button submit" type="submit" [disabled]="createEventForm.invalid || isLoading || timeErrorMessage" value="Crea Evento" />
       <input class="button clear" [disabled]="isLoading" (click)="onCancel()"  value="Ripristina" />
     
     </form>

@@ -21,6 +21,8 @@ export class CreateEventComponent {
   timeErrorMessage:string | undefined = undefined;
   locationErrorMessage:string | undefined = undefined;
   today:string;
+  errorMessageAvailableTickets:string|undefined = undefined;
+  errorMessagePrice:string|undefined = undefined;
 
   constructor(private seller:SellerService, private fb: FormBuilder, private auth:AuthService){
     
@@ -110,6 +112,50 @@ export class CreateEventComponent {
       this.viewNotification = false;
     }, 7000); // Nascondi dopo 7 secondi
   }
+
+  checkTime(): boolean {
+    const selectedDate = this.createEventForm.get('data')?.value;
+    const selectedTime = this.createEventForm.get('ora')?.value;
+
+    if (!selectedDate || !selectedTime) {
+      return false; // Se data o ora non sono selezionati, non fare nulla
+    }
+
+    const currentDate = new Date();
+
+    if (selectedDate === this.today) {
+      const currentTime = currentDate.getHours() + ':' + (currentDate.getMinutes() < 10 ? '0' : '') + currentDate.getMinutes();
+      const selectedDateTime = new Date(`${selectedDate}T${selectedTime}`);
+      const minAllowedTime = new Date(currentDate.getTime() + 60 * 60 * 1000);
+
+      if (selectedDateTime < minAllowedTime) {
+        this.timeErrorMessage = 'Seleziona almeno un\'ora da adesso';
+        return true;
+      }
+    }
+    this.timeErrorMessage = undefined;
+    return false;
+}
+
+checkPrice():boolean{
+  if(this.createEventForm.get('prezzo')!.value < 0){
+    this.errorMessagePrice = "Prezzo non valido";
+    return true;
+  }
+  return false;
+}
+
+
+
+checkAvailableTickets():boolean{
+  if(this.createEventForm.get('bigliettiDisponibili')!.value <= 0){
+    if(this.createEventForm.get('bigliettiDisponibili')!.touched){
+    this.errorMessageAvailableTickets = "Numero di biglietti non valido";
+    return true;
+    }
+  }
+  return false;
+}
 
 
 
