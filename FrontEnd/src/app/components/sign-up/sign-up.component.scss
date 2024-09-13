@@ -1,6 +1,6 @@
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-top: 4px solid #ffffff; // Colore bianco per la parte superiore del loader
+  border-top: 4px solid #8981BB; // Colore del loader
   border-radius: 50%;
   width: 25px;
   height: 25px;
@@ -18,42 +18,34 @@
   }
 }
 
-
 :host {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-
-  
-  // Gradiente di sfondo dal blu al violetto
-  background-image: linear-gradient(to left, #534567, #360d5a);
+  background-color: #214869; // Sfondo chiaro
 
   @media(max-width: 1024px) {
     height: auto;
   }
 
   @media(max-width: 480px) {
-    height: auto;
+    height: 100vh;
   }
 }
-
-
 
 .center {
   margin: 0 auto;
   width: 40%;
-  
-  background: linear-gradient(to right, #965aca, #64479d);
+  background-color: #F8F8F9; // Sfondo uniforme
   border-radius: 10px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.472);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); // Ombreggiatura leggera
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  /* Media query per schermi piccoli */
   @media (max-width: 768px) {
     width: 80%;
     height: auto;
@@ -68,7 +60,7 @@
     text-align: center;
     font-size: 2rem;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: #f7f7f7; /* Colore bianco per il testo dell'intestazione */
+    color: #214869; // Colore del testo
     margin-top: 2rem;
 
     @media (max-width: 480px) {
@@ -79,21 +71,26 @@
 }
 
 .form {
-  
-  --bg-light: #333333; /* Colore di sfondo chiaro per il form */
-  --bg-dark: #4a00e0; /* Colore scuro per il form */
-  --clr: #8e2de2; /* Colore principale del gradiente del form */
-  --clr-alpha: #333333; /* Colore di sfondo leggero per i campi di input */
-  
+  --bg-light: #F8F8F9;
+  --bg-dark: #214869;
+  --clr: #6AA7CB;
+  --clr-alpha: #60656D;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between; // Cambia da center a space-between
   gap: 1rem;
   width: 100%;
   max-width: 300px;
   padding: 1rem;
   border-radius: 0.5rem;
+
+  @media (min-width: 1024px) {
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
 
   @media (max-width: 768px) {
     max-width: 100%;
@@ -104,11 +101,36 @@
   }
 }
 
+.container-button {
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Allinea gli elementi al centro orizzontalmente
+  margin-top: auto; // Spinge il container-button verso il basso
+
+
+  @media (min-width: 1024px) {
+    min-width:215%;
+    margin: 0 auto;
+    
+    .span{
+      margin-top:10px;
+
+    }
+
+    
+  }
+}
+
 .form .input-span {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  @media (min-width: 1024px) {
+    width: 100%;
+  }
 }
 
 .form input[type="email"],
@@ -119,11 +141,8 @@
   padding: 1rem 0.75rem;
   width: 100%;
   border: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
   background-color: var(--clr-alpha);
-  color: #ffffff; /* Colore del testo degli input */
+  color: #F8F8F9;
   outline: 2px solid var(--bg-dark);
 
   @media (max-width: 480px) {
@@ -131,38 +150,33 @@
   }
 }
 
+
 .form select {
-  max-width: 100%; /* Assicurati che il select non superi la larghezza del contenitore */
-  box-sizing: border-box; /* Include padding e bordo nella larghezza totale */
-  font-size: 1rem; /* Dimensione del testo */
-  
+  max-width: 100%;
+  font-size: 1rem;
+
   @media (max-width: 480px) {
-    font-size: 1.1rem; /* Dimensione del testo su dispositivi mobili */
+    font-size: 1.1rem;
   }
 }
 
-.form input[type="email"]:focus,
-.form input[type="password"]:focus,
-.form input[type="text"]:focus,
+.form input:focus,
 .form select:focus {
-  outline: 2px solid var(--clr);
+  outline: 2px solid var(--clr); // Colore al focus
 }
 
 .label {
   align-self: flex-start;
-  color: #ffffff; /* Colore delle etichette */
+  color: #214869; // Colore delle etichette
   font-weight: 600;
 }
 
 .form .submit {
   padding: 1rem 0.75rem;
   width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
   border-radius: 3rem;
-  background-color: var(--clr); /* Colore di sfondo del bottone */
-  color: #fff; /* Colore del testo del bottone */
+  background-color: var(--clr); // Colore pulsante
+  color: #fff;
   border: none;
   cursor: pointer;
   transition: all 300ms;
@@ -176,19 +190,18 @@
 }
 
 .form .submit:hover {
-  background-color: #7c1f8c; /* Colore del bottone al passaggio del mouse */
-  color: #fff; /* Colore del testo del bottone al passaggio del mouse */
+  background-color: #8981BB; // Hover pulsante
 }
 
 .form .submit:disabled {
-  background-color: #e0e0e0; /* Colore di sfondo del bottone disabilitato */
-  color: #b0b0b0; /* Colore del testo del bottone disabilitato */
+  background-color: #e0e0e0;
+  color: #b0b0b0;
   cursor: not-allowed;
 }
 
 .span {
   text-decoration: none;
-  color: #ffffff; /* Colore del testo della span */
+  color: #214869; // Colore testo span
   text-align: center;
 
   @media (max-width: 480px) {
@@ -197,16 +210,15 @@
 }
 
 .span a {
-  color: #f7f7f7; /* Colore del link */
+  color: #214869; // Colore link
 
-  &:hover{
-    color:#9a9a9a;
+  &:hover {
+    color: #60656D; // Hover link
   }
 }
 
-/* Stile per i messaggi di errore */
 .error {
-  color: #f5a623; /* Colore arancione per i messaggi di errore */
+  color: #e74c3c; // Colore errori
   font-size: 1.3rem;
   margin-top: 2.5rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -217,51 +229,12 @@
   }
 }
 
-// Contorno predefinito nero per tutti gli input
-.form input[type="text"].ng-touched,
-.form input[type="email"].ng-touched,
-.form input[type="password"].ng-touched,
-.form select.ng-touched {
-  border-radius: 0.5rem;
-  padding: 1rem 0.75rem;
-  width: 100%;
-  border: 2px solid black; // Contorno predefinito nero
-  display: flex;
-  align-items: center;
-  background-color: var(--clr-alpha);
-  color: #ffffff; /* Colore del testo degli input */
-  outline: none;
-
-  @media (max-width: 480px) {
-    padding: 0.75rem 0.5rem;
-  }
+// Stili per validità e contorni degli input
+.form input.ng-valid:focus {
+  border-color: #6AA7CB; // Colore validità focus
 }
 
-// Cambia il contorno in base alla validità e al focus
-.form input[type="text"]:focus,
-.form input[type="email"]:focus,
-.form input[type="password"]:focus,
-.form select:focus {
-  border-color: #8e2de2; // Contorno blu quando il campo è in focus
+.form input.ng-invalid:not(:focus) {
+  border-color: #e74c3c; // Colore errore
 }
 
-.form input[type="text"].ng-valid:focus,
-.form input[type="email"].ng-valid:focus,
-.form input[type="password"].ng-valid:focus,
-.form select.ng-valid:focus {
-  border-color: #8e2de2; // Contorno blu anche quando il campo è valido e in focus
-}
-
-.form input[type="text"].ng-valid:not(:focus),
-.form input[type="email"].ng-valid:not(:focus),
-.form input[type="password"].ng-valid:not(:focus),
-.form select.ng-valid:not(:focus) {
-  border-color: #4a00e0; // Contorno blu scuro quando il campo è valido e non è in focus
-}
-
-.form input[type="text"].ng-invalid:not(:focus),
-.form input[type="email"].ng-invalid:not(:focus),
-.form input[type="password"].ng-invalid:not(:focus),
-.form select.ng-invalid:not(:focus) {
-  border-color: #e74c3c; // Contorno rosso quando il campo è non valido e non è in focus
-}

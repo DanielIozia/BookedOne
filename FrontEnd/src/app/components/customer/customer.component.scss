@@ -1,5 +1,5 @@
 .navbar {
-  background-image: linear-gradient(to left, #534567, #360d5a);
+  background-color: #8981BB; /* Colore uniforme dalla palette */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -11,8 +11,8 @@
 .navbar-title {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #fff;
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  color: #F8F8F9; /* Testo chiaro */
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .navbar-spacer {
@@ -22,24 +22,24 @@
 .navbar-links {
   display: flex;
   gap: 16px;
-  
+
   a {
-    color: #fff;
+    color: #F8F8F9; /* Colore chiaro per i link */
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Roboto', sans-serif; /* Applica il font ai link */
 
     &.active {
-      color: rgba(255, 227, 48, 0.921); /* Colore per link attivo */
+      color: #214869; /* Colore per il link attivo dalla palette */
     }
   }
 }
 
 .menu-icon {
-  color:white;
+  color: #F8F8F9; /* Icona del menu di colore chiaro */
   display: none; /* Nascondi l'icona del menu per schermi grandi */
-  font-family: 'Roboto', sans-serif; /* Applica il font anche al menu icon */
+  font-family: 'Roboto', sans-serif; /* Applica il font anche all'icona del menu */
 }
 
 /* Media query per schermi piccoli */
@@ -54,9 +54,8 @@
 }
 
 ::ng-deep .mat-tooltip {
-  background-color: #333; /* Cambia il colore di sfondo */
-  color: #fff; /* Cambia il colore del testo */
+  background-color: #60656D; /* Colore di sfondo del tooltip */
+  color: #F8F8F9; /* Colore del testo nel tooltip */
   font-size: 0.875rem; /* Cambia la dimensione del font */
   padding: 8px 10px; /* Cambia il padding */
 }
-

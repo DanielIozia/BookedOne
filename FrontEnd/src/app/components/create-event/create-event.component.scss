@@ -42,8 +42,8 @@ $font-size-small: 0.875rem;
     justify-content: center;
     align-items: center;
     min-height: 94vh;
-    // Gradiente di sfondo dal blu al violetto
-    background-image: linear-gradient(to left, #534567, #360d5a);
+    
+    background-color: #8981BB; /* Colore uniforme dalla palette */
 
     @media (min-width: 1600px) {
         height:98vh;

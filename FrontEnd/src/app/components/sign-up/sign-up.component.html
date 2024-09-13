@@ -45,8 +45,10 @@
       </select>
     </span>
 
-    <input class="submit" type="submit" [disabled]="registerForm.invalid || isLoading" value="Registrati" />
-
-    <span class="span">Sei già registrato? <a routerLink="/login">Accedi</a></span>
+    <div class="container-button">
+      <input class="submit" type="submit" [disabled]="registerForm.invalid || isLoading" value="Registrati" />
+      <span class="span">Sei già registrato? <a routerLink="/login">Accedi</a></span>
+    </div>
+    
   </form>
 </div>

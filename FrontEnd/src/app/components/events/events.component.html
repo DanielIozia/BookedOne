@@ -63,14 +63,17 @@
 <div class="event-list" *ngIf="events.length != 0">
   <div class="event-card" *ngFor="let event of events">
     <div class="card-container">
+
       <div class="card-content">
         <div class="header_content">
-          <p class="card-title"> <strong>{{ event.name }}</strong> <br> {{ event.description }} </p>
+          <p class="card-title"> <strong>{{ event.name }}</strong></p>
           <p class="card-title expired" *ngIf="isEventExpired(event)">Scaduto</p> 
         </div>
-
+        
         <div class="card-header">{{event.location}} {{event.date | date : 'dd/MM/yyyy'}} - {{event.time}}</div>
         <p class="card-description">Categoria: <strong>{{event.category}}</strong></p>
+        <p class="descrizione"> <strong>{{ event.description }}</strong> </p>
+        
         <div class="separator">
           <div>
             <h2>{{event.price | currency : 'EUR'}}</h2>

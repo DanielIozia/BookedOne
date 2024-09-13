@@ -5,37 +5,22 @@
     <span class="title">{{event.name}}</span>
   </div>
 
-  <!-- Description Section -->
-  <p class="desc"><strong>{{ event.description }}</strong></p>
+    <div class="container">
+      <p class="desc"><strong>{{ event.description }}</strong></p>
+      <p class="desc"> <strong> {{ event.date | date }} </strong> - <strong> {{event.time}}  </strong> </p>
+      <p class="desc"><strong>Luogo:</strong> {{ event.location }}</p>
+      <p class="desc"><strong>Biglietti Disponibili:</strong> {{ event.availableTickets }}</p>
+      <h1 class="desc"><strong>Prezzo:</strong> {{ event.price | currency : 'EUR' }}</h1>
 
-  <!-- List of Features or Benefits -->
-  <ul class="lists">
-    
-    <li class="list">
-      <p> <strong> {{ event.date | date }} </strong> - <strong> {{event.time}}  </strong> </p>
-    </li>
-  
-    <li class="list">
-      <p><strong>Luogo:</strong> {{ event.location }}</p>
-    </li>
-  
-    <li class="list">
-      <p><strong>Biglietti Disponibili:</strong> {{ event.availableTickets }}</p>
-    </li>
-
-    <li class="list">
-      <h1><strong>Prezzo:</strong> {{ event.price | currency }}</h1>
-    </li>
-
-    <div class="ticket-selection">
-      <label for="tickets">Seleziona numero di biglietti:</label>
-      <input type="number" id="tickets" [(ngModel)]="tickets" min="1" max="{{event.availableTickets}}" />
-      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+      <div class="desc tickets">
+        <label for="tickets">Seleziona numero di biglietti:</label>
+        
+        <input type="number" id="tickets" [(ngModel)]="tickets" min="1" max="{{event.availableTickets}}" />
+        <div *ngIf="errorMessage" style="color:red;">{{ errorMessage }}</div>
+      </div>
     </div>
-  
-  </ul>
 
-  <!-- Call to Action Button -->  
+
 
   <button [disabled]="tickets <= 0" type="button" class="action" (click)="onPurchase()">
     Paga €{{ tickets > 0 ? event.price * tickets : 0}}

@@ -66,7 +66,7 @@
         <input type="number" formControlName="bigliettiDisponibili" id="bigliettiDisponibili" />
       </div>
   
-      <input class="button submit" type="submit" [disabled]="createEventForm.invalid || isLoading || timeErrorMessage" value="Crea Evento" />
+      <input class="button submit" type="submit" [disabled]="createEventForm.invalid || isLoading || timeErrorMessage || (createEventForm.get('bigliettiDisponibili')!.value) <= 0" value="Crea Evento" />
       <input class="button clear" [disabled]="isLoading" (click)="onCancel()"  value="Ripristina" />
     
     </form>

@@ -3,34 +3,86 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   border-radius: 0.25rem;
   background-color: rgba(17, 24, 39, 1);
   padding: 4.5rem;
-  
-  
+  max-width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+
   // Media query per schermi grandi
   @media (min-width: 1024px) {
     overflow: hidden;
     height:auto;
   }
 
+  .tickets{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+
+    input{
+      margin: 0 auto;
+      width: 60%;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      border: 1px solid #6AA7CB;
+      margin-bottom:10px;
+    }
+        
+  }
+
+ 
+
+  // Media query per dispositivi mobili in landscape (modalità orizzontale)
+  @media (max-width: 600px) and (orientation: landscape) {
+    padding: 1rem;
+    overflow-y: auto; // Permette lo scorrimento verticale
+    height: 100vh; // Limita l'altezza al 100% della viewport
+    width: 100%; // Assicurati che la card occupi tutta la larghezza
+  }
+
   .ticket-selection{
     text-align: center;
     font-size: 1.3rem;
+    color:#fff;
   }
 
   // Media query per tablet e schermi medi (fino a 1024px)
-  @media (max-width: 1024px) {
+  @media (min-width:600px) and (max-width: 1024px){
     padding: 2.5rem;
+    overflow-y:scroll;
     
     .title {
       font-size: 1.75rem;
     }
     .desc {
+      
+
+      .tickets{
+        
+        
+
+        label{
+          font-size: 0.9rem !important;
+          margin: 0 auto !important
+        } 
+  
+        input{
+          margin: 0 auto !important;
+          margin-top:5px !important;
+          width:50%;
+        }
+      }
       font-size: 1.1rem;
+      text-align: center;
+
+      
     }
+
+
     .lists .list {
+
       font-size: 1.1rem;
     }
     button {
@@ -50,19 +102,34 @@
     .desc {
       text-align: center;
       font-size: 0.8rem !important;
+      label{
+        font-size: 0.9rem !important;
+        margin: 0 auto !important
+      }
+
+      input{
+        margin: 0 auto !important;
+        margin-top:5px !important;
+        width:50%;
+      }
     }
     .lists  {
+      border:3px solid green;
       .list{
-        text-align: center;
-        font-size: 0.75rem !important;
+        margin: 0 auto;
+        padding: 0.5rem;
+        border:3px solid red; 
+        font-size: 0.90rem !important;
+
 
         h1{
           text-align: center;
-          font-size: 1rem !important;
+          font-size: 1.2rem !important;
         }
       }
       .ticket-selection{
         text-align: center !important;
+        margin: 0 auto;
         
         label{
           font-size: 0.9rem !important;
@@ -70,7 +137,6 @@
         }
 
         input{
-          
           margin: 0 auto !important;
           margin-top:5px !important;
           width:50%;
@@ -122,7 +188,7 @@
     }
 
     .error-message {
-      color: #f44336;
+      color: #f44336 !important;
       font-size: 1rem;
       margin-top: 0.5rem;
     }
@@ -132,6 +198,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
   }
 
   .title, .price {
@@ -188,7 +261,7 @@
     width: 100%;
     padding: 1.25rem;
     font-size: 1.25rem;
-    background-color: rgba(167, 139, 250, 1);
+    background-color: #6AA7CB;
     color: #f7f7f7;
     cursor: pointer;
     transition: background 0.3s, color 0.3s;
@@ -213,7 +286,11 @@
     // Media query per schermi piccoli (smartphone)
     @media (max-width: 600px) {
       padding: 1rem;
-      font-size: 1rem;
+      font-size: 1.4rem;
     }
+  }
+  @media(max-width: 800px) and (orientation: landscape){
+    overflow-y: scroll;
+    height:auto;
   }
 }
