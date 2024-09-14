@@ -67,7 +67,9 @@
       <div class="card-content">
         <div class="header_content">
           <p class="card-title"> <strong>{{ event.name }}</strong></p>
-          <p class="card-title expired" *ngIf="isEventExpired(event)">Scaduto</p> 
+          <p *ngIf="event.availableTickets == 0" class="noMoreTickets"><strong>Sold Out</strong></p>
+          <p class="card-title expired" *ngIf="isEventExpired(event)">Scaduto</p>
+           
         </div>
         
         <div class="card-header">{{event.location}} {{event.date | date : 'dd/MM/yyyy'}} - {{event.time}}</div>
@@ -80,7 +82,7 @@
           </div>
           <div class="card-actions">
             <button (click)="openDialogReserveEvent(event)" *ngIf="role == 'customer' && event.availableTickets > 0">Acquista</button>
-            <p *ngIf="event.availableTickets == 0" class="noMoreTickets"><strong>Sold Out</strong></p>
+            
           </div>
           <div *ngIf="role == 'seller' " class="button-edit">
             <button *ngIf="!isEventExpired(event)"class="edit" (click)="updateEvent(event)"><mat-icon>edit</mat-icon></button>

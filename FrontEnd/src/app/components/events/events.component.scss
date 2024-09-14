@@ -224,6 +224,12 @@
         display: flex;
         justify-content: space-between;
 
+        .noMoreTickets {
+          font-weight: bold;
+          color: #e74c3c; // Questo colore non è nella nuova palette
+          font-size: 1.5rem;
+        }
+
         .expired {
           color: #e74c3c; // Questo colore non è nella nuova palette
           font-size: 1.2rem;
@@ -278,11 +284,7 @@
           }
         }
 
-        .noMoreTickets {
-          font-weight: bold;
-          color: #e74c3c; // Questo colore non è nella nuova palette
-          font-size: 1.2rem;
-        }
+        
       }
     }
   }
