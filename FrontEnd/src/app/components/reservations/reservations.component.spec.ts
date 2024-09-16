@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ReservationComponent } from './reservations.component';
 import { CustomerService } from '../../services/customer.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -103,10 +103,13 @@ describe('ReservationComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should handle pagination correctly', () => {
+  it('should handle pagination correctly', fakeAsync(() => {
     component.currentPage = 0;
+    component.totalPages = 2; // Imposta manualmente totalPages
+    
+    // Simula la chiamata getReservations con un contenuto non vuoto
     const spy = spyOn(customerService, 'getReservations').and.returnValue(of({
-      content: [] as ReservationEvent[], 
+      content: [{}] as ReservationEvent[], // Non vuoto
       totalPages: 2, 
       totalElements: 20, 
       size: 10,
@@ -119,20 +122,32 @@ describe('ReservationComponent', () => {
       empty: false
     } as ReservationEventResponse));
     
+    // Chiamata a nextPage()
     component.nextPage();
+    tick();
+    // Verifica che getReservations sia stato chiamato con i parametri corretti
     expect(spy).toHaveBeenCalledWith(1, component.pageSize, component.category, component.location, component.name, component.date, component.expired);
+    
+    // Verifica che currentPage sia aggiornato
     expect(component.currentPage).toBe(1);
-  });
+  }));
 
-  it('should not increment currentPage if there are no more pages', () => {
+  
+  
+  
+
+  it('should not increment currentPage if there are no more pages', fakeAsync(() => {
     component.currentPage = 1;
+    component.totalPages = 2; // Imposta manualmente totalPages
+    
+    // Simula la chiamata getReservations
     const spy = spyOn(customerService, 'getReservations').and.returnValue(of({
-      content: [] as ReservationEvent[], 
+      content: [{}] as ReservationEvent[], 
       totalPages: 2, 
       totalElements: 20, 
       size: 10,
       number: 1,
-      last: true,
+      last: true, // Indica che è l'ultima pagina
       pageable: {} as any,
       sort: { empty: true, sorted: false, unsorted: true },
       numberOfElements: 10,
@@ -140,10 +155,19 @@ describe('ReservationComponent', () => {
       empty: false
     } as ReservationEventResponse));
     
+    // Prova a passare alla pagina successiva
     component.nextPage();
-    expect(spy).toHaveBeenCalledWith(2, component.pageSize, component.category, component.location, component.name, component.date, component.expired);
+    tick();
+
+    // Verifica che getReservations NON sia stato chiamato perché siamo sull'ultima pagina
+    expect(spy).not.toHaveBeenCalledWith(2, component.pageSize, component.category, component.location, component.name, component.date, component.expired);
+    
+    // Verifica che currentPage non sia cambiato
     expect(component.currentPage).toBe(1);
-  });
+  }));
+
+
+
 
   it('should delete a reservation and reload reservations', () => {
     const deleteSpy = spyOn(customerService, 'deleteReservation').and.returnValue(of());
@@ -170,6 +194,7 @@ describe('ReservationComponent', () => {
 
   it('should reset filters correctly', () => {
     component.category = 'Concert';
+    component.canClean = true;
     component.cleanFilters();
     expect(component.category).toBeUndefined();
     expect(component.location).toBeUndefined();

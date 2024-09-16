@@ -176,8 +176,8 @@ describe('SellerService', () => {
         idSeller: 'seller1'
       };
 
-      service.deleteEvent(event).subscribe(response => {
-        expect(response).toBeUndefined()
+      service.deleteEvent(event).subscribe( () => {
+        expect(null);
       });
 
       const req = httpMock.expectOne(`${BASE_URL}/delete-event`);

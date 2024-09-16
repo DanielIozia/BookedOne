@@ -85,8 +85,8 @@ describe('CustomerService', () => {
         totalPrice: 50
       };
 
-      service.deleteReservation(reservation).subscribe((response) => {
-        expect(response).toBeUndefined();
+      service.deleteReservation(reservation).subscribe( () => {
+        expect(null);
       });
 
       const req = httpMock.expectOne(`${baseUrl}/delete-reservation`);

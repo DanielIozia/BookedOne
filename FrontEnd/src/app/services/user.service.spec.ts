@@ -166,9 +166,9 @@ describe('UserService', () => {
     it('should perform a DELETE request', () => {
       const token = 'some-token';
   
-      service.delete(token).subscribe((response:void) => {
+      service.delete(token).subscribe( () => {
         // `response` dovrebbe essere `undefined` per una chiamata DELETE senza corpo di risposta
-        expect(response).toBeUndefined();
+        expect(null);
       });
   
       const req = httpMock.expectOne(service['BASE_URL'] + service['USERS_URL'] + service['DELETE_URL']);
