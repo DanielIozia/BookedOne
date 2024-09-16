@@ -1,14 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { UserService } from '../../services/user.service';
-import { User } from '../../interfaces/user/User';
-import { AuthService } from '../../services/auth/auth.service';
-import { updateUser } from '../../interfaces/user/updateUser';
-import { DeleteUserComponent } from '../delete-user/delete-user.component';
-import { Router } from '@angular/router';
-import { EventDetails } from '../../interfaces/event/event';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SellerService } from '../../services/seller.service';
+
+//interfaces
+import { EventDetails } from '../../interfaces/event/event';
 import { CreateEvent } from '../../interfaces/event/createEvent';
 
 
@@ -73,8 +68,6 @@ export class UpdateEventComponent implements OnInit {
 
   // Funzione per aggiornare l'evento
   updateEvent(): void {
-
-
     
     let eventUpdated: CreateEvent = {
       id: this.data.event.id,

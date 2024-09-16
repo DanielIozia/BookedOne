@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ReservationEvent } from '../../interfaces/reservation/reservationEvent';
-import { CustomerService } from '../../services/customer.service';
-import { ReservationEventResponse } from '../../interfaces/reservation/reservationEventResponse';
-import { Reservation } from '../../interfaces/reservation/reservation';
-import { DialogDeleteReserveEventComponent } from '../dialog-delete-reserve-event/dialog-delete-reserve-event.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DialogDeleteReserveEventComponent } from '../dialog-delete-reserve-event/dialog-delete-reserve-event.component';
+
+//interfaces
+import { ReservationEvent } from '../../interfaces/reservation/reservationEvent';
+import { ReservationEventResponse } from '../../interfaces/reservation/reservationEventResponse';
 import { EventDetails } from '../../interfaces/event/event';
+
+//services
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
   selector: 'app-reservations',

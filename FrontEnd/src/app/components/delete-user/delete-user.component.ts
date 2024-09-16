@@ -40,29 +40,34 @@ export class DeleteUserComponent {
     }
   }
 
+  
+
   deleteAccount(): void {
     try {
-      if (!this.onVerifyEmail() || !this.checkEmail()) {
-        this.emailErrorMessage = "L'email non corrisponde a questo account";
-        throw new Error("Email non valida");
-      }
-
-      if (this.password.length <= 0) {
-        this.errorMessage = "Inserisci la password";
-        throw new Error("Inserisci la password");
-      }
-
       if (this.email.length <= 0) {
         this.emailErrorMessage = "Inserisci l'email";
         throw new Error("Inserisci l'email");
       }
+  
+      if (!this.onVerifyEmail() || !this.checkEmail()) {
+        this.emailErrorMessage = "L'email non corrisponde a questo account";
+        throw new Error("Email non valida");
+      }
+  
+      if (this.password.length <= 0) {
+        this.errorMessage = "Inserisci la password";
+        throw new Error("Inserisci la password");
+      }
+      
       this.onVerifyPassword();
     } catch (err: any) {
       console.log(err);
     }
   }
+  
 
   onVerifyPassword(): boolean {
+    
     this.verifingPassword = true;
     this.userService.verifyPassword(this.authService.getToken()!, this.password).subscribe((data: boolean) => {
       this.verifingPassword = false;
@@ -88,6 +93,8 @@ export class DeleteUserComponent {
     });
     return false;
   }
+
+  
 
   onVerifyEmail(): boolean {
     return this.email == this.authService.getEmail();

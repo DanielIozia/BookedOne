@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { Observable } from 'rxjs';
+
 import { EventResponse } from '../interfaces/event/eventResponse';
 import { CreateEvent } from '../interfaces/event/createEvent';
 import { EventDetails } from '../interfaces/event/event';
@@ -12,11 +13,6 @@ import { EventDetails } from '../interfaces/event/event';
 export class SellerService {
 
   constructor(private http:HttpClient, private auth:AuthService) { }
-
-  // CreaEvento:/api/seller/create-event
-  // UpdateEvento:/api/seller/update-event
-  // CancellaEvento:/api/seller/delete-event
-  // EventiCreati:/api/seller/seller-events
 
   private BASE_URL = 'http://localhost:8080/api/seller'
   private CREATE_EVENT = '/create-event'

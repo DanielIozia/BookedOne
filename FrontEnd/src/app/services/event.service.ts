@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EventDetails } from '../interfaces/event/event';
+
 import { EventResponse } from '../interfaces/event/eventResponse';
 import { AuthService } from './auth/auth.service';
 
@@ -12,8 +12,6 @@ export class EventService {
 
   private BASE_URL = 'http://localhost:8080/api/customer'
   private ALL_EVENTS = "/all-events"
-  private RESERVE_EVENT = "/my-reservation"
-  private DELETE_EVENT = "/delete-event"
 
 
   constructor(private http:HttpClient, private auth:AuthService) { }
@@ -39,26 +37,5 @@ export class EventService {
 
     return this.http.post<EventResponse>(`${this.BASE_URL}${this.ALL_EVENTS}`, body, {headers});
   }
-
-
-/*
-public class CreateEvent {
-    private String name;
-    private String description;
-    private String location;
-    private LocalDate date;
-    private LocalTime time;
-    private double price;
-    private String category;
-    private int availableTickets;
-    String idSeller;
-}
-*/
-
-
-
-
-
-
 
 }

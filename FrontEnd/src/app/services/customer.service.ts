@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth/auth.service';
-import { ReservationEvent } from '../interfaces/reservation/reservationEvent';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { ReservationEventResponse } from '../interfaces/reservation/reservationEventResponse';
 import { Reservation } from '../interfaces/reservation/reservation';
 import { ReserveEvent } from '../interfaces/event/reserveEvent';

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
 import { DialogLogoutComponent } from '../dialog-logout/dialog-logout.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth/auth.service';
@@ -12,7 +11,7 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class CustomerComponent {
 
-  constructor(private router:Router, private userService:UserService, private dialog:MatDialog, private auth:AuthService){}
+  constructor(private router:Router, private dialog:MatDialog, private auth:AuthService){}
   
 
   logout(): void {

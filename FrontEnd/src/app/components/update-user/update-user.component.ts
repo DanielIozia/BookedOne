@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { UserService } from '../../services/user.service';
-import { User } from '../../interfaces/user/User';
-import { AuthService } from '../../services/auth/auth.service';
-import { updateUser } from '../../interfaces/user/updateUser';
 import { DeleteUserComponent } from '../delete-user/delete-user.component';
 import { Router } from '@angular/router';
+
+//interfaces
+import { User } from '../../interfaces/user/User';
+import { updateUser } from '../../interfaces/user/updateUser';
+
+//services
+import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 
 @Component({
@@ -35,7 +39,7 @@ export class UpdateUserComponent {
     @Inject(MAT_DIALOG_DATA) 
     public user: User, // Dati passati tramite MAT_DIALOG_DATA
     private userService: UserService,
-    private authService: AuthService,
+    public authService: AuthService,
     private dialog:MatDialog,
     private router:Router,
     private cd: ChangeDetectorRef
@@ -76,7 +80,7 @@ export class UpdateUserComponent {
     const form: updateUser = {
       firstName: this.user.firstName,
       lastName: this.user.lastName,
-      password: '',  // Usa la nuova password solo se la verifica è stata completata
+      password: '', 
     };
 
     
@@ -117,22 +121,18 @@ export class UpdateUserComponent {
   verifyPassword(pass: string): void {
     this.isVerifingPassword = true;
     this.errorMessage = null;
-    console.log(this.isVerifingPassword);
     this.userService.verifyPassword(this.authService.getToken()!, pass).subscribe(
       (isValid: boolean) => {
-        
         this.isVerifingPassword = false;
         this.passwordIsVerified = isValid;
         this.errorMessage = isValid ? null : 'Password errata';
         this.cd.markForCheck();  // Forza il rilevamento delle modifiche
-        console.log(this.isVerifingPassword);
       },
       error => {
         this.isVerifingPassword = false;
         this.passwordIsVerified = false;
         this.errorMessage = error?.error?.title || 'Errore durante la verifica della password';
         this.cd.markForCheck();  // Forza il rilevamento delle modifiche
-        console.log(this.isVerifingPassword);
       }
     );
   }

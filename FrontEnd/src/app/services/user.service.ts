@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
+//interfaces
 import { User } from '../interfaces/user/User';
 import { LoginUser } from '../interfaces/user/loginUser';
-import { DialogLogoutComponent } from '../components/dialog-logout/dialog-logout.component';
 import { updateUser } from '../interfaces/user/updateUser';
 
 @Injectable({
@@ -52,7 +53,7 @@ export class UserService {
     });
   }
 
-  delete(token:string){
+  delete(token:string):Observable<void>{
     return this.http.delete<void>(this.BASE_URL + this.USERS_URL + this.DELETE_URL,{
       headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)
     })

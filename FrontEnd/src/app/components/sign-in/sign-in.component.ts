@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
+import { HttpErrorResponse } from '@angular/common/http';
+
+//interfaces
 import { User } from '../../interfaces/user/User';
 import { LoginUser } from '../../interfaces/user/loginUser';
+
+//services
+import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth/auth.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-sign-in',
@@ -45,7 +49,7 @@ export class SignInComponent {
       };
 
       this.userService.login(userForm).subscribe({
-        next: (data) => {
+        next: (data:User) => {
           this.isLoading = false;
           this.authService.login(data.token!, data.email, data.id!, data.firstName, data.lastName, data.role);
           const navigateTo = data.role === 'customer' ? 'customer' : 'seller';

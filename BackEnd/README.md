@@ -180,7 +180,7 @@ Questo progetto fornisce funzionalità per l'autenticazione degli utenti, la ges
 ## Setup e Avvio
 
 1. **Installazione delle Dipendenze:**
-   Assicurati di avere Maven o per la gestione delle dipendenze e il build del progetto.
+   Assicurati di avere Maven per la gestione delle dipendenze e il build del progetto.
 
 2. **Avvio del Server:**
    Esegui l'applicazione utilizzando il comando `mvn clean install

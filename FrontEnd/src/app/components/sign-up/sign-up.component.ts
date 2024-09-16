@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth/auth.service';
-import { UserService } from '../../services/user.service';
-import { User } from '../../interfaces/user/User';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
+//interface
+import { User } from '../../interfaces/user/User';
+
+//services
+import { AuthService } from '../../services/auth/auth.service';
+import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',

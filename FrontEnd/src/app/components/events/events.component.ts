@@ -1,15 +1,20 @@
 import { Component } from '@angular/core';
-import { EventService } from '../../services/event.service';
-import { EventResponse } from '../../interfaces/event/eventResponse';
-import { EventDetails } from '../../interfaces/event/event';
 import { MatDialog } from '@angular/material/dialog';
+
+//components
 import { DialogReserveEventComponent } from '../dialog-reserve-event/dialog-reserve-event.component';
-import { CustomerService } from '../../services/customer.service';
-import { AuthService } from '../../services/auth/auth.service';
-import { SellerService } from '../../services/seller.service';
 import { DialogDeleteReserveEventComponent } from '../dialog-delete-reserve-event/dialog-delete-reserve-event.component';
 import { UpdateEventComponent } from '../update-event/update-event.component';
 
+//interfaces
+import { EventResponse } from '../../interfaces/event/eventResponse';
+import { EventDetails } from '../../interfaces/event/event';
+
+//services
+import { EventService } from '../../services/event.service';
+import { CustomerService } from '../../services/customer.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { SellerService } from '../../services/seller.service';
 
 @Component({
   selector: 'app-events',
@@ -72,8 +77,15 @@ export class EventsComponent {
         this.isLoading = false;
         this.events = response.content;
         this.totalPages = response.totalPages;
-      });
-  }
+      },
+      (error) => {
+        console.error('Errore nel caricamento degli eventi', error);
+        this.isLoading = false;
+      }
+    )};
+  
+    
+  
 
   loadEventsSeller():void{
     this.isLoading = true;
@@ -84,6 +96,10 @@ export class EventsComponent {
         this.isLoading = false;
         this.events = response.content;
         this.totalPages = response.totalPages;
+    },
+    (error) => {
+      console.error('Errore nel caricamento degli eventi', error);
+      this.isLoading = false;
     })
   }
 

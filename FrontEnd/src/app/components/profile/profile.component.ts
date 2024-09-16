@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user/User';
-import { AuthService } from '../../services/auth/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateUserComponent } from '../update-user/update-user.component';
-import { CustomerService } from '../../services/customer.service';
 import { ReservationEventResponse } from '../../interfaces/reservation/reservationEventResponse';
 import { ReservationEvent } from '../../interfaces/reservation/reservationEvent';
 import { Router } from '@angular/router';
-import { SellerService } from '../../services/seller.service';
 import { EventResponse } from '../../interfaces/event/eventResponse';
 import { EventDetails } from '../../interfaces/event/event';
+
+//services
+import { UserService } from '../../services/user.service';
+import { CustomerService } from '../../services/customer.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { SellerService } from '../../services/seller.service';
+
 
 
 @Component({
@@ -56,8 +59,6 @@ export class ProfileComponent implements OnInit {
     else{
       this.loadEventSeller();
     }
-
-
   }
 
   loadUser() {
@@ -95,8 +96,7 @@ export class ProfileComponent implements OnInit {
 
   loadEventSeller(){
     this.isLoadinEventSeller = true;
-    this.seller.getSellerEvents(0, 10000)
-    .subscribe((response: EventResponse) => {
+    this.seller.getSellerEvents(0, 10000).subscribe( (response: EventResponse) => {
       this.isLoadinEventSeller = false;
       this.myEvent = response.totalElements;
       this.eventSeller = response.content;
@@ -107,18 +107,44 @@ export class ProfileComponent implements OnInit {
     })
   }
 
+  isEventExpired(event: EventDetails): boolean {
+    if (!event.date || !event.time) {
+      return false; // Se data o ora non sono presenti, non può essere scaduto
+    }
+  
+    try {
+      // Parso la data in formato 'yyyy-MM-dd'
+      const eventDateParts = event.date.toString().split('-'); // Assumendo che event.date sia 'yyyy-MM-dd'
+      const eventTimeParts = event.time.toString().split(':'); // Assumendo che event.time sia 'HH:mm'
+  
+      // Creazione di un nuovo oggetto Date combinando data e ora
+      const eventDateTime = new Date(
+        Number(eventDateParts[0]), // Anno
+        Number(eventDateParts[1]) - 1, // Mese (in JavaScript i mesi vanno da 0 a 11)
+        Number(eventDateParts[2]), // Giorno
+        Number(eventTimeParts[0]), // Ora
+        Number(eventTimeParts[1])  // Minuti
+      );
+  
+      const now = new Date();
+      // Restituisci true se l'evento è passato
+      return eventDateTime.getTime() < now.getTime();
+    } catch (error) {
+      console.error("Errore nel parsing della data o dell'ora dell'evento", error);
+      return false; // Se c'è un errore nel parsing, lo trattiamo come non scaduto
+    }
+  }
+
   calculateReservations(): void {
     const currentDate = new Date();
     this.reservations.forEach(reservationEvent => {
       const eventDate = new Date(reservationEvent.event.date);
-      
-      if (eventDate >= currentDate) {
-        // Evento non ancora effettuato
-        this.upcomingReservations++;
-      } 
-      else {
-        // Evento scaduto
+
+      if(this.isEventExpired(reservationEvent.event)){
         this.pastReservations++;
+      }
+      else{
+        this.upcomingReservations++;
       }
     });    
   }

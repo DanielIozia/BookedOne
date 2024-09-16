@@ -9,19 +9,19 @@ Il progetto è organizzato come segue:
 
 ### FrontEnd
 
-La sezione **FrontEnd** contiene il codice dell'interfaccia utente, costruito con Angular. Per dettagli su come configurare e avviare il frontend, consulta il file `FrontEnd/README.md`.
+La sezione **FrontEnd** contiene il codice dell'interfaccia utente, costruito con Angular. Per dettagli su come configurare e avviare il frontend, consulta il file [FrontEnd/README.md](./FrontEnd/README.md).
 
 ### BackEnd
 
-La sezione **BackEnd** include il codice per il server e la gestione dell'API, costruito con Java Spring Boot. Per dettagli su come configurare e avviare il backend, consulta il file `BackEnd/README.md`.
+La sezione **BackEnd** include il codice per il server e la gestione dell'API, costruito con Java Spring Boot. Per dettagli su come configurare e avviare il backend, consulta il file [BackEnd/README.md](./BackEnd/README.md).
 
 ## Panoramica del Progetto
 
 ### Funzionalità
 
 - **Registrazione e Login**: Permettono agli utenti di creare un account e accedere all'applicazione.
-- **Gestione Eventi**: Per visualizzare, creare, modificare e cancellare eventi.
-- **Prenotazioni**: Per gestire le prenotazioni degli eventi da parte degli utenti.
+- **Gestione Eventi**: Per visualizzare, creare, modificare e cancellare eventi (Venditori).
+- **Prenotazioni**: Per gestire le prenotazioni degli eventi da parte degli utenti (Clienti).
 - **Gestione Profili**: Permette agli utenti e ai venditori di visualizzare e aggiornare i propri profili.
 
 ### Tecnologie Utilizzate
@@ -32,12 +32,19 @@ La sezione **BackEnd** include il codice per il server e la gestione dell'API, c
 
 ## Setup e Avvio
 
+Clona il progetto eseguendo il comando `git clone https://github.com/DanielIozia/BookedOne.git`
+
 1. **Configura il Backend:**
-   - Vai alla cartella `BackEnd`.
-   - Segui le istruzioni nel file `BackEnd/README.md` per installare le dipendenze e avviare il server.
+   1. **Installazione delle Dipendenze:**
+   Assicurati di avere Maven per la gestione delle dipendenze e il build del progetto.
+
+   2. **Avvio del Server:**
+   Esegui l'applicazione utilizzando il comando `mvn clean install
+mvn spring-boot:run`.
 
 2. **Configura il Frontend:**
-   - Vai alla cartella `FrontEnd`.
-   - Segui le istruzioni nel file `FrontEnd/README.md` per installare le dipendenze e avviare l'applicazione Angular.
+   1. **Installa le dipendenze**: `npm install`
+   2. **Avvia il progetto**: `ng serve`
+   3. **Accedi all'applicazione**: Apri `http://localhost:4200` nel tuo browser.
 ---
 
