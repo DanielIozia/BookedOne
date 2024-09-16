@@ -293,7 +293,7 @@
   padding: 1rem 1rem;
   text-align: center;
   text-decoration: none;
-  background-color: rgba(167, 139, 250, 1);
+  background-color: #6AA7CB;
   color: #f7f7f7;
   cursor: pointer;
   border-radius: 1.4rem;
@@ -301,10 +301,11 @@
   font-size: 1rem;
   color: #fff;
   cursor: pointer;
+  transition: background 0.3s, color 0.3s;
 
   &:hover {
-    background: #3498db;
-    color: #fff;
+    background: #4a90e2;
+    color: #F8F8F9;
   }
 }
 
@@ -336,7 +337,7 @@
   left: 0;
   z-index: 1;
   overflow: hidden;
-  background: #8981BB;
+  background: #6AA7CB;
 }
 
 .profile-page .bg span:nth-child(1) {
@@ -486,13 +487,14 @@
     margin-top: 1rem;
     padding: 0.5rem 1rem;
     border: none;
-    background-color: #1d8cf8;
+    background-color: #6AA7CB;
     color: #fff;
     border-radius: 0.5rem;
     cursor: pointer;
+    transition: background 0.3s, color 0.3s;
 
     &:hover {
-      background-color: #3358f4;
+      background-color: #6AA7CB;
     }
   }
 

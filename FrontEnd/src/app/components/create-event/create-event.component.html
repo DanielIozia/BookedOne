@@ -65,9 +65,10 @@
         <label for="data" class="label" *ngIf="checkAvailableTickets()" style="color:red;">{{errorMessageAvailableTickets}}</label>
         <input type="number" formControlName="bigliettiDisponibili" id="bigliettiDisponibili" />
       </div>
-  
-      <input class="button submit" type="submit" [disabled]="createEventForm.invalid || isLoading || timeErrorMessage || (createEventForm.get('bigliettiDisponibili')!.value) <= 0" value="Crea Evento" />
+      
       <input class="button clear" [disabled]="isLoading" (click)="onCancel()"  value="Ripristina" />
+      <input class="button submit" type="submit" [disabled]="createEventForm.invalid || isLoading || timeErrorMessage || (createEventForm.get('bigliettiDisponibili')!.value) <= 0" value="Crea Evento" />
+      
     
     </form>
   </div>

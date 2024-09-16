@@ -4,29 +4,26 @@
 	<form class="form">
 		<div class="input-group">
 			<label for="username" *ngIf="user.firstName != '' ">Nome</label>
-      <label for="username" *ngIf="user.firstName === '' && !isDisabledName" style="color:red;">Il nome non può essere vuoto.</label>
-      <input id="firstName" name="firstName" [(ngModel)]="user.firstName" [attr.disabled]="isDisabledName ? true : null" />
+			<label for="username" *ngIf="user.firstName === '' && !isDisabledName" style="color:red;">Il nome non può essere vuoto.</label>
+			<input id="firstName" name="firstName" [(ngModel)]="user.firstName" [attr.disabled]="isDisabledName ? true : null" />
 		</div>
-    <div class="input-group">
+		<div class="input-group">
 			<label for="username" *ngIf="user.lastName != '' ">Cognome</label>
-      <label for="username" *ngIf="user.lastName === '' && !isDisabledSurname" style="color:red;">Il cognome non può essere vuoto.</label>
-      <input id="lastName" name="lastName" [(ngModel)]="user.lastName" [attr.disabled]="isDisabledSurname ? true : null" />
+			<label for="username" *ngIf="user.lastName === '' && !isDisabledSurname" style="color:red;">Il cognome non può essere vuoto.</label>
+			<input id="lastName" name="lastName" [(ngModel)]="user.lastName" [attr.disabled]="isDisabledSurname ? true : null" />
 		</div>
-    <h2 style="margin-top:5%;">Modifica password</h2>
-
+    	<h2 style="margin-top:5%;">Modifica password</h2>
 		<div class="input-group" style="margin-bottom:4%;">
 			<label for="password" *ngIf=" !isVerifingPassword && !passwordIsVerified && !errorMessage">Password Attuale</label>
 			<label for="password" *ngIf="!isVerifingPassword && !passwordIsVerified && errorMessage" style="color:red;">{{errorMessage}}</label>
 			<label for="password" *ngIf="!isVerifingPassword && passwordIsVerified" style="color:green;">Password verificata</label>
 			<input id="password" name="password" type="password" [(ngModel)]="user.password" [disabled]="passwordIsVerified"/>
-    <div>
-      <button *ngIf="!isVerifingPassword && !passwordIsVerified" type="button" class="icon-button" (click)="verifyPassword(user.password)" [disabled]="!user.password">
-        Verifica password
-      </button>
-    </div>
-
-      
-      <mat-spinner *ngIf="isVerifingPassword" diameter="20"></mat-spinner>
+			<div>
+			<button *ngIf="!isVerifingPassword && !passwordIsVerified" type="button" class="icon-button" (click)="verifyPassword(user.password)" [disabled]="!user.password">
+				Verifica password
+			</button>
+			</div>
+      		<mat-spinner *ngIf="isVerifingPassword" diameter="20"></mat-spinner>
 		</div>
     	<div class="input-group" *ngIf="passwordIsVerified">
 			<label for="password">Nuova Password</label>
@@ -36,15 +33,9 @@
 			<label for="password">Conferma Password</label>
 			<input id="confirmPassword" name="confirmPassword" type="password" [(ngModel)]="confirmPassword" [disabled]="!passwordIsVerified" />
 		</div>
-		<div class="input-group">
-			<button class="sign" [disabled]="isAnyInputInvalid()" (click)="update()">Modifica</button>
-			<a (click)="deleteAccount()" class="delete" style="margin-top:5% !important;">Elimina Account</a>
-		</div>
-		
 	</form>
-	
-
-	
-
-	
+	<div class="input-group">
+		<button class="btn update_button" [disabled]="isAnyInputInvalid()" (click)="update()">Modifica</button>
+		<a (click)="deleteAccount()" class="delete">Elimina Account</a>
+	</div>
 </div>

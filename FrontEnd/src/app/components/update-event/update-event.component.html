@@ -2,7 +2,7 @@
     <mat-icon  (click)="onCancel()">close</mat-icon>
 	<p class="title">Modifica Evento</p>
 	<form [formGroup]="updateEventForm" class="form" (ngSubmit)="updateEvent()">
-      
+    <div class="input-wrapper">
         <div class="input-group">
           <label for="titolo" class="label">Titolo Evento</label>
           <input type="text" formControlName="titolo" id="titolo" />
@@ -47,6 +47,8 @@
           <label for="data" class="label" *ngIf="checkAvailableTickets()" style="color:red;">{{errorMessageAvailableTickets}}</label>
           <input type="number" formControlName="bigliettiDisponibili" id="bigliettiDisponibili" />
         </div>
+      </div>
+        <!-- FINE WRAPPER -->
     
         <input class="button submit" type="submit" [disabled]="updateEventForm.invalid || isLoading || timeErrorMessage" value="Modifica evento" />
       

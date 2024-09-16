@@ -5,7 +5,7 @@
   min-height: 94vh;
   
   // Gradiente di sfondo dal blu al violetto
-  background-color: #8981BB; /* Colore uniforme dalla palette */
+  background-color: #6AA7CB; /* Colore uniforme dalla palette */
 
   @media(max-width: 1024px) {
     height: auto;
@@ -118,7 +118,7 @@
   
       &:hover {
         border: 1px solid #F8F8F9;
-        background: #6AA7CB;
+        background: #4a90e2;
         color: #fff;
       }
     }
@@ -246,6 +246,7 @@
   margin-top: auto;
   padding-bottom: 20px;
   color: #F8F8F9;
+  
 
   button {
     padding: 10px;
@@ -263,8 +264,8 @@
 
     &:hover {
       border: 1px solid #F8F8F9;
-      background: #6AA7CB;
-      color: #fff;
+      background: #4a90e2;
+      color: #F8F8F9;
     }
   }
 }

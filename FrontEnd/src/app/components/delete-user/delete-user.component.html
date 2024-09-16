@@ -19,8 +19,8 @@
       <input type="password" id="password" [(ngModel)]="password" name="password" required #passwordField="ngModel" />
     </div>
     <div class="dialog-actions">
-      <button type="submit" [disabled]="deleteForm.invalid || isLoading || emailErrorMessage" class="mat-warn">Elimina Account</button>
-      <button type="button" (click)="onCancel()" [disabled]="isLoading" class="mat-button">Annulla</button>
+      <button type="submit" [disabled]="deleteForm.invalid || isLoading || emailErrorMessage" class="btn mat-warn">Elimina Account</button>
+      <button type="button" (click)="onCancel()" [disabled]="isLoading" class="btn mat-button">Annulla</button>
     </div>
   </form>
 </div>

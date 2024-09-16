@@ -59,8 +59,8 @@ mat-icon:hover {
   background-color: rgba(17, 24, 39, 1);
   padding: 2rem;
   color: rgba(243, 244, 246, 1);
-  
 }
+
 
 .title {
   text-align: center;
@@ -110,7 +110,6 @@ mat-icon:hover {
 
 
 .input-group 
-
 .forgot {
   display: flex;
   justify-content: flex-end;
@@ -141,7 +140,7 @@ mat-icon:hover {
   padding: 0.75rem;
   text-align: center;
   border: none;
-  border-radius: 0.375rem;
+  border-radius: 10px;
   font-weight: 600;
   margin-top:5%;
   margin-top:5%;
@@ -157,8 +156,8 @@ mat-icon:hover {
   }
 
   &:hover {
-    background: #3498db;
-    color: #fff;
+    background-color: rgb(143, 107, 250);
+      color: #fff;
   }
 }
 
@@ -189,7 +188,7 @@ mat-icon:hover {
 .delete{
   color:$error-color;
   text-decoration: none;
-  margin-top:auto !important;
+  margin-top:5% !important;
 
   &:hover{
     color:rgba(255, 0, 0, 2) !important;
@@ -197,5 +196,39 @@ mat-icon:hover {
   }
 }
 
+.btn {
+  margin: 1rem auto; // Aggiungi margine per separare dal contenuto circostante
+  display: block;
+  width: 100%; // Usa 100% per assicurarti che il bottone occupi tutto lo spazio disponibile
+  max-width: 600px; // Aggiungi una larghezza massima per evitare che diventi troppo grande su schermi più grandi
+  padding: 0.75rem 1.5rem; // Padding adeguato per il bottone
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  border: 2px solid transparent; // Mantieni il bordo trasparente per gestire il colore di sfondo
+}
 
+.update_button {
+  background-color: #6AA7CB; 
+  color: #fff;
 
+  &:hover {
+    background-color: transparent;
+    color: #4a90e2;
+    border-color: #4a90e2;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (max-width: 600px) {
+  .btn {
+    padding: 0.5rem 1rem; // Riduci il padding su schermi piccoli
+  }
+
+  .update_button {
+    font-size: 0.75rem; // Riduci la dimensione del testo su schermi piccoli
+  }
+}
