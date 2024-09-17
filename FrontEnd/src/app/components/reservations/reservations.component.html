@@ -48,7 +48,7 @@
           <p class="card-description" style="margin-top:5%;"> <strong>{{ reservation.event.description }}</strong></p>
           <p><strong>Biglietti Prenotati:</strong> {{ reservation.reservation.numberOfTickets }}</p>
           <p class="card-description"><strong>Categoria</strong>: {{ reservation.event.category }}</p>
-          <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency }}</p>
+          <p><strong>Prezzo Totale:</strong> {{ reservation.reservation.totalPrice | currency : 'EUR' }}</p>
           <div class="separator">
             <div>  
             </div>

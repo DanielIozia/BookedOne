@@ -17,9 +17,9 @@
 			<label for="password" *ngIf=" !isVerifingPassword && !passwordIsVerified && !errorMessage">Password Attuale</label>
 			<label for="password" *ngIf="!isVerifingPassword && !passwordIsVerified && errorMessage" style="color:red;">{{errorMessage}}</label>
 			<label for="password" *ngIf="!isVerifingPassword && passwordIsVerified" style="color:green;">Password verificata</label>
-			<input id="password" name="password" type="password" [(ngModel)]="user.password" [disabled]="passwordIsVerified"/>
+			<input id="password" name="password" type="password" [(ngModel)]="password" [disabled]="passwordIsVerified"/>
 			<div>
-			<button *ngIf="!isVerifingPassword && !passwordIsVerified" type="button" class="icon-button" (click)="verifyPassword(user.password)" [disabled]="!user.password">
+			<button *ngIf="!isVerifingPassword && !passwordIsVerified" type="button" class="icon-button" (click)="verifyPassword(password)" [disabled]="!password">
 				Verifica password
 			</button>
 			</div>
