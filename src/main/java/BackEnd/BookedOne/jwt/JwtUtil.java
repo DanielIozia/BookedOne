@@ -17,6 +17,7 @@ La classe JwtUtil serve come utilità per gestire i token JWT. Consente di:
 @Service
 public class JwtUtil {
 
+    //Non nell'env così chi lo clona può usarlo. (so che dovrebbe essere nascosto)
     private String secretKey = "owijdoiwansd09o8hf12wsaid129883428392..//@";
 
     public String generateToken(String value, Long duration){

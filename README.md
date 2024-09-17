@@ -16,6 +16,22 @@ Questo progetto fornisce funzionalità per l'autenticazione degli utenti, la ges
 2. **Gestione delle Eccezioni**
    - Le eccezioni personalizzate vengono gestite per restituire i codici di stato HTTP e i messaggi di errore appropriati.
 
+3. **Database**
+   - **MongoDB**: Utilizzato come sistema di gestione del database NoSQL per memorizzare eventi, prenotazioni e utenti.
+
+4. **DTOs**
+   - **Event**: Rappresenta un evento con dettagli come nome, descrizione, data, ora, prezzo, categoria e numero di biglietti disponibili.
+   - **Reservation**: Rappresenta una prenotazione con dettagli come ID utente, ID evento, numero di biglietti e prezzo totale.
+   - **User**: Rappresenta un utente con dettagli come nome, cognome, email, password e ruolo.
+
+5. **JWT**
+   - **JwtUtil**: Gestisce la generazione, validazione e decodifica dei token JWT.
+   - **JwtTokenInterceptor**: Interceptor che verifica la validità del token JWT per le richieste protette.
+   - **WebMvcConfig**: Configura le rotte per le quali non è necessario un token JWT.
+
+6. **Servizi di Sicurezza**
+   - **Argon2PasswordEncoderService**: Fornisce funzionalità di hashing e verifica delle password utilizzando l'algoritmo Argon2.
+
 ## Controllers
 
 ### AuthController
@@ -170,6 +186,22 @@ Questo progetto fornisce funzionalità per l'autenticazione degli utenti, la ges
     - 200 OK: Restituisce `true` se la password è corretta, `false` altrimenti.
     - 400 Bad Request: Restituisce i dettagli dell'errore in caso di problemi di convalida.
     - 500 Internal Server Error: Restituisce un messaggio di errore inatteso.
+
+## Servizi di Sicurezza
+
+### Argon2PasswordEncoderService
+
+Questo servizio gestisce l'hashing e la verifica delle password utilizzando l'algoritmo Argon2, noto per la sua robustezza nella protezione delle password.
+
+- **Hashing Password**: 
+  - **Funzione**: `hashPassword(char[] password)`
+  - **Descrizione**: Genera un hash sicuro della password fornita utilizzando l'algoritmo Argon2.
+  - **Output**: Restituisce l'hash della password come una stringa esadecimale.
+
+- **Verifica Password**:
+  - **Funzione**: `verifyPassword(String hash, char[] password)`
+  - **Descrizione**: Verifica se una password fornita corrisponde all'hash memorizzato. Rigenera l'hash della password e lo confronta con quello fornito.
+  - **Output**: Restituisce `true` se l'hash corrisponde, `false` altrimenti.
 
 ## Tecnologie Utilizzate
 
