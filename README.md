@@ -44,7 +44,20 @@ mvn spring-boot:run`.
 
 2. **Configura il Frontend:**
    1. **Installa le dipendenze**: `npm install`
-   2. **Avvia il progetto**: `ng serve`
-   3. **Accedi all'applicazione**: Apri `http://localhost:4200` nel tuo browser.
+   2. **Avvio in locale**:
+   - Prima di avviare il progetto in locale, bisogna modificare l'endpoint `BASE_URL` in **ogni servizio** tranne `auth.service`.
+   - In ogni servizio (`user.service`, `seller.service`, `customer.service` e `event.service`) è già presente la stringa `BASE_URL` per la prova in locale. Seguire questi passaggi:
+     - **Scommentare** la riga con l'endpoint locale.
+     - **Commentare** la riga con l'endpoint online.
+
+   Esempio:
+
+   ```typescript
+   //locale
+   //private BASE_URL:string = "http://localhost:8080/api/customer"
+   private BASE_URL:string = 'https://bookedone.onrender.com/api/customer';
 ---
+
+   3. **Avvia il progetto**: `ng serve`
+   4. **Accedi all'applicazione**: Apri `http://localhost:4200` nel tuo browser.
 

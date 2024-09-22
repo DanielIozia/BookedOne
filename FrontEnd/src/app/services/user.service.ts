@@ -15,6 +15,9 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  //locale
+  //private BASE_URL:string = "http://localhost:8080/api"
+  
   private BASE_URL = 'https://bookedone.onrender.com/api';
   private AUTH_URL = '/auth';
   private USERS_URL = '/users';

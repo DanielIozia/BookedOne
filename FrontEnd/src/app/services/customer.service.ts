@@ -14,7 +14,8 @@ export class CustomerService {
 
   constructor(private auth:AuthService, private http:HttpClient) { }
 
-
+  //locale
+  //private BASE_URL:string = "http://localhost:8080/api/customer"
   private BASE_URL:string = 'https://bookedone.onrender.com/api/customer';
   private MY_RESERVATION:string = '/my-reservations';
   private DELETE_RESERVATION:string = '/delete-reservation';
