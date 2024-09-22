@@ -92,7 +92,7 @@ describe('EventService', () => {
         expect(response).toEqual(mockResponse);
       });
 
-      const req = httpMock.expectOne(req => req.method === 'POST' && req.url === 'http://localhost:8080/api/customer/all-events');
+      const req = httpMock.expectOne(req => req.method === 'POST' && req.url === 'https://bookedone.onrender.com/api/customer/all-events');
       expect(req.request.headers.get('Authorization')).toEqual('Bearer mock-token');
       expect(req.request.body).toEqual({
         page,

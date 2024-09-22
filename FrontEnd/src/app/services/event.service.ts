@@ -10,7 +10,7 @@ import { AuthService } from './auth/auth.service';
 })
 export class EventService {
 
-  private BASE_URL = 'http://localhost:8080/api/customer'
+  private BASE_URL = 'https://bookedone.onrender.com/api/customer'
   private ALL_EVENTS = "/all-events"
 
 

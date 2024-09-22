@@ -12,7 +12,7 @@ describe('SellerService', () => {
   let httpMock: HttpTestingController;
   let authService: AuthService;
 
-  const BASE_URL = 'http://localhost:8080/api/seller';
+  const BASE_URL = 'https://bookedone.onrender.com/api/seller';
 
   beforeEach(() => {
     TestBed.configureTestingModule({

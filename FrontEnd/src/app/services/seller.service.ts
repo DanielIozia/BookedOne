@@ -14,7 +14,7 @@ export class SellerService {
 
   constructor(private http:HttpClient, private auth:AuthService) { }
 
-  private BASE_URL = 'http://localhost:8080/api/seller'
+  private BASE_URL = 'https://bookedone.onrender.com/api/seller'
   private CREATE_EVENT = '/create-event'
   private UPDATE_EVENT = '/update-event'
   private DELETE_EVENT = '/delete-event'

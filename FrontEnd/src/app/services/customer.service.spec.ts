@@ -13,7 +13,7 @@ describe('CustomerService', () => {
   let authService: jasmine.SpyObj<AuthService>;
 
   const dummyToken = 'dummy-token';
-  const baseUrl = 'http://localhost:8080/api/customer';
+  const baseUrl = 'https://bookedone.onrender.com/api/customer';
 
   beforeEach(() => {
     const spyAuth = jasmine.createSpyObj('AuthService', ['getToken']);
