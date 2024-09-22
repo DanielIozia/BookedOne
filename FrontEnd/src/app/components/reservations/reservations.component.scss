@@ -178,6 +178,10 @@
       font-size: 1.6rem; // Aumenta la dimensione del font per il nome dell'evento
       font-weight: bold; // Rende il testo in grassetto
       color: #F8F8F9;
+
+      @media (max-width: 600px) {
+        font-size: 1.2rem;
+      }
     }
 
     .expired {

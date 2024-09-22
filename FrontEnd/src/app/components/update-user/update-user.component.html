@@ -34,7 +34,7 @@
 			<input id="confirmPassword" name="confirmPassword" type="password" [(ngModel)]="confirmPassword" [disabled]="!passwordIsVerified" />
 		</div>
 	</form>
-	<div class="input-group">
+	<div class="container-update-delete">
 		<button class="btn update_button" [disabled]="isAnyInputInvalid()" (click)="update()">Modifica</button>
 		<a (click)="deleteAccount()" class="delete">Elimina Account</a>
 	</div>

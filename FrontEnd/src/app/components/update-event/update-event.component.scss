@@ -54,10 +54,20 @@ mat-icon:hover {
   }
 }
 .form-container {
+  
   background-color: rgba(17, 24, 39, 1);
   padding: 2rem;
   color: rgba(243, 244, 246, 1);
   width: 100%;
+
+  @media (max-width: 767px) {
+    height: 100vh; // Imposta l'altezza massima al 100% della viewport
+    overflow-y: auto; // Permette lo scorrimento verticale
+  }
+  
+  
+  
+  
 
   @media (min-width: 768px) { // Media query per schermi grandi
     .input-wrapper {
@@ -74,6 +84,7 @@ mat-icon:hover {
   @media (max-width: 767px) { // Media query per schermi piccoli
     .input-wrapper {
       display: block;
+
 
       .input-group {
         margin-bottom: 1rem;
