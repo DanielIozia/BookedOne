@@ -1,0 +1,17 @@
+# Fase 1: Costruzione dell'applicazione
+FROM maven:3.8.5-openjdk-17 AS builder
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Fase 2: Creazione dell'immagine finale
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=builder /app/target/nome-applicazione.jar app.jar
+
+# Espone la porta su cui Spring Boot è in ascolto
+EXPOSE 8080
+
+# Comando per avviare l'applicazione
+ENTRYPOINT ["java", "-jar", "app.jar"]
